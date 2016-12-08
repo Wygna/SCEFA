@@ -1,2 +1,5 @@
 from django.conf.urls import url
-from alunos.views import *
+
+urlpatterns = [
+    #url(r'^$', home, name='home')
+]
