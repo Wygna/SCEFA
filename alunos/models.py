@@ -11,8 +11,3 @@ class Aluno(models.Model):
 
     def __str__(self):
         return self.nome
-
-
-#class Administrador(models.Model):
-#    nome = models.CharField("Nome", max_length=200)
-#    endereco = models.CharField("Endereco", max_length=255)
