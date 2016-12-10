@@ -79,7 +79,7 @@ def administrador_list(request):
     dados={'administradores':administrador,'criterio':criterio,'paginator':paginator,'page_obj':administrador}
     return render(request, 'Administrador/administrador_list.html',dados)
 
-def administrador_detalhe(request,pk):
+def administrador_detail(request,pk):
     administrador = Administrador.objects.get(id=pk)
     return render(request,'Administrador/exibirAdministrador.html',{'administrador':administrador})
 
