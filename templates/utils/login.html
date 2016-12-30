@@ -1,0 +1,45 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="UTF-8">
+    <title>Login SREP</title>
+      <link rel="stylesheet" href="{% static "appPonto/css/index.css" %}">
+      <style>
+          #logo {
+              height: 80px;
+              width: 40%;
+          }
+      </style>
+  </head>
+
+  <body>
+
+
+<div class="container">
+	<section id="content">
+        {% load widget_tweaks %}
+		<form action="{% url "login" %}" method="post" role="form">
+            {% csrf_token %}
+            <img src="{% static "appPonto/img/logosispac.png" %}" id="logo">
+			<h1>SREP</h1>
+			<div>
+				<label for="{{ form.username.id_for_label }}">Usuário:</label>
+                {{ form.username | add_class:"form-control" | add_error_class:"error-border"}}
+			</div>
+			<div>
+				<label for="{{ form.password.id_for_label }}">Senha</label>
+                {{ form.password | add_class:"form-control"}}
+			</div>
+            <input type="hidden" name="next" value="{{ next }}" />
+			<div>
+				<input type="submit" value="Entrar" />
+				<a href="#">Recuperar senha?</a>
+			</div>
+		</form><!-- form -->
+	</section><!-- content -->
+</div><!-- container -->
+</body>
+        <script src="js/index.js"></script>
+  </body>
+</html>

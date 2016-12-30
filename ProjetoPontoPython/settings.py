@@ -26,9 +26,8 @@ SECRET_KEY = 'nr^r)=e53&&=6b^80*g5&l$u9gjkfc1nye9shmpd-6(ep12gm='
 DEBUG = True
 
 ALLOWED_HOSTS = []
+STATIC_URL = '/static/'
 
-
-# Application definition
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -40,6 +39,7 @@ INSTALLED_APPS = [
     'appPonto',
     'alunos',
     'widget_tweaks',
+
 ]
 
 MIDDLEWARE = [
@@ -50,6 +50,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
 ]
 
 ROOT_URLCONF = 'ProjetoPontoPython.urls'
@@ -107,7 +108,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'pt-br'
 
 TIME_ZONE = 'UTC'
 
@@ -121,4 +122,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
-STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]
+UTH_USER_MODEL='appPonto.Funcionario'

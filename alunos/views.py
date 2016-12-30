@@ -1,3 +1,5 @@
+
+
 from django.conf.locale import id
 from django.shortcuts import render, redirect
 from django.db.models.fields import Empty
@@ -47,4 +49,16 @@ def aluno_list(request):
 def aluno_delete(request, pk):
     aluno = Aluno.objects.get(id=pk)
     aluno.delete()
-    return redirect('Alunos/alunos_form.html')
+    return redirect('aluno_list')
+
+def aluno_update(request,pk):
+    aluno = Aluno.objects.get(id=pk)
+    if request.method =="POST":
+        form = AlunoForm(request.POST,instance=Aluno)
+        if form.is_valid():
+            form.save()
+            return redirect('aluno_list')
+    else:
+        form = AlunoForm(instance=aluno)
+        dados = {'form': form,'aluno':aluno}
+        return render(request, 'Alunos/aluno_form.html', dados)

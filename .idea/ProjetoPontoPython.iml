@@ -13,8 +13,20 @@
   </component>
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$" />
-    <orderEntry type="inheritedJdk" />
+    <orderEntry type="jdk" jdkName="Python 3.5.2 (C:\Python\python.exe)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="mysite" />
+    <orderEntry type="module" module-name="projetovendas" />
+    <orderEntry type="module" module-name="projetovendas" />
+    <orderEntry type="module" module-name="projetovendas" />
+    <orderEntry type="module" module-name="projetovendas" />
+    <orderEntry type="module" module-name="projetovendas" />
+    <orderEntry type="module" module-name="projetovendas" />
+    <orderEntry type="module" module-name="projetovendas" />
+    <orderEntry type="module" module-name="projetovendas" />
+    <orderEntry type="module" module-name="projetovendas" />
+    <orderEntry type="module" module-name="SISAPAC" />
+    <orderEntry type="module" module-name="simplemooc" />
   </component>
   <component name="TemplatesService">
     <option name="TEMPLATE_CONFIGURATION" value="Django" />

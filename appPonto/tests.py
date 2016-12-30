@@ -1,5 +1,8 @@
 from django.test import TestCase
 
 from appPonto.models import *
-funcionario = Funcionario.objects.get(id=1)
-print(funcionario.nome)
+#for f in Funcionario.objects.filter(id=10):
+ #   for e in f.registrarponto_set.all():
+  #      print(e.entrada)
+for e in Funcionario.objects.all():
+    print(e)

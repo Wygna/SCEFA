@@ -1,28 +1,293 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Sistema de Ponto Eletronico</title>
-    <!-- A ordem de carregamento interfere no funcionamento da aplicação. -->
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-2.2.4.js"></script>
-     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-     <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
-    <script src="https://raw.githubusercontent.com/jquery/jquery-ui/master/ui/i18n/datepicker-pt-BR.js" type="javascript"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-    {% load staticfiles %}
-    <script src="{% static 'jquery-formset/jquery.formset.js' %}" type="javascript"></script>
-</head>
-<body>
-    <h2>Sistema de Ponto Eletronico</h2>
-    {% block conteudo %}
-        <h3>Bem vindo ao sistema de registro de ponto Eletronico</h3>
-        <ul>
-            <li><a href="{% url 'funcionario_list' %}">Lista funcionarios</a> </li>
-            <li><a href="{% url 'administrador_list' %}">Lista Administradores</a> </li>
-            <li><a href="{% url 'aluno_list' %}">Lista Alunos</a></li>
-        </ul>
-    {% endblock %}
-</body>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Creative - Bootstrap 3 Responsive Admin Template">
+    <meta name="author" content="GeeksLabs">
+    <meta name="keyword" content="Creative, Dashboard, Admin, Template, Theme, Bootstrap, Responsive, Retina, Minimal">
+    <link rel="shortcut icon" href="{% static "appPonto/img/favicon.png" %}">
+
+    <title>SREP</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="{% static "appPonto/css/bootstrap.min.css" %}" rel="stylesheet">
+    <!-- bootstrap theme -->
+    <link href="{% static "appPonto/css/bootstrap-theme.css" %}" rel="stylesheet">
+    <!--external css-->
+    <!-- font icon -->
+    <link href="{% static "appPonto/css/elegant-icons-style.css" %}" rel="stylesheet" />
+    <link href="{% static "appPonto/css/font-awesome.min.css" %}" rel="stylesheet" />
+    <!-- full calendar css-->
+    <link href="{% static "appPonto/assets/fullcalendar/fullcalendar/bootstrap-fullcalendar.css" %}" rel="stylesheet" />
+	<link href="{% static "appPonto/assets/fullcalendar/fullcalendar/fullcalendar.css" %}" rel="stylesheet" />
+    <!-- easy pie chart-->
+    <link href="{% static "appPonto/assets/jquery-easy-pie-chart/jquery.easy-pie-chart.css" rel="stylesheet" %}" type="text/css" media="screen"/>
+    <!-- owl carousel -->
+    <link rel="stylesheet" href="{% static "appPonto/css/owl.carousel.css" %}" type="text/css">
+	<link href="{% static "appPonto/css/jquery-jvectormap-1.2.2.css" %}" rel="stylesheet">
+    <!-- Custom styles -->
+	<link rel="stylesheet" href="{% static "appPonto/css/fullcalendar.css" %}">
+	<link href="{% static "appPonto/css/widgets.css" %}" rel="stylesheet">
+    <link href="{% static "appPonto/css/style.css" %}" rel="stylesheet">
+    <link href="{% static "appPonto/css/style-responsive.css" %}" rel="stylesheet" />
+	<link href="{% static "appPonto/css/xcharts.min.css" %}" rel=" stylesheet">
+	<link href="{% static "appPonto/css/jquery-ui-1.10.4.min.css" %}" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 -->
+      <style>
+        #content {
+            padding-top: 5%;
+        }
+        #conteudo {
+            position: fixed;
+            right: 5%;
+        }
+        h3 {
+            color: #1a2732;
+            font-family: "Ubuntu Beta", "Bitstream Vera Sans", DejaVu Sans, Tahoma, sans-serif;
+        }
+        table {
+            color: #1a2732;
+            font-family: "Comic Sans MS";
+        }
+        a {
+            color: #1a2732;
+        }
+        hr {
+            background-color: darkblue;
+        }
+        td {
+            text-align:center;
+            vertical-align:middle;
+        }
+        th{
+            text-align:center;
+            vertical-align:middle;
+        }
+        label {
+            color:black;
+            font-family: "Comic Sans MS";
+            font-size: 13pt;
+        }
+        input {
+            font-size: 12pt;
+            font-family: "Abyssinica SIL";
+        }  
+      </style>
+  </head>
+
+  <body>
+  <!-- container section start -->
+  <section id="container" class="">
+
+
+      <header class="header dark-bg">
+            <div class="toggle-nav">
+                <div class="icon-reorder tooltips" data-original-title="Toggle Navigation" data-placement="bottom"><i class="icon_menu"></i></div>
+            </div>
+
+            <!--logo start-->
+            <a href="{% url 'home' %}" class="logo">SREP</a>
+            <!--logo end-->
+
+            <div class="top-nav notification-row">
+                <!-- notificatoin dropdown start-->
+                <ul class="nav pull-right top-menu">
+                    <li class="dropdown">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <span class="profile-ava">
+                                <img alt="" src="img/avatar1_small.jpg">
+                            </span>
+                            <span class="username">{{ request.user.first_name}}</span>
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu extended logout">
+                            <div class="log-arrow-up"></div>
+                            <li class="eborder-top">
+                                <a href="#"><i class="icon_profile"></i> Meu Perfil</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'logout' %}"><i class="icon_key_alt"></i> Sair</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- user login dropdown end -->
+                </ul>
+                <!-- notificatoin dropdown end-->
+            </div>
+      </header>
+      <!--header end-->
+
+      <!--sidebar start-->
+      <aside>
+          <div id="sidebar"  class="nav-collapse ">
+              <!-- sidebar menu start-->
+              <ul class="sidebar-menu">
+                  <li class="active">
+                      <a class="" href="{% url 'home' %}">
+                          <i class="icon_house_alt"></i>
+                          <span>Pagina Inicial</span>
+                      </a>
+                  </li>
+            {% if  perms.appPonto.view_funcionario %}
+                 <li class="sub-menu">
+                      <a href="javascript:;" class="">
+                          <i class="icon_document_alt"></i>
+                          <span>Funcionários</span>
+                          <span class="menu-arrow arrow_carrot-right"></span>
+                      </a>
+                      <ul class="sub">
+                          <li><a class="" href="{% url 'funcionario_new' %}">Adicionar Funcionário</a></li>
+                          <li><a class="" href="{% url 'funcionario_list' %}">Listar Funcionários</a></li>
+                      </ul>
+                  </li>
+
+                  <li class="sub-menu">
+                      <a href="javascript:;" class="">
+                          <i class="icon_table"></i>
+                          <span>Aministrador</span>
+                          <span class="menu-arrow arrow_carrot-right"></span>
+                      </a>
+                      <ul class="sub">
+                          <li><a class="" href="{% url 'administrador_new' %}">Adicionar Administrador</a></li>
+                          <li><a class="" href="{% url 'administrador_list' %}">Listar Administradores</a></li>
+                      </ul>
+                  </li>
+
+
+                  <li class="sub-menu">
+                      <a href="javascript:;" class="">
+                          <i class="icon_documents_alt"></i>
+                          <span>Portas</span>
+                          <span class="menu-arrow arrow_carrot-right"></span>
+                      </a>
+                      <ul class="sub">
+                          <li><a class="" href="{% url 'funcionario_new' %}">Adicionar Funcionário</a></li>
+                          <li><a class="" href="{% url 'funcionario_list' %}">Listar Funcionários</a></li>
+                      </ul>
+                  </li>
+             {% endif %}
+
+                    <li class="sub-menu">
+                          <a href="javascript:;" class="">
+                              <i class="icon_desktop"></i>
+                              <span>Relatórios</span>
+                              <span class="menu-arrow arrow_carrot-right"></span>
+                          </a>
+                          <ul class="sub">
+                              <li><a class="" href="{% url 'funcionario_relatorio'  request.user.id  %}">Gerar Relatório</a></li>
+                          </ul>
+                    </li>
+
+              </ul>
+              <!-- sidebar menu end-->
+          </div>
+      </aside>
+      <!--sidebar end-->
+        <!-- Page Content -->
+        <div class="container" id="content">
+
+            <div class="row" id="teste">
+                <div class="col-md-9  text-center" id="conteudo">
+                  {% block conteudo %}
+                      <h3>Bem vindo ao Sistema de Registro Eletrônico de Ponto</h3>
+
+                      <h3>{{ datetime.date.today }}</h3>
+                  {% endblock %}
+                </div>
+            </div>
+            <!-- /.row -->
+
+        </div>
+    <!-- /.container -->
+    <!-- javascripts -->
+    <script src="{% static "appPonto/js/jquery.js" %}"></script>
+	<script src="{% static "appPonto/js/jquery-ui-1.10.4.min.js" %}"></script>
+    <script src="{% static "appPonto/js/jquery-1.8.3.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "appPonto/js/jquery-ui-1.9.2.custom.min.js" %}"></script>
+    <!-- bootstrap -->
+    <script src="{% static "appPonto/js/bootstrap.min.js" %}"></script>
+    <!-- nice scroll -->
+    <script src="{% static "appPonto/js/jquery.scrollTo.min.js" %}"></script>
+    <script src="{% static "appPonto/js/jquery.nicescroll.js" %}" type="text/javascript"></script>
+    <!-- charts scripts -->
+    <script src="{% static "appPonto/assets/jquery-knob/js/jquery.knob.js" %}"></script>
+    <script src="{% static "appPonto/js/jquery.sparkline.js" %}" type="text/javascript"></script>
+    <script src="{% static "appPonto/assets/jquery-easy-pie-chart/jquery.easy-pie-chart.js" %}"></script>
+    <script src="{% static "appPonto/js/owl.carousel.js" %}" ></script>
+    <!-- jQuery full calendar -->
+    <<script src="{% static "appPonto/js/fullcalendar.min.js" %}" ></script> <!-- Full Google Calendar - Calendar -->
+	<script src="{% static "appPonto/assets/fullcalendar/fullcalendar/fullcalendar.js" %}"></script>
+    <!--script for this page only-->
+    <script src="{% static "appPonto/js/calendar-custom.js" %}"></script>
+	<script src="{% static "appPonto/js/jquery.rateit.min.js" %}"></script>
+    <!-- custom select -->
+    <script src="{% static "appPonto/js/jquery.customSelect.min.js" %}" ></script>
+	<script src="{% static "appPonto/assets/chart-master/Chart.js" %}"></script>
+
+    <!--custome script for all page-->
+    <script src="{% static "appPonto/js/scripts.js" %}"></script>
+    <!-- custom script for this page-->
+    <script src="{% static "appPonto/js/sparkline-chart.js" %}"></script>
+    <script src="{% static "appPonto/js/easy-pie-chart.js" %}"></script>
+	<script src="{% static "appPonto/js/jquery-jvectormap-1.2.2.min.js" %}"></script>
+	<script src="{% static "appPonto/js/jquery-jvectormap-world-mill-en.js" %}"></script>
+	<script src="{% static "appPonto/js/xcharts.min.js" %}"></script>
+	<script src="{% static "appPonto/js/jquery.autosize.min.js" %}"></script>
+	<script src="{% static "appPonto/js/jquery.placeholder.min.js" %}"></script>
+	<script src="{% static "appPonto/js/gdp-data.js" %}"></script>
+	<script src="{% static "appPonto/js/morris.min.js" %}"></script>
+	<script src="{% static "appPonto/js/sparklines.js" %}"></script>
+	<script src="{% static "appPonto/js/charts.js" %}"></script>
+	<script src="{% static "appPonto/js/jquery.slimscroll.min.js" %}"></script>
+  <script>
+
+      //knob
+      $(function() {
+        $(".knob").knob({
+          'draw' : function () {
+            $(this.i).val(this.cv + '%')
+          }
+        })
+      });
+
+      //carousel
+      $(document).ready(function() {
+          $("#owl-slider").owlCarousel({
+              navigation : true,
+              slideSpeed : 300,
+              paginationSpeed : 400,
+              singleItem : true
+
+          });
+      });
+
+      //custom select box
+
+      $(function(){
+          $('select.styled').customSelect();
+      });
+
+	  /* ---------- Map ---------- */
+	$(function(){
+	  $('#map').vectorMap({
+	    map: 'world_mill_en',
+	    series: {
+	      regions: [{
+	        values: gdpData,
+	        scale: ['#000', '#000'],
+	        normalizeFunction: 'polynomial'
+	      }]
+	    },
+		backgroundColor: '#eef3f7',
+	    onLabelShow: function(e, el, code){
+	      el.html(el.html()+' (GDP - '+gdpData[code]+')');
+	    }
+	  });
+	});
+
+  </script>
+
+  </body>
 </html>

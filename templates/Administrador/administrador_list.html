@@ -2,9 +2,9 @@
 {% block conteudo %}
     <center><h3>Administradores</h3> </center>
     <hr>
-    <p><a href="{% url 'funcionario_new' %}" class="btn btn-primary">
+    <p><a href="{% url 'administrador_new' %}" class="btn btn-primary">
         Novo Administrador</a></p>
-    <form class="navbar-form navbar-left" role="search"method="get"action="{% url 'funcionario_list' %}">
+    <form class="navbar-form navbar-left" role="search"method="get"action="{% url 'administrador_list' %}">
         <div class="form-group">
             <label for="criterio">Descrição</label>
             <input type="text" id="criterio"name="criterio" value="{{ criterio }}" class="form-control"placeholder="Descrição">
