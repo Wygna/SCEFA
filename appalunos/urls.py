@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from alunos.views import *
+from appalunos.views import *
 
 urlpatterns = [
     url(r'^aluno/list$', aluno_list, name='aluno_list'),

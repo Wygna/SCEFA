@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+<%{% block conteudo %}
+    <center><h2 style="margin: 30px">{% if porta %}
+        Editar Porta {% else %}
+        Adcionar Porta
+    {% endif %}</h2></center>
+
+        <form method="Post" ROLE="form" class="form-group">
+            {% csrf_token %}
+        {% for field in form %}
+            <p><h4><span class="label label-default"for="{{ field.descricao}}">
+            {{ field.name.upper }}
+        </span> </h4></p>
+            {{ field | add_class:'form-control' }}
+
+         {% endfor %}
+        <input type="submit" class="btn btn-primary" value="Salvar">
+        </form>
+    </h1>
+{% endblock %}

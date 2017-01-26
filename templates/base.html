@@ -131,52 +131,52 @@
                       </a>
                   </li>
             {% if  perms.appPonto.view_funcionario %}
-                 <li class="sub-menu">
+                <li class="sub-menu">
                       <a href="javascript:;" class="">
-                          <i class="icon_document_alt"></i>
-                          <span>Funcionários</span>
+                          <i class="social_myspace"></i>
+                          <span>Ponto Funcinário</span>
                           <span class="menu-arrow arrow_carrot-right"></span>
                       </a>
                       <ul class="sub">
                           <li><a class="" href="{% url 'funcionario_new' %}">Adicionar Funcionário</a></li>
-                          <li><a class="" href="{% url 'funcionario_list' %}">Listar Funcionários</a></li>
+                          <li><a class="" href="{% url 'funcionario_list' %}">Listar Funcionarios</a></li>
                       </ul>
                   </li>
 
                   <li class="sub-menu">
                       <a href="javascript:;" class="">
-                          <i class="icon_table"></i>
-                          <span>Aministrador</span>
+                          <i class="social_myspace"></i>
+                          <span>Ponto Aluno</span>
                           <span class="menu-arrow arrow_carrot-right"></span>
                       </a>
                       <ul class="sub">
-                          <li><a class="" href="{% url 'administrador_new' %}">Adicionar Administrador</a></li>
-                          <li><a class="" href="{% url 'administrador_list' %}">Listar Administradores</a></li>
+                          <li><a class="" href="{% url 'aluno_new' %}"> Adicionar Aluno</a></li>
+                          <li><a class="" href="{% url 'aluno_list' %}">Listar Alunos</a></li>
                       </ul>
                   </li>
 
 
                   <li class="sub-menu">
                       <a href="javascript:;" class="">
-                          <i class="icon_documents_alt"></i>
+                          <i class="icon_book_alt"></i>
                           <span>Portas</span>
                           <span class="menu-arrow arrow_carrot-right"></span>
                       </a>
                       <ul class="sub">
-                          <li><a class="" href="{% url 'funcionario_new' %}">Adicionar Funcionário</a></li>
-                          <li><a class="" href="{% url 'funcionario_list' %}">Listar Funcionários</a></li>
+                          <li><a class="" href="{% url 'porta_new' %}">Adicionar Porta</a></li>
+                          <li><a class="" href="{% url 'porta_list' %}">Listar Portas</a></li>
                       </ul>
                   </li>
              {% endif %}
 
                     <li class="sub-menu">
                           <a href="javascript:;" class="">
-                              <i class="icon_desktop"></i>
+                              <i class="icon_documents_alt"></i>
                               <span>Relatórios</span>
                               <span class="menu-arrow arrow_carrot-right"></span>
                           </a>
                           <ul class="sub">
-                              <li><a class="" href="{% url 'funcionario_relatorio'  request.user.id  %}">Gerar Relatório</a></li>
+                              <li><a class="" href="{% url 'registroPonto_list' %}">Gerar Relatório</a></li>
                           </ul>
                     </li>
 

@@ -5,8 +5,8 @@ from django.shortcuts import render, redirect
 from django.db.models.fields import Empty
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
-from alunos.forms import AlunoForm
-from alunos.models import Aluno
+from appalunos.forms import AlunoForm
+from appalunos.models import Aluno
 
 
 def aluno_new(request):
@@ -41,7 +41,7 @@ def aluno_list(request):
         alunos = paginator.page(1)
     except EmptyPage:
         alunos = paginator.page(paginator.num_pages)
-    dados = {'alunos': alunos, 'criterio': criterio,
+    dados = {'appalunos': alunos, 'criterio': criterio,
              'paginator': paginator, 'page_obj': alunos}
     return render(request, 'Alunos/alunos_list.html', dados)
 

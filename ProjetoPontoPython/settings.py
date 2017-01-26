@@ -37,8 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'appPonto',
-    'alunos',
+    'appalunos',
     'widget_tweaks',
+    'appPortas',
 
 ]
 

@@ -27,9 +27,10 @@ urlpatterns = [
     url(r'^administrador/delete/(?P<pk>\d+)$',
         administrador_delete, name='administrador_delete'),
 
-    url(r'^RegistroPonto/list$', registroPonto_list, name='RegistroPonto'),
+    url(r'^RegistroPonto/list$', registroPonto_list, name='registroPonto_list'),
+
     url(r'^funcionario/relatorio/(?P<pk>\d+)$',
-        funcionario_relatorio, name='funcionario_relatorio'),
+       funcionario_relatorio, name='funcionario_relatorio'),
 
 
 

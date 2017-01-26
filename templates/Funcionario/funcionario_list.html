@@ -11,6 +11,9 @@
         </div>
         <button type="submit" class="btn btn-default">Buscar</button>
     </form>
+    </br>
+    </br>
+    </br>
     <table border="2" class="table table-hover ">
         <thead>
             <tr>
@@ -27,7 +30,7 @@
                     {{ funcionario.nome | upper}}</a></td>
                 <td>{{ funcionario.matricula}}</td>
 
-                <td><a href="{% url 'funcionario_relatorio' funcionario.pk %}" class="btn btn-">Gerar Relatorio</a></td>
+                <td><a href="{% url 'funcionario_relatorio' funcionario.pk %}" class="btn btn-success">Gerar Relatorio</a></td>
                 <td><a href="{% url 'funcionario_update' funcionario.pk %}" class="btn btn-primary">Atualizar</a></td>
                 <td><a href="{% url 'funcionario_delete' funcionario.pk %}" class="btn btn-danger">Excluir</a></td>
 

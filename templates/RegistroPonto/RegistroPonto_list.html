@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block conteudo %}
-    <center><h3>Registro de horários</h3></center>
+    <center><h3>Funcionários</h3></center>
     <hr>
 
     <form class="navbar-form navbar-left" role="search"method="get"action="{% url 'funcionario_list' %}">
@@ -10,26 +10,26 @@
         </div>
         <button type="submit" class="btn btn-default">Buscar</button>
     </form>
+    </br>
+    </br>
+    </br>
     <table border="2" class="table table-hover ">
         <thead>
             <tr>
-                <th>Entrada</th>
-                <th>Saida</th>
-                <th>Local</th>
-                <th>Funcionário</th>
+                <th>Nome</th>
+                <th>Matrícula</th>
+                <th>Operações</th>
             </tr>
         </thead>
         <tbody>
-            {% for registroPonto in registroPontos %}
+            {% for funcionario in funcionarios %}
                <tr>
                    <td>
 
-                    {{ registroPonto.entrada}}</td>
-                <td>{{ registroPonto.saida}}</td>
-                   <td>{{ registroPonto.local}}</td>
-                   <td>{{ registroPonto.funcionario}}</td>
+                    {{ funcionario.nome | upper}}</td>
+                <td>{{ funcionario.matricula}}</td>
 
-
+                <td><a href="{% url 'funcionario_relatorio' funcionario.pk %}" class="btn btn-success">Gerar Relatorio</a></td>
 
                </tr>
             {% endfor %}

@@ -105,8 +105,28 @@ def administrador_list(request):
     dados={'administradores':administrador,'criterio':criterio,'paginator':paginator,'page_obj':administrador}
     return render(request, 'Administrador/administrador_list.html',dados)
 
-@permission_required('appPonto.view_registroPonto',login_url='erro_permissao')
+
 def registroPonto_list(request):
+    criterio = request.GET.get('criterio')
+    if criterio:
+        funcionarios = Funcionario.objects.filter(nome__contains=criterio).order_by('nome')
+    else:
+        funcionarios = Funcionario.objects.all().order_by('nome')
+        criterio =""
+    paginator =Paginator(funcionarios,4)
+    page = request.GET.get('page')
+    try:
+        funcionarios = paginator.page(page)
+    except PageNotAnInteger:
+        funcionarios=paginator.page(1)
+    except EmptyPage:
+        funcionarios = paginator.page(paginator.num_pages)
+    dados={'funcionarios':funcionarios,'criterio':criterio,'paginator':paginator,'page_obj':funcionarios}
+    return render(request, 'RegistroPonto/RegistroPonto_list.html',dados)
+
+
+@permission_required('appPonto.view_registroPonto',login_url='erro_permissao')
+def registroPonto_list2(request):
     criterio = request.GET.get('criterio')
     if criterio:
         registroPonto = RegistrarPonto.objects.filter(nome__contains=criterio).order_by('local')
