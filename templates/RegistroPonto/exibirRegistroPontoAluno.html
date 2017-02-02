@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block conteudo %}
-    <center><h3>Registro de horários de Ponto</h3></center>
+    <center><h3>Registro de horários</h3></center>
     <hr>
 
     <table border="2" class="table table-hover ">
@@ -9,21 +9,17 @@
                 <th>Entrada</th>
                 <th>Saida</th>
                 <th>Local</th>
-                <th>Funcionário</th>
+                <th>Aluno</th>
             </tr>
         </thead>
         <tbody>
             {% for registroPonto in registroPontos %}
                <tr>
                    <td>
-
                     {{ registroPonto.entrada}}</td>
-                <td>{{ registroPonto.saida}}</td>
+                   <td>{{ registroPonto.saida}}</td>
                    <td>{{ registroPonto.local}}</td>
-                   <td>{{ registroPonto.funcionario}}</td>
-
-
-
+                   <td>{{ registroPonto.aluno}}</td>
                </tr>
             {% endfor %}
         </tbody>

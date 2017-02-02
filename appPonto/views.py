@@ -13,7 +13,7 @@ from appPonto.models import *
 
 @login_required(login_url='login')
 def home(request):
-    return render(request,'base.html')
+    return render(request, 'base.html')
 
 @login_required(login_url='login')
 def erro_permissao(request):
@@ -27,7 +27,7 @@ def funcionario_list(request):
     else:
         funcionarios = Funcionario.objects.all().order_by('nome')
         criterio =""
-    paginator =Paginator(funcionarios,4)
+    paginator =Paginator(funcionarios,10)
     page = request.GET.get('page')
     try:
         funcionarios = paginator.page(page)
@@ -41,7 +41,7 @@ def funcionario_list(request):
 @permission_required('appPonto.view_funcionario',login_url='erro_permissao')
 def funcionario_detail(request,pk):
     funcionario = Funcionario.objects.get(id=pk)
-    return render(request,'Funcionario/exibirFuncionario.html',{'funcionario':funcionario})
+    return render(request,'Funcionario/exibirFuncionario.html',{'aluno':funcionario})
 
 @permission_required('appPonto.add_funcionario',login_url='erro_permissao')
 def funcionario_new(request):
@@ -61,7 +61,7 @@ def funcionario_new(request):
         dados={'form':form}
         return render(request,'Funcionario/funcionario_form.html',dados)
 
-@permission_required('appPonto.update_funcionario',login_url='erro_permissao')
+@permission_required('appPonto.change_funcionario',login_url='erro_permissao')
 def funcionairo_update(request,pk):
     funcionario = Funcionario.objects.get(id=pk)
     if request.method =="POST":
@@ -77,7 +77,7 @@ def funcionairo_update(request,pk):
             return redirect('funcionario_list')
     else:
         form = FuncionarioForm(instance=funcionario)
-        dados = {'form': form,'funcionario':funcionario}
+        dados = {'form': form,'aluno':funcionario}
         return render(request, 'Funcionario/funcionario_form.html', dados)
 
 @permission_required('appPonto.delete_funcionario',login_url='erro_permissao')
@@ -105,7 +105,7 @@ def administrador_list(request):
     dados={'administradores':administrador,'criterio':criterio,'paginator':paginator,'page_obj':administrador}
     return render(request, 'Administrador/administrador_list.html',dados)
 
-
+@permission_required('appPonto.view_relatorioPonto',login_url='erro_permissao')
 def registroPonto_list(request):
     criterio = request.GET.get('criterio')
     if criterio:
@@ -168,7 +168,7 @@ def administrador_new(request):
         dados = {'form':form}
         return render(request,'Administrador/administrador_form.html',dados)
 
-@permission_required('appPonto.update_administrador',login_url='erro_permissao')
+@permission_required('appPonto.change_administrador',login_url='erro_permissao')
 def administrador_update(request,pk):
     administrador = Administrador.objects.get(id=pk)
     if request.method =="POST":
