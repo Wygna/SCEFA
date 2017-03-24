@@ -10,8 +10,7 @@ urlpatterns = [
     url(r'^erro_permissao/$', erro_permissao, name='erro_permissao'),
 
     url(r'^funcionario/list$', funcionario_list, name='funcionario_list'),
-    url(r'^funcionario/detail/(?P<pk>\d+)$',
-        funcionario_detail, name='funcionario_detail'),
+    url(r'^funcionario/detail/(?P<pk>\d+)$',funcionario_detail, name='funcionario_detail'),
     url(r'^funcionario/new/$', funcionario_new, name='funcionario_new'),
     url(r'^funcionario/update/(?P<pk>\d+)$',
         funcionairo_update, name='funcionario_update'),

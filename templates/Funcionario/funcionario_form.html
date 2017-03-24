@@ -1,22 +1,43 @@
 {% extends 'base.html' %}
 {% load widget_tweaks %}
 <%{% block conteudo %}
-    <center><h2 style="margin: 30px">{% if funcionario %}
-        Editar Funcionario {% else %}
-        Adcionar Funcionario
-    {% endif %}</h2></center>
+    <section class="container">
+        <div class="row">
+                        <!-- left column -->
+            <div class="col-sm-9 col-sm-offset-1">
+                <!-- general form elements -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title" style="text-align: center;">
+                            {% if funcionario %}
+                                Editar Funcionário {% else %}
+                                Adcionar Funcionário
+                            {% endif %}
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                       <form method="Post" ROLE="form" class="form-horizontal">
+                           {% csrf_token %}
+                            <div class="form-group">
+                            {% for field in form %}
+                                <label class="col-sm-4 control-label"for="{{ field.nome}}">
+                                                                        {{ field.name.upper }}
+                                </label>
+                                <div class="col-md-6">
+                                    {{ field | add_class:'form-control' }}<br/>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-6 col-sm-offset-3">
+                                    <input type="submit" class="btn btn-success" value="Salvar">
 
-        <form method="Post" ROLE="form" class="form-group">
-            {% csrf_token %}
-        {% for field in form %}
-            <p><h4><span class="label label-default"for="{{ field.name}}">
-            {{ field.name.upper }}
-        </span> </h4></p>
-            {{ field | add_class:'form-control' }}
-
-         {% endfor %}
-        <br/>
-        <input type="submit" class="btn btn-success" value="Salvar">
-        </form>
-    </h1>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.row -->
+    </section>
 {% endblock %}

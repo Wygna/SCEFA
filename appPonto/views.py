@@ -41,7 +41,7 @@ def funcionario_list(request):
 @permission_required('appPonto.view_funcionario',login_url='erro_permissao')
 def funcionario_detail(request,pk):
     funcionario = Funcionario.objects.get(id=pk)
-    return render(request,'Funcionario/exibirFuncionario.html',{'aluno':funcionario})
+    return render(request,'Funcionario/exibirFuncionario.html',{'funcionario':funcionario})
 
 @permission_required('appPonto.add_funcionario',login_url='erro_permissao')
 def funcionario_new(request):

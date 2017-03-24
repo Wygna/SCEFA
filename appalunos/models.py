@@ -8,7 +8,15 @@ from django.utils import timezone
 class Aluno(User):
     nome = models.CharField("Nome", max_length=200)
     Email = models.EmailField("E-mail", max_length=200)
-    turno_aula = models.CharField("Turno", max_length=20)
+    Turnos = (
+        ('Matutino', 'Matutino'),
+        ('Vespetino', 'Vespetino'),
+        ('Noturno', 'Noturno'),
+    )
+    turno_aula = models.CharField(
+        max_length=30,
+        choices=Turnos,
+    )
     senha = models.CharField(max_length=32)
     matricula = models.CharField("Matricula", max_length=14, unique=True)
 

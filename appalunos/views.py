@@ -30,7 +30,7 @@ def aluno_new(request):
 
 def aluno_detail(request, pk):
     aluno = Aluno.objects.get(id=pk)
-    return render(request, 'Alunos/exibirAlunos.html')
+    return render(request, 'Alunos/exibirAlunos.html',{'aluno':aluno})
 
 
 def aluno_list(request):
