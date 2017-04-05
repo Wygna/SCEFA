@@ -27,8 +27,7 @@ class Aluno(User):
     class Meta: permissions = (('view_aluno', 'Can see aluno'),)
 
 class RegistrarPonto(models.Model):
-    entrada = models.DateTimeField(default=timezone.now)
-    saida = models.DateTimeField(default=timezone.now)
+    data = models.DateTimeField(default=timezone.now)
     local = models.CharField("local",max_length=200)
     aluno = models.ForeignKey(Aluno,on_delete=models.PROTECT,verbose_name="Aluno")
 

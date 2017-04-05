@@ -18,10 +18,11 @@
                         </tr>
                         {% for administrador in administradores %}
                             <tr>
-                                <td><a href="{% url 'administrador_detail' administrador.pk %}"> {{administrador.nome | upper }}</a></td>
+                                <td><a href="{% url 'funcionario_detail' administrador.pk %}"> {{administrador.nome | upper }}</a></td>
                                 <td>{{ administrador.matricula }}</td>
                                 <td><a href="{% url 'administrador_update' administrador.pk %}" class="glyphicon glyphicon-edit"></a></td>
-                                <td><a href="{% url 'administrador_delete' administrador.pk %}" style="color:red" class="glyphicon glyphicon-remove"></a></td>
+                                <td><a href="{% url 'remover_administrador' administrador.pk %}"style="color:red" class="glyphicon glyphicon-remove"></a></td>
+
                             </tr>
                         {% endfor %}
                     </table>

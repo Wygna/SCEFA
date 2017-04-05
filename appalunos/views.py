@@ -18,7 +18,7 @@ def aluno_new(request):
             aluno.username = aluno.matricula
             aluno.first_name = aluno.nome
             aluno.set_password(aluno.senha)
-            grupoAluno = Group.objects.get(name='Alunos')
+            grupoAluno = Group.objects.get(name='aluno')
             grupoAluno.user_set.add(aluno)
             aluno.save()
             return redirect('aluno_list')
@@ -79,7 +79,7 @@ def aluno_update(request,pk):
 def aluno_relatorio(request,pk):
     aluno = Aluno.objects.get(id=pk)
     registroPonto = aluno.registrarponto_set.all()
-    return render(request,'RegistroPonto/exibirRegistroPontoAluno.html',{'registroPontos':registroPonto})
+    return render(request, 'Frequencia/exibir_frequencia_aluno.html', {'registroPontos':registroPonto})
 
 @permission_required('appPonto.view_relatorioPonto',login_url='erro_permissao')
 def registroPonto_list(request):
@@ -98,4 +98,4 @@ def registroPonto_list(request):
     except EmptyPage:
         funcionarios = paginator.page(paginator.num_pages)
     dados={'alunos':alunos,'criterio':criterio,'paginator':paginator,'page_obj':alunos}
-    return render(request, 'RegistroPonto/RegistroPontoAluno_list.html',dados)
+    return render(request, 'Frequencia/frequencia_Aluno_list.html', dados)

@@ -8,9 +8,3 @@ class FuncionarioForm(ModelForm):
     class Meta:
         model = Funcionario
         fields = ('nome','matricula','telefone','Email','senha')
-
-class AdministradorForm(ModelForm):
-    senha = forms.CharField(label='Senha', widget=forms.PasswordInput)
-    class Meta:
-        model = Administrador
-        fields = ('nome', 'matricula', 'telefone', 'Email', 'senha')

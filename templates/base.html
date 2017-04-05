@@ -10,18 +10,24 @@
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
 
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
         <!-- Bootstrap 3.3.6 -->
+
+        <link href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" rel="stylesheet" />
 
         <link href="{% static "appPonto/css/font-awesome.min.css" %}" rel="stylesheet">
         <link href="{% static "appPonto/css/AdminLTE.min.css" %}" rel="stylesheet">
         <link href="{% static "appPonto/css/_all-skins.min.css" %}" rel="stylesheet">
         <link href="{% static "appPonto/css/blue.css" %}" rel="stylesheet">
+        <link href="{% static "appPonto/css/bootstrap-datetimepicker.min.css" %}" rel="stylesheet">
 
         <script src="{%  static "appPonto/js/jquery-2.2.3.min.js" %}"></script>
         <script src="{% static "appPonto/js/bootstrap.min.js" %}"></script>
 
         <script src="{% static "appPonto/js/plugue/app.min.js" %}"></script>
+        <script src="{% static "appPonto/js/bootstrap-datetimepicker.pt-BR.js" %}"></script>
+        <script src="{% static "appPonto/js/bootstrap-datetimepicker.js" %}"></script>
+        <script src="{% static "appPonto/js/script.js" %}"></script>
+
         <style>
             .far{font-size:20px;}
             .branco {background-color: white}
@@ -50,7 +56,7 @@
                             <li class="dropdown user user-menu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                     <img src="{% static 'appPonto/img/avatar-mini3.jpg' %}" class="user-image" alt="User Image"/>
-                                    <span class="hidden-xs">{{ request.user.funcionario.nome }}</span>
+                                    <span class="hidden-xs">{{ request.user.pessoa.nome }}</span>
                                 </a>
                                 <ul class="dropdown-menu">
                                     <!-- User image -->
@@ -58,7 +64,7 @@
                                         <img src="{% static 'appPonto/img/avatar-mini3.jpg' %}" class="user-image" alt="User Image"/>
 
                                         <p>
-                                            {{ request.user.funcionario.nome }} - Web Developer
+                                            {{ request.user.pessoa.nome}} - Web Developer
                                             <small>Member since Nov. 2012</small>
                                         </p>
                                     </li>
@@ -69,7 +75,7 @@
                                             <a href="#" class="btn btn-default btn-flat">Perfil</a>
                                         </div>
                                         <div class="pull-right">
-                                            <a href="#" class="btn btn-default btn-flat">Sair</a>
+                                            <a href="{% url 'logout' %}" class="btn btn-default btn-flat">Sair</a>
                                         </div>
                                     </li>
                                 </ul>
@@ -89,7 +95,7 @@
 
                         </div>
                         <div class="pull-left info">
-                            <p>{{ request.user.funcionario.nome }}</p>
+                            <p>{{ request.user.pessoa.nome }}</p>
                         </div>
                     </div>
                     <!-- search form -->
@@ -125,7 +131,7 @@
                                 <li><a href="{% url 'funcionario_list' %}"><i class="fa fa-circle-o"></i>Funcionários</a></li>
                                 <li><a href="{% url 'administrador_list' %}"><i class="fa fa-circle-o"></i>Administradores</a></li>
                                 <li><a href="{% url 'funcionario_new' %}"><i class="fa fa-circle-o"></i>Cadastrar Funcionário</a></li>
-                                <li><a href="{% url 'administrador_new' %}"><i class="fa fa-circle-o"></i>Cadastrar Administrador</a></li>
+                                <li><a href="{% url 'administrador_new' %}"><i class="fa fa-circle-o"></i>Adicionar Administrador</a></li>
 
                             </ul>
                         </li>
@@ -160,23 +166,22 @@
                         {% if request.user.groups.all.0.name == 'administrador' %}
                         <li class="treeview">
                             <a href="#">
-                                <i class="far fa fa-file-text-o"></i> <span>Gerar relatórios</span>
+                                <i class="far fa fa-file-text-o"></i> <span>Frequências</span>
                                 <span class="pull-right-container">
                                     <i class="far fa fa-angle-left pull-right"></i>
                                 </span>
                             </a>
                             <ul class="treeview-menu">
-                                <li><a href="{% url 'registroPonto_list'%}"><i class="fa fa-circle-o"></i> Gerar relatorios</a></li>
-                                <li><a href="pages/forms/advanced.html"><i class="fa fa-circle-o"></i> Advanced Elements</a></li>
-                                <li><a href="pages/forms/editors.html"><i class="fa fa-circle-o"></i> Editors</a></li>
+                                <li><a href="{% url 'frequencia_list'%}"><i class="fa fa-circle-o"></i>Frequências de Funcionários</a></li>
+                                <li><a href="pages/forms/advanced.html"><i class="fa fa-circle-o"></i>Frequências de Alunos</a></li>
                             </ul>
                         </li>
 
                         {% endif %}
                         {% if request.user.groups.all.0.name == 'funcionario'  %}
                             <li class="treeview">
-                            <a href="{% url 'funcionario_relatorio' request.user.id %}">
-                                <i class="far fa fa-file-text-o"></i> <span>Gerar relatório</span>
+                            <a href="{% url 'funcionario_busca_frequencia' request.user.id %}">
+                                <i class="far fa fa-file-text-o"></i> <span>Frequência</span>
 
                             </a>
                     {% endif %}

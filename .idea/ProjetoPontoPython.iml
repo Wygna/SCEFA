@@ -7,13 +7,12 @@
         <option name="settingsModule" value="ProjetoPontoPython/settings.py" />
         <option name="manageScript" value="manage.py" />
         <option name="environment" value="&lt;map/&gt;" />
-        <option name="commandsToSkip" value="" />
       </configuration>
     </facet>
   </component>
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$" />
-    <orderEntry type="jdk" jdkName="Python 3.5.2 (C:\Python\python.exe)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Python 3.6.1 (C:\python\python.exe)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="mysite" />
     <orderEntry type="module" module-name="projetovendas" />
@@ -30,5 +29,10 @@
   </component>
   <component name="TemplatesService">
     <option name="TEMPLATE_CONFIGURATION" value="Django" />
+    <option name="TEMPLATE_FOLDERS">
+      <list>
+        <option value="$MODULE_DIR$/../exemplo/templates" />
+      </list>
+    </option>
   </component>
 </module>

@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block conteudo %}
+
+    <section class="container">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-sm-9 col-sm-offset-1">
+                <!-- general form elements -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title" style="text-align: center;">Frequências</h3>
+                    </div>
+                    <table class="table table-bordered">
+
+                        <tr>
+                            <th>Nome: {{ funcionario.nome }}</th>
+                            <th>faltas:  {{ data }}</th>
+                        </tr>
+                       <tr>
+                           <th>Data</th>
+                           <th>Registros</th>
+                            <th>Local</th>
+                        </tr>
+                        {% for frequencia in frequencias %}
+                           <tr>
+                               <td>{{ frequencia.data|date:"d/m/Y"}}({{ frequencia.diaSemana }})</td>
+                               <td>E: {{frequencia.hora_entrada}}
+                               <p style="color:red">S: {{ frequencia.hora_saida}}</p></td>
+                               <td>{{ frequencia.local}}</td>
+                           </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- /.row -->
+    </section>
+{% endblock %}
