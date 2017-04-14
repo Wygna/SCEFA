@@ -32,10 +32,12 @@ funcionario5.save()
 
 grupoFuncionario = Group.objects.get(name='funcionario')
 grupoFuncionario.user_set.add(funcionario)
-grupoFuncionario.user_set.add(funcionario2)
 grupoFuncionario.user_set.add(funcionario3)
 grupoFuncionario.user_set.add(funcionario4)
 grupoFuncionario.user_set.add(funcionario5)
+
+grupoAdministrador = Group.objects.get(name='administrador')
+grupoAdministrador.user_set.add(funcionario2)
 
 registro01 = Frequencia_funcionario (data='2016-11-01', hora_entrada='08:00:00', hora_saida='17:00:00', local="secretaria Acadêmica", funcionario=funcionario)
 registro02 = Frequencia_funcionario(data='2016-11-02', hora_entrada='08:00:00', hora_saida='17:00:00', local="secretaria Acadêmica", funcionario=funcionario)

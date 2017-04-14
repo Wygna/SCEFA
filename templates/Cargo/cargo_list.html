@@ -8,18 +8,18 @@
                 <!-- general form elements -->
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title" style="text-align: center;">{{ porta }}</h3>
+                        <h3 class="panel-title" style="text-align: center;">Cargos</h3>
                     </div>
                     <table class="table table-bordered">
                         <tr>
-                            <th>Grupos de Acesso</th>
+                            <th>Função</th>
                             <th colspan="2"><center>Operações</center></th>
                         </tr>
-                        {% for grupo in grupos %}
+                        {% for cargo in cargos %}
                             <tr>
-                                <td>{{ grupo.grupo }}</td>
-                                <td><a href="{% url 'grupo_detail' grupo.pk %}"> Usuários com Acesso</a></td>
-                                <td><a href="{% url 'cargo_delete' grupo.pk %}" style="color:red" class="glyphicon glyphicon-remove"></a></td>
+                                <td><a href="{% url 'cargo_detail' cargo.pk %}"> {{cargo | upper }}</a></td>
+                                <td><a href="{% url 'cargo_update' cargo.pk %}" class="glyphicon glyphicon-edit"></a></td>
+                                <td><a href="{% url 'cargo_delete' cargo.pk %}" style="color:red" class="glyphicon glyphicon-remove"></a></td>
                             </tr>
                         {% endfor %}
                     </table>

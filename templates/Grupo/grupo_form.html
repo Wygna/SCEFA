@@ -9,9 +9,9 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title" style="text-align: center;">
-                            {% if funcionario %}
-                                Editar Funcionário {% else %}
-                                Adcionar Funcionário
+                            {% if grupo %}
+                                Editar Grupo {% else %}
+                                Cadastrar Grupo
                             {% endif %}
                         </h3>
                     </div>
@@ -24,9 +24,9 @@
                                                                         {{ field.label_tag }}
                                 </label>
                                 <div class="col-md-6">
-                                    {{ field | add_class:'form-control' }}<br/>
-                                </div>
-                                {% endfor %}
+                                    {{ field | add_class:'form-control' }}<br/></div>
+
+                            {% endfor %}
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-6 col-sm-offset-3">
@@ -38,6 +38,8 @@
                     </div>
                 </div>
             </div>
-        </div><!-- /.row -->
+        </div>
+                    <!-- /.row -->
     </section>
+
 {% endblock %}

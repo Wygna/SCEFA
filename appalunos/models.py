@@ -1,13 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
+from appPonto.models import Pessoa
 
-# Create your models here.
-
-
-class Aluno(User):
-    nome = models.CharField("Nome", max_length=200)
-    Email = models.EmailField("E-mail", max_length=200)
+class Aluno(Pessoa):
     Turnos = (
         ('Matutino', 'Matutino'),
         ('Vespetino', 'Vespetino'),
@@ -17,9 +13,6 @@ class Aluno(User):
         max_length=30,
         choices=Turnos,
     )
-    senha = models.CharField(max_length=32)
-    matricula = models.CharField("Matricula", max_length=14, unique=True)
-
 
     def __str__(self):
         return self.nome

@@ -1,5 +1,4 @@
 from itertools import count
-
 from django.contrib.auth.management import get_default_username
 from django.core.paginator import PageNotAnInteger, EmptyPage, Paginator
 from django.db.models.aggregates import Max
@@ -12,6 +11,10 @@ from django.contrib.auth.decorators import login_required,permission_required
 from django.contrib.auth.forms import SetPasswordForm
 from appPonto.forms import *
 from appPonto.models import *
+from appPortas.models import Registro_porta
+from django.db.models import Q
+
+
 
 @login_required(login_url='login')
 def home(request):
@@ -82,8 +85,123 @@ def funcionairo_update(request,pk):
         dados = {'form': form,'aluno':funcionario}
         return render(request, 'Funcionario/funcionario_form.html', dados)
 
+@permission_required('appPonto.view_funcionario',login_url='erro_permissao')
+def departamento_list(request):
+    criterio = request.GET.get('criterio')
+    if criterio:
+        departamentos = Departamento.objects.filter(descricao__contains=criterio).order_by('descricao')
+    else:
+        departamentos = Departamento.objects.all().order_by('descricao')
+        cargos = Cargo.objects.filter()
+        criterio =""
+    paginator =Paginator(departamentos,10)
+    page = request.GET.get('page')
+    try:
+        departamentos = paginator.page(page)
+    except PageNotAnInteger:
+        funcionarios=paginator.page(1)
+    except EmptyPage:
+        departamentos = paginator.page(paginator.num_pages)
+    dados={'departamentos':departamentos,'criterio':criterio,'paginator':paginator,'page_obj':departamentos}
+    return render(request, 'Departamento/departamento_list.html', dados)
+
+@permission_required('appPonto.view_departamento',login_url='erro_permissao')
+def departamento_detail(request,pk):
+    departamento = Departamento.objects.get(id=pk)
+    cargos = Cargo.objects.filter(departamento=departamento)
+    return render(request,'Departamento/exibirDepartamento.html',{'departamento':departamento,'cargos':cargos})
+
+@permission_required('appPonto.add_departamento',login_url='erro_permissao')
+def departamento_new(request):
+    if (request.method == 'POST'):
+        form = DepartamentoForm(request.POST)
+        if (form.is_valid()):
+            form.save()
+            return redirect('departamento_list')
+    else:
+        form=DepartamentoForm()
+        dados={'form':form}
+        return render(request, 'Departamento/departamento_form.html', dados)
+
+@permission_required('appPonto.change_departamento',login_url='erro_permissao')
+def departamento_update(request,pk):
+    departamento = Departamento.objects.get(id=pk)
+    if(request.method=='POST'):
+        form=DepartamentoForm(request.POST,instance=departamento)
+        if (form.is_valid()):
+            form.save()
+            return redirect('departamento_list')
+    else:
+        form = DepartamentoForm(instance=departamento)
+        dados = {'form': form,'departamento':departamento}
+        return render(request, 'Departamento/departamento_form.html', dados)
+
+@permission_required('appPonto.delete_departamento', login_url='erro_permissao')
+def departamento_delete(request,pk):
+    departamento =Departamento.objects.get(id=pk)
+    departamento.delete()
+    return redirect('departamento_list')
+
+@permission_required('appPonto.view_cargo',login_url='erro_permissao')
+def cargo_list(request):
+    criterio = request.GET.get('criterio')
+    if criterio:
+        cargos = Cargo.objects.filter(nome_funcao__contains=criterio).order_by('nome_funcao')
+    else:
+        departamentos = Cargo.objects.all().order_by('nome_funcao')
+        cargos = Cargo.objects.filter()
+        criterio =""
+    paginator =Paginator(cargos,10)
+    page = request.GET.get('page')
+    try:
+        departamentos = paginator.page(page)
+    except PageNotAnInteger:
+        cargos=paginator.page(1)
+    except EmptyPage:
+        cargos = paginator.page(paginator.num_pages)
+    dados={'cargos':cargos,'criterio':criterio,'paginator':paginator,'page_obj':cargos}
+    return render(request, 'Cargo/cargo_list.html', dados)
+
+@permission_required('appPonto.view_cargo',login_url='erro_permissao')
+def cargo_detail(request,pk):
+    cargo = Cargo.objects.get(id=pk)
+    departamento = Departamento.objects.get(id=cargo.departamento.id)
+    funcionarios = Funcionario.objects.filter(cargo=cargo)
+    return render(request,'Cargo/exibirCargo.html',{'cargo':cargo,'funcionarios':funcionarios,'departamento':departamento})
+
+@permission_required('appPonto.add_cargo',login_url='erro_permissao')
+def cargo_new(request):
+    if (request.method == 'POST'):
+        form = CargoForm(request.POST)
+        if (form.is_valid()):
+            form.save()
+            return redirect('cargo_list')
+    else:
+        form=CargoForm()
+        dados={'form':form}
+        return render(request, 'Cargo/cargo_form.html', dados)
+
+@permission_required('appPonto.change_cargo',login_url='erro_permissao')
+def cargo_update(request,pk):
+    cargo = Cargo.objects.get(id=pk)
+    if(request.method=='POST'):
+        form=CargoForm(request.POST,instance=cargo)
+        if (form.is_valid()):
+            form.save()
+            return redirect('cargo_list')
+    else:
+        form = CargoForm(instance=cargo)
+        dados = {'form': form,'cargo':cargo}
+        return render(request, 'Cargo/cargo_form.html', dados)
+
+@permission_required('appPonto.delete_departamento', login_url='erro_permissao')
+def cargo_delete(request,pk):
+    cargo =Cargo.objects.get(id=pk)
+    cargo.delete()
+    return redirect('cargo_list')
+
 @permission_required('appPonto.change_funcionario',login_url='erro_permissao')
-def funcionairo_administrar_update(request,pk):
+def funcionairo_administrardor_update(request, pk):
     funcionario = Funcionario.objects.get(id=pk)
     if request.method =="POST":
         form =FuncionarioForm(request.POST,instance=funcionario)
@@ -145,33 +263,13 @@ def funcionarios_list(request):
     dados={'funcionarios':funcionarios,'criterio':criterio,'paginator':paginator,'page_obj':funcionarios}
     return render(request, 'Frequencia/frequencia_funcionario_list.html', dados)
 
-
-@permission_required('appPonto.view_registroPonto',login_url='erro_permissao')
-def frequencia_list2(request):
-    criterio = request.GET.get('criterio')
-    if criterio:
-        frequencia = Frequencia_funcionario.objects.filter(nome__contains=criterio).order_by('local')
-    else:
-        frequencia = Frequencia_funcionario.objects.all().order_by('local')
-        criterio =""
-    paginator =Paginator(frequencia,100)
-    page = request.GET.get('page')
-    try:
-        frequencia = paginator.page(page)
-    except PageNotAnInteger:
-        frequencia=paginator.page(1)
-    except EmptyPage:
-        frequencia = paginator.page(paginator.num_pages)
-    dados={'registroPontos':frequencia,'criterio':criterio,'paginator':paginator,'page_obj':frequencia}
-    return render(request, 'Frequencia/frequencia_funcionario_list.html', dados)
-
 @permission_required('appPonto.view_funcionario',login_url='erro_permissao')
 def administrador_new(request):
     criterio = request.GET.get('criterio')
     if criterio:
         funcionarios = Funcionario.objects.filter(nome__contains=criterio).order_by('nome')
     else:
-        funcionarios = Funcionario.objects.all().order_by('nome')
+        funcionarios = Funcionario.objects.filter(~Q(cargo__nome_funcao__contains='Administrador'))
         criterio = ""
     paginator = Paginator(funcionarios, 4)
     page = request.GET.get('page')

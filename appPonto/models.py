@@ -15,7 +15,7 @@ class Pessoa(User):
         return self.nome
 
 class Departamento(models.Model):
-    descricao = models.CharField('Descrição',max_length=200)
+    descricao = models.CharField("Descrição",max_length=200)
     class Meta: permissions = (('view_departamento', 'Can see departamento'),)
     def __str__(self):
         return self.descricao

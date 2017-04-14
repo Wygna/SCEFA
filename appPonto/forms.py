@@ -8,3 +8,13 @@ class FuncionarioForm(ModelForm):
     class Meta:
         model = Funcionario
         fields = ('nome','matricula','telefone','Email','senha')
+
+class DepartamentoForm(ModelForm):
+    class Meta:
+        model = Departamento
+        fields  = ('descricao',)
+
+class CargoForm(ModelForm):
+    class Meta:
+        model = Cargo
+        fields  = ('nome_funcao','departamento')

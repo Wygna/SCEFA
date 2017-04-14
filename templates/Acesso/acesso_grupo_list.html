@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block conteudo %}
+
+    <section class="container">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-sm-6 col-sm-offset-2">
+                <!-- general form elements -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title" style="text-align: center;">Grupos de Acesso</h3>
+                    </div>
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>Descrição</th>
+                            <th>Adicionar Usuário</th>
+                            <th>Adicionar Porta</th>
+                            <th>Remover Usuáiro</th>
+                            <th>Remover Porta</th>
+                        </tr>
+                        {% for grupo in grupos %}
+                            <tr>
+                                <td>{{ grupo }}</td>
+                                <td><a href="{% url 'usuario_sem_acesso_grupo' grupo.pk %}"><span style="color:green"
+                                               class="glyphicon glyphicon-plus"> </span></a>
+                                </td>
+                                <td><a href="{% url 'porta_nao_grupo' grupo.pk %}"><span style="color:green"
+                                        class="glyphicon glyphicon-plus"> </span></a>
+                                </td>
+                                <td><a href="{% url 'usuario_acesso_grupo_list' grupo.pk %}"><span style="color:red"
+                                        class="glyphicon glyphicon-remove"></span></a>
+                                </td>
+                                <td><a href="{% url 'porta_no_grupo_list' grupo.pk %}"><span style="color:red"
+                                        class="glyphicon glyphicon-remove"></span></a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- /.row -->
+    </section>
+{% endblock %}

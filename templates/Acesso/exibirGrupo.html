@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block conteudo %}
+
+    <section class="container">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-sm-5 col-sm-offset-2">
+                <!-- general form elements -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title" style="text-align: center;">Grupo {{ grupo }}</h3>
+                    </div>
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>Usuários com Acesso</th>
+                        </tr>
+                        <tr>
+                            <td>
+                                {% for grupo_usuario in grupo_usuarios %}
+                                    <p>{{grupo_usuario.usuario | upper}}</p>
+                                {% endfor %}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- /.row -->
+    </section>
+{% endblock %}

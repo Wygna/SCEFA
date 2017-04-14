@@ -8,7 +8,7 @@
                 <!-- general form elements -->
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title" style="text-align: center;">Administradores</h3>
+                        <h3 class="panel-title" style="text-align: center;">Lista de Funcionários</h3>
                     </div>
                     <table class="table table-bordered">
                         <tr>
@@ -16,13 +16,12 @@
                             <th>Matrícula</th>
                             <th colspan="2"><center>Operações</center></th>
                         </tr>
-                        {% for administrador in administradores %}
+                        {% for funcionario in funcionarios %}
                             <tr>
-                                <td><a href="{% url 'funcionario_detail' administrador.pk %}"> {{administrador.nome | upper }}</a></td>
-                                <td>{{ administrador.matricula }}</td>
-                                <td><a href="{% url 'administrador_update' administrador.pk %}" class="glyphicon glyphicon-edit"></a></td>
-                                <td><a href="{% url 'remover_administrador' administrador.pk %}"style="color:red" class="glyphicon glyphicon-remove"></a></td>
-
+                                <td><a href="{% url 'funcionario_detail' funcionario.pk %}"> {{funcionario.nome | upper }}</a></td>
+                                <td>{{ funcionario.matricula }}</td>
+                                <td><a href="{% url 'funcionario_update' funcionario.pk %}" class="glyphicon glyphicon-edit"></a></td>
+                                <td><a href="{% url 'funcionario_delete' funcionario.pk %}" style="color:red" class="glyphicon glyphicon-remove"></a></td>
                             </tr>
                         {% endfor %}
                     </table>

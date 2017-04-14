@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block conteudo %}
+
+    <section class="container">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-sm-5 col-sm-offset-2">
+                <!-- general form elements -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title" style="text-align: center;">Cargo de {{ cargo }}</h3>
+                    </div>
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>Departamento</th>
+                            <th>Funcionários</th>
+                        </tr>
+                        <tr>
+                            <td> <a href="{% url 'departamento_detail' departamento.pk %}"> {{departamento | upper }}</a></td>
+                                <td>
+                                    {% for funcionario in funcionarios %}
+                                        <p><a href="{% url 'funcionario_detail' funcionario.pk %}"> {{funcionario | upper }}</a></p>
+                                    {% endfor %}
+                                </td>
+                        </tr>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- /.row -->
+    </section>
+{% endblock %}

@@ -29,7 +29,7 @@
         <script src="{% static "appPonto/js/script.js" %}"></script>
 
         <style>
-            .far{font-size:20px;}
+            .far{font-size:16px;}
             .branco {background-color: white}
         </style>
     <head>
@@ -147,7 +147,6 @@
                             <ul class="treeview-menu">
                                 <li><a href="{% url 'aluno_list' %}"><i class="fa fa-circle-o"></i>Alunos</a></li>
                                 <li><a href="{% url 'aluno_new' %}"><i class="fa fa-circle-o"></i>Cadastrar Aluno</a></li>
-
                             </ul>
                         </li>
                         <li class="treeview">
@@ -159,7 +158,10 @@
                             </a>
                             <ul class="treeview-menu">
                                 <li><a href="{% url 'porta_list' %}"><i class="fa fa-circle-o"></i>Portas</a></li>
-                                <li><a href="{% url 'porta_new' %}"><i class="fa fa-circle-o"></i>Cadastrar portas</a></li>
+                                <li><a href="{% url 'grupo_list' %}"><i class="fa fa-circle-o"></i>Grupos de Acesso</a></li>
+                                <li><a href="{% url 'grupo_new' %}"><i class="fa fa-circle-o"></i>Cadastrar Grupo</a></li>
+                                <li><a href="{% url 'porta_new' %}"><i class="fa fa-circle-o"></i>Cadastrar Portas</a></li>
+                                <li><a href="{% url 'acesso_grupo_list' %}"><i class="fa fa-circle-o"></i>Editar Grupo</a></li>
                             </ul>
                         </li>
                     {% endif %}
@@ -176,7 +178,20 @@
                                 <li><a href="pages/forms/advanced.html"><i class="fa fa-circle-o"></i>Frequências de Alunos</a></li>
                             </ul>
                         </li>
-
+                            <li class="treeview">
+                            <a href="#">
+                                <i class="far glyphicon glyphicon-tasks"></i> <span>Administração</span>
+                                <span class="pull-right-container">
+                                    <i class="far fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li><a href="{% url 'departamento_list' %}"><i class="fa fa-circle-o"></i>Departamentos</a></li>
+                                <li><a href="{% url 'cargo_list' %}"><i class="fa fa-circle-o"></i>Cargos</a></li>
+                                <li><a href="{% url 'departamento_new' %}"><i class="fa fa-circle-o"></i>Cadastrar Departamento</a></li>
+                                <li><a href="{% url 'cargo_new' %}"><i class="fa fa-circle-o"></i>Cadastrar Cargo</a></li>
+                            </ul>
+                        </li>
                         {% endif %}
                         {% if request.user.groups.all.0.name == 'funcionario'  %}
                             <li class="treeview">

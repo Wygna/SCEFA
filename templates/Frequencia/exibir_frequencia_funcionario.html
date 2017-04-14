@@ -14,19 +14,22 @@
 
                         <tr>
                             <th>Nome: {{ funcionario.nome }}</th>
-                            <th>faltas:  {{ data }}</th>
                         </tr>
                        <tr>
                            <th>Data</th>
                            <th>Registros</th>
-                            <th>Local</th>
+                           <th>CH</th>
+                           <th>Duração</th>
+                           <th>Obserção do Sistema</th>
                         </tr>
                         {% for frequencia in frequencias %}
                            <tr>
                                <td>{{ frequencia.data|date:"d/m/Y"}}({{ frequencia.diaSemana }})</td>
-                               <td>E: {{frequencia.hora_entrada}}
-                               <p style="color:red">S: {{ frequencia.hora_saida}}</p></td>
-                               <td>{{ frequencia.local}}</td>
+                                  <td> <p><b>E: </b><span style="color:green">{{ frequencia.hora_entrada}}</span> ({{ frequencia.local }})</p>
+                                   <p><b>S: </b> <span style="color:red">{{ frequencia.hora_saida}}</span> ({{ frequencia.local }})</p></td>
+                               <td>8h</td>
+                               <td></td>
+                               <td></td>
                            </tr>
                         {% endfor %}
                     </table>

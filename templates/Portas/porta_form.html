@@ -11,7 +11,7 @@
                         <h3 class="panel-title" style="text-align: center;">
                             {% if funcionario %}
                                 Editar Porta {% else %}
-                                Adcionar Porta
+                                Cadastrar Porta
                             {% endif %}
                         </h3>
                     </div>
@@ -20,8 +20,8 @@
                            {% csrf_token %}
                             <div class="form-group">
                             {% for field in form %}
-                                <label class="col-sm-4 control-label"for="{{ field.nome}}">
-                                                                        {{ field.name.upper }}
+                                <label class="col-sm-4 control-label"for="{{ field.name}}">
+                                                                        {{ field.label_tag }}
                                 </label>
                                 <div class="col-md-6">
                                     {{ field | add_class:'form-control' }}<br/>
