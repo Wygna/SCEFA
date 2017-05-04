@@ -19,7 +19,7 @@
             <div class="col-sm-6 col-sm-offset-2">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h5 class="panel-title" style="text-align: center;">Usuários Não inseridos no Grupo {{ grupo }}</h5>
+                        <h5 class="panel-title" style="text-align: center;">Inserir usuários no grupo {{ grupo }}</h5>
                     </div>
                     <table class="table table-bordered">
                         <tr>
@@ -34,7 +34,7 @@
                                 <td>
                                     <form action="{% url 'usuario_sem_acesso_grupo' grupo.pk %}">
                                         <input type="hidden" name="usuario" value="{{ usuario.pk }}">
-                                        <button type="submit" class="btn btn-facebook">
+                                        <button type="submit" class="btn btn-success">
                                             <span class="glyphicon glyphicon-plus"></span>
                                         </button>
                                     </form>

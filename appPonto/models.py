@@ -56,3 +56,11 @@ class Frequencia_funcionario(Frequencia):
                                ('view_frequencia_funcionario_admin', 'Can see frequencia a mais'),)
 
 
+class Dias_sem_expediente(models.Model):
+    data = models.DateField(default=timezone.now)
+
+    def __str__(self):
+        return self.data
+
+
+

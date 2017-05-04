@@ -157,11 +157,12 @@
                                 </span>
                             </a>
                             <ul class="treeview-menu">
-                                <li><a href="{% url 'porta_list' %}"><i class="fa fa-circle-o"></i>Portas</a></li>
-                                <li><a href="{% url 'grupo_list' %}"><i class="fa fa-circle-o"></i>Grupos de Acesso</a></li>
                                 <li><a href="{% url 'grupo_new' %}"><i class="fa fa-circle-o"></i>Cadastrar Grupo</a></li>
-                                <li><a href="{% url 'porta_new' %}"><i class="fa fa-circle-o"></i>Cadastrar Portas</a></li>
+                                <li><a href="{% url 'grupo_list' %}"><i class="fa fa-circle-o"></i>Grupos de Acesso</a></li>
                                 <li><a href="{% url 'acesso_grupo_list' %}"><i class="fa fa-circle-o"></i>Editar Grupo</a></li>
+                                <li><a href="{% url 'usuario_list' %}"><i class="fa fa-circle-o"></i>Adicionar Usuário</a></li>
+                                <li><a href="{% url 'porta_list' %}"><i class="fa fa-circle-o"></i>Portas</a></li>
+                                <li><a href="{% url 'porta_new' %}"><i class="fa fa-circle-o"></i>Cadastrar Portas</a></li>
                             </ul>
                         </li>
                     {% endif %}
