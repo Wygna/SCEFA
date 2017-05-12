@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'appalunos',
     'widget_tweaks',
     'appPortas',
+	'django_static_jquery',
 
 ]
 
@@ -125,7 +126,7 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
+#SECURE_REDIRECT_EXEMPT = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
@@ -134,3 +135,5 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
 UTH_USER_MODEL='appPonto.Funcionario'
+
+DATE_INPUT_FORMATS = ['%d/%m/%Y']

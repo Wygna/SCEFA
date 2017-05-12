@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 {% block conteudo %}
-
-    <section class="container">
+    <section class="container" xmlns="http://www.w3.org/1999/html">
         <div class="row">
             <!-- left column -->
             <div class="col-sm-9 col-sm-offset-1">
@@ -11,7 +10,6 @@
                         <h3 class="panel-title" style="text-align: center;">Frequências</h3>
                     </div>
                     <table class="table table-bordered">
-
                         <tr>
                             <th>Nome: {{ funcionario.nome }}</th>
                         </tr>
@@ -20,22 +18,43 @@
                            <th>Registros</th>
                            <th>CH</th>
                            <th>Duração</th>
-                           <th>Obserção do Sistema</th>
+                           <th>Observações do sistema</th>
+                           <th>Observações Pessoais</th>
                         </tr>
                         {% for frequencia in frequencias %}
                            <tr>
                                <td>{{ frequencia.data|date:"d/m/Y"}}({{ frequencia.diaSemana }})</td>
-                                  <td> <p><b>E: </b><span style="color:green">{{ frequencia.hora_entrada}}</span> ({{ frequencia.local }})</p>
-                                   <p><b>S: </b> <span style="color:red">{{ frequencia.hora_saida}}</span> ({{ frequencia.local }})</p></td>
+                                  <td> <p><b>E: </b><span style="color:green">{{ frequencia.hora_entrada.isoformat}}</span> ({{ frequencia.local }})</p>
+                                   <p><b>S: </b> <span style="color:red">{{ frequencia.hora_saida.isoformat}}</span> ({{ frequencia.local }})</p></td>
                                <td>8h</td>
-                               <td></td>
-                               <td></td>
+                               <td>{{ frequencia.hora_inicial_final }}</td>
+                               <td>
+                                   {% if frequencia.tempo_maximo == 1%}
+                                   <div class="alert alert-danger">
+                                        Tempo de trabalho superior a 10h!
+                                   </div>
+                                    {% endif %}
+                               </td>
+                               <td><button class="btn btn-circle btn-success" >Adicionar observação</button> </td>
                            </tr>
                         {% endfor %}
                     </table>
                 </div>
+            <table class="table table-bordered">
+                <tr>
+                    <th>Carga total da semana</th>
+                    <th>Número de dias úteis sem registros</th>
+                    <th>Número de dias úteis  trabalhados</th>
+                    <th>Periódo do relatório</th>
+                </tr>
+                <tr>
+                    <td>38:00:00</td>
+                    <td>4</td>
+                    <td>10</td>
+                    <td>{{ data_inicial }} até {{ data_final }}</td>
+                </tr>
+            </table>
             </div>
         </div>
-        <!-- /.row -->
     </section>
 {% endblock %}

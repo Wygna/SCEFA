@@ -1,14 +1,13 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
+import datetime
 
 class Pessoa(User):
     nome = models.CharField("Nome", max_length=255)
-    cpf = models.CharField('CPF',max_length=14)
     Email = models.EmailField("E-mail", max_length=200)
     telefone = models.CharField("Telefone", max_length=20)
     matricula = models.CharField("Matricula", max_length=10,unique=True)
-    data_nascimento = models.DateField('Data de Nascimento')
     senha = models.CharField(max_length=32)
 
     def __str__(self):
@@ -44,6 +43,16 @@ class Frequencia(models.Model):
     hora_saida = models.TimeField(default=timezone.now)
     local = models.CharField("local",max_length=200)
 
+    def hora_inicial_final(self):
+        formatacao = '%H:%M:%S'
+        t = datetime.datetime.strptime(str(self.hora_saida), formatacao) - datetime.datetime.strptime(str(self.hora_entrada), formatacao)
+        return t
+    def tempo_maximo(self):
+        formatacao = '%H:%M:%S'
+        tempo = str(datetime.datetime.strptime(str(self.hora_saida), formatacao) - datetime.datetime.strptime(str(self.hora_entrada), formatacao))
+        t = int(tempo[0])
+        return t
+
     def diaSemana(self):
         semana= ['Segunda-Feira', 'Terceira-Feira', 'Quarta-Feira',
         'Quinta-Feira', 'Sexta-Feira', 'Sábado', 'Domingo']
@@ -51,16 +60,17 @@ class Frequencia(models.Model):
 
 class Frequencia_funcionario(Frequencia):
     funcionario = models.ForeignKey(Funcionario,on_delete=models.PROTECT,verbose_name="Funcionario")
-
     class Meta: permissions = (('view_frequencia_funcionario', 'Can see frequencia'),
                                ('view_frequencia_funcionario_admin', 'Can see frequencia a mais'),)
-
 
 class Dias_sem_expediente(models.Model):
     data = models.DateField(default=timezone.now)
 
     def __str__(self):
-        return self.data
+        return self.data.
+
+
+
 
 
 

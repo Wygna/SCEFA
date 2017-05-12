@@ -40,7 +40,7 @@ urlpatterns = [
     url(r'^funcionario/frequencia/(?P<pk>\d+)$',
        funcionario_frequencia, name='funcionario_frequencia'),
 
-    url(r'^funcionario/busca/(?P<pk>\d+)$',
+    url(r'^funcionario/busca/frequencia/(?P<pk>\d+)$',
         funcionario_busca_frequencia, name='funcionario_busca_frequencia'),
 
 
