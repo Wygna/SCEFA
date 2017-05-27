@@ -67,7 +67,7 @@ class Dias_sem_expediente(models.Model):
     data = models.DateField(default=timezone.now)
 
     def __str__(self):
-        return self.data.
+        return self.data
 
 
 
