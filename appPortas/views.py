@@ -15,7 +15,7 @@ from django.db.models import Q
 def porta_list(request):
     criterio = request.GET.get('criterio')
     if criterio:
-        portas = Porta.objects.filter(descricao_name=criterio).order_by('descricao')
+        portas = Porta.objects.filter(descricao__icontains=criterio).order_by('descricao')
     else:
         portas = Porta.objects.all().order_by('descricao')
         criterio =""
@@ -71,18 +71,18 @@ def porta_delete(request,pk):
 def grupo_list(request):
     criterio = request.GET.get('criterio')
     if criterio:
-        grupos = Grupo.objects.filter(descricao_name=criterio).order_by('descricao')
+        grupos = Grupo.objects.filter(descricao__icontains=criterio).order_by('descricao')
     else:
         grupos = Grupo.objects.all().order_by('descricao')
         criterio =""
-    paginator =Paginator(grupos,4)
+    paginator =Paginator(grupos,10)
     page = request.GET.get('page')
     try:
         grupos = paginator.page(page)
     except PageNotAnInteger:
-        portas=paginator.page(1)
+        grupos=paginator.page(1)
     except EmptyPage:
-        portas = paginator.page(paginator.num_pages)
+        grupos = paginator.page(paginator.num_pages)
     dados={'grupos':grupos,'criterio':criterio,'paginator':paginator,'page_obj':grupos}
     return render(request, 'Grupo/grupo_list.html',dados)
 
@@ -92,13 +92,13 @@ def grupo_detail(request,pk):
     usuario = request.GET.get('usuario')
     grupo = Grupo.objects.get(id=pk)
     if usuario:
-        usuario_grupo = Usuario_Grupo.objects.get(usuario=usuario)
+        usuario_grupo = Pessoa_Grupo.objects.get(pessoa=usuario)
         usuario_grupo.delete()
     if criterio:
-        usuarios_acesso = Usuario.objects.filter(usuario_grupo__grupo=grupo,
-                                                 pessoa__nome__contains=criterio).order_by('pessoa__nome')
+        usuarios_acesso = Pessoa.objects.filter(pessoa_grupo__grupo=grupo,
+                                                 nome__icontains=criterio).order_by('nome')
     else:
-        usuarios_acesso = Usuario.objects.filter(usuario_grupo__grupo=grupo).order_by('pessoa__nome')
+        usuarios_acesso = Pessoa.objects.filter(pessoa_grupo__grupo=grupo).order_by('nome')
         criterio = ""
     paginator = Paginator(usuarios_acesso, 5)
     page = request.GET.get('page')
@@ -143,19 +143,19 @@ def grupo_delete(request,pk):
     grupo.delete()
     return redirect('grupo_list')
 
-@permission_required('appPortas.view_usuario',login_url='erro_permissao')
+@permission_required('appPonto.view_pessoa',login_url='erro_permissao')
 def usuario_sem_acesso_grupo(request,pk):
     criterio = request.GET.get('criterio')
     usuario = request.GET.get('usuario')
     grupo = Grupo.objects.get(id=pk)
     if usuario:
-        usuario_grupo = Usuario_Grupo(grupo=grupo,usuario_id=usuario)
+        usuario_grupo = Pessoa_Grupo(grupo=grupo,pessoa_id=usuario)
         usuario_grupo.save()
     if criterio:
-        usuarios_sem_acesso = Usuario.objects.filter(~Q(usuario_grupo__grupo=grupo),
-                                                     pessoa__nome__contains=criterio).order_by('pessoa__nome')
+        usuarios_sem_acesso = Pessoa.objects.filter(~Q(pessoa_grupo__grupo=grupo),
+                                                     pessoa__nome__contains=criterio).order_by('nome')
     else:
-        usuarios_sem_acesso = Usuario.objects.filter(~Q(usuario_grupo__grupo=grupo)).order_by('pessoa__nome')
+        usuarios_sem_acesso = Pessoa.objects.filter(~Q(pessoa_grupo__grupo=grupo)).order_by('nome')
         criterio = ""
     paginator = Paginator(usuarios_sem_acesso, 5)
     page = request.GET.get('page')
@@ -169,19 +169,19 @@ def usuario_sem_acesso_grupo(request,pk):
              'page_obj': usuarios_sem_acesso}
     return render(request, 'Acesso/usuario_sem_acesso_grupo.html', dados)
 
-@permission_required('appPortas.view_usuario',login_url='erro_permissao')
+@permission_required('appPonto.view_pessoa',login_url='erro_permissao')
 def usuario_acesso_grupo_list(request,pk):
     criterio = request.GET.get('criterio')
     usuario = request.GET.get('usuario')
     grupo = Grupo.objects.get(id=pk)
     if usuario:
-        usuario_grupo = Usuario_Grupo.objects.get(usuario=usuario)
+        usuario_grupo = Pessoa_Grupo.objects.get(pessoa=usuario)
         usuario_grupo.delete()
     if criterio:
-        usuarios_acesso = Usuario.objects.filter(usuario_grupo__grupo=grupo,
-                                                     pessoa__nome__contains=criterio).order_by('pessoa__nome')
+        usuarios_acesso = Pessoa.objects.filter(pessoa_grupo__grupo=grupo,
+                                                     pessoa__nome__contains=criterio).order_by('nome')
     else:
-        usuarios_acesso = Usuario.objects.filter(usuario_grupo__grupo=grupo).order_by('pessoa__nome')
+        usuarios_acesso = Pessoa.objects.filter(pessoa_grupo__grupo=grupo).order_by('nome')
         criterio = ""
     paginator = Paginator(usuarios_acesso, 5)
     page = request.GET.get('page')
@@ -195,15 +195,38 @@ def usuario_acesso_grupo_list(request,pk):
              'page_obj': usuarios_acesso}
     return render(request, 'Acesso/usuario_acesso_grupo_list.html', dados)
 
-@permission_required('appPortas.view_usuario',login_url='erro_permissao')
+@permission_required('appPonto.view_pessoa',login_url='erro_permissao')
+def usuario_grupo_list(request,pk):
+    criterio = request.GET.get('criterio')
+    grupo = Grupo.objects.get(id=4)
+    if criterio:
+        usuarios = Pessoa.objects.filter(pessoa_grupo__grupo=grupo,
+                                                     nome__icontains=criterio).order_by('nome')
+    else:
+        usuarios = Pessoa.objects.filter(pessoa_grupo__grupo=grupo).order_by('nome')
+        criterio = ""
+    paginator = Paginator(usuarios, 10)
+    page = request.GET.get('page')
+    try:
+        usuarios = paginator.page(page)
+    except PageNotAnInteger:
+        usuarios = paginator.page(1)
+    except EmptyPage:
+        usuarios = paginator.page(paginator.num_pages)
+    dados = {'usuarios_acesso': usuarios,'grupo': grupo, 'criterio': criterio, 'paginator': paginator,
+             'page_obj': usuarios}
+    return render(request, 'Grupo/exibirGrupo.html', dados)
+
+
+@permission_required('appPonto.view_pessoa',login_url='erro_permissao')
 def usuario_list(request):
     criterio = request.GET.get('criterio')
     if criterio:
-        usuarios = Usuario.objects.filter(pessoa__nome=criterio).order_by('pessoa__nome')
+        usuarios = Pessoa.objects.filter(nome=criterio).order_by('nome')
     else:
-        usuarios = Usuario.objects.all().order_by('pessoa__nome')
+        usuarios = Pessoa.objects.all().order_by('nome')
         criterio =""
-    paginator =Paginator(usuarios,4)
+    paginator =Paginator(usuarios,10)
     page = request.GET.get('page')
     try:
         usuarios = paginator.page(page)
@@ -289,5 +312,4 @@ def acesso_grupo_list(request):
 @permission_required('appPonto.view_funcionario',login_url='erro_permissao')
 def adicionar_acesso_funcionario(request,pk):
     funcionario = Funcionario.objects.get()
-
     return redirect('administrador_new')

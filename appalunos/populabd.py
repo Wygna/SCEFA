@@ -1,16 +1,13 @@
 from django.contrib.auth.models import Group
 from appalunos.models import RegistrarPonto,Aluno
 
-aluno = Aluno(username='1183',data_nascimento='2000-01-01',cpf='100.200.000-45',first_name='Paulo',nome='Paulo',
+aluno = Aluno(username='1183',first_name='Paulo',nome='Paulo',
                   Email='Paulo@gmail.com',telefone='(84)99102-3323',matricula='1183',password='123')
-aluno2 = Aluno(username='120',data_nascimento='2000-12-01',cpf='100.209.000-45',first_name='Joao',nome='Joao',Email='joao@gmail.com',
+aluno2 = Aluno(username='120',first_name='Joao',nome='Joao',Email='joao@gmail.com',
                matricula='120',password='123')
-aluno3 = Aluno(username='130',data_nascimento='2005-01-01',cpf='100.200.000-15',
-               first_name='Lucas',nome='Lucas',Email='lucas@gmail.com',matricula='130',password='123')
-aluno4 = Aluno(username='1110',data_nascimento='2000-01-20',cpf='111.200.000-45',
-               first_name='Judas',nome='Judas',Email='judas@gmail.com',matricula='1110',password='123')
-aluno5 = Aluno(username='1190',data_nascimento='2004-01-01',cpf='140.200.000-45',first_name='Daniel',nome='Daniel',
-               Email='daniel@gmail.com',matricula='1190',password='123')
+aluno3 = Aluno(username='130', first_name='Lucas',nome='Lucas',Email='lucas@gmail.com',matricula='130',password='123')
+aluno4 = Aluno(username='1110',first_name='Judas',nome='Judas',Email='judas@gmail.com',matricula='1110',password='123')
+aluno5 = Aluno(username='1190',first_name='Daniel',nome='Daniel',Email='daniel@gmail.com',matricula='1190',password='123')
 aluno.save()
 aluno2.save()
 aluno3.save()

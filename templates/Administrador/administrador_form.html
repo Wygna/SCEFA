@@ -3,8 +3,19 @@
 
     <section class="container">
         <div class="row">
+        <fieldset>
+             <div class="col-sm-6 col-sm-offset-3">
+                 <form class="navbar-form navbar-left" role="search" method="get" action="">
+                    <div class="form-group">
+                      <label>Descrição:</label>
+                        <input type="text" id="criterio" name="criterio" value="{{ criterio }}" class="form-control" placeholder="Descrição">
+                    </div>
+                    <button type="submit" class="btn btn-default">Buscar</button>
+                 </form>
+             </div>
+            </fieldset>
             <!-- left column -->
-            <div class="col-sm-9 col-sm-offset-1">
+            <div class="col-sm-6 col-sm-offset-2">
                 <!-- general form elements -->
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -12,20 +23,24 @@
                     </div>
                     <table class="table table-bordered">
                         <tr>
-                            <th>Nome</th>
-                            <th>Matrícula</th>
+                            <th><center>Nome</center></th>
+                            <th><center>Matrícula</center></th>
                             <th><center>Adicionar</center></th>
                         </tr>
                         {% for funcionario in funcionarios %}
                             <tr>
-                                <td><a href="{% url 'funcionario_detail' funcionario.pk %}"> {{funcionario.nome | upper }}</a></td>
-                                <td>{{ funcionario.matricula }}</td>
-                                <td><a href="{% url 'administrador_add' funcionario.pk %}" style="color:green" class="glyphicon glyphicon-plus"></a></td>
+                                <td style="text-align: center"><a href="{% url 'funcionario_detail' funcionario.pk %}"> {{funcionario.nome | upper }}</a></td>
+                                <td style="text-align: center">{{ funcionario.matricula }}</td>
+                                <td style="text-align: center">
+                                    <form action="{% url 'administrador_add' funcionario.pk %}">
+                                        <button type="submit" class="btn btn-success">
+                                            <span class="glyphicon glyphicon-plus"></span>
+                                        </button>
+                                    </form>
                             </tr>
                         {% endfor %}
                     {{ car }}
                     </table>
-
                 </div>
             </div>
         </div>

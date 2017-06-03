@@ -1,14 +1,28 @@
 {% extends 'base.html' %}
 {% block conteudo %}
-
-    <h2>Dados do Funcionario</h2>
-    <ul>
-        <li>Nome: {{ funcionario.nome}}</li>
-        <li>Matricula: {{ funcionario.matricula }}</li>
-        <li>Telefone: {{ funcionario.telefone}}</li>
-        <li>E-mail: {{ funcionario.Email}}</li>
-        <li>Cargo: {{ funcionario.cargo}}</li>
-        <li>Departamento: {{ funcionario.cargo.departamento}}</li>
-
-    </ul>
+    <br>
+     <div class="col-sm-5 col-sm-offset-3">
+                <!-- general form elements -->
+         <div class="panel panel-default">
+             <div class="panel-heading">
+                 <h3 class="panel-title" style="text-align: center;">Dados do Funcionário</h3>
+             </div>
+             <table class="table table-bordered">
+        <tr>
+            <td><b>Nome:</b> {{funcionario.nome}}</td></tr>
+        <tr>
+            <td><b>Matricula:</b> {{ funcionario.matricula }}</td>
+        </tr>
+        <tr>
+            <td><b>Telefone:</b> {{ funcionario.telefone}}</td>
+        </tr>
+        <tr>
+            <td><b>E-mail:</b> {{ funcionario.Email}}</td>
+        </tr>
+        <tr>
+            <td><b>Departamento:</b> {{ funcionario.cargo.departamento}}</td>
+        </tr>
+    </table>
+         </div>
+     </div>
 {% endblock %}

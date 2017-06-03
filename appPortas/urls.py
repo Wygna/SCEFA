@@ -20,8 +20,9 @@ urlpatterns = [
 
     url(r'^acesso/grupo/list$', acesso_grupo_list, name='acesso_grupo_list'),
 
-    url(r'^usuario/list$', usuario_list, name='usuario_list'),
+   # url(r'^usuario/list$', usuario_list, name='usuario_list'),
     url(r'^usuario/detail/(?P<pk>\d+)$',grupo_detail, name='usuario_detail'),
+    url(r'^usuario/grupo/list/(?P<pk>\d+)$', usuario_grupo_list, name='usuario_grupo_list'),
     url(r'^usuario/acesso/grupo/list/(?P<pk>\d+)$', usuario_acesso_grupo_list, name='usuario_acesso_grupo_list'),
     url(r'^usuario/sem_acesso/grupo/(?P<pk>\d+)$', usuario_sem_acesso_grupo, name='usuario_sem_acesso_grupo'),
 

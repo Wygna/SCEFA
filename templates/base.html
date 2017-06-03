@@ -4,7 +4,7 @@
     <head>
         <meta charset="utf-8"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-        <title>SREP</title>
+        <title>SCEFA</title>
 
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
@@ -22,7 +22,6 @@
         <script src="{% static "appPonto/js/bootstrap.min.js" %}"></script>
 
         <script src="{% static "appPonto/js/plugue/app.min.js" %}"></script>
-
         <style>
             .far{font-size:16px;}
             .branco {background-color: white}
@@ -33,10 +32,7 @@
             <header class="main-header">
                 <!-- Logo -->
                 <a href="{% url 'home' %}" class="logo">
-                    <!-- mini logo for sidebar mini 50x50 pixels -->
-                    <span class="logo-mini">SREP</span>
-                    <!-- logo for regular state and mobile devices -->
-                    <span class="logo-lg">SREP</span>
+                    <span class="logo-lg">SCEFA</span>
                 </a>
                 <!-- Header Navbar: style can be found in header.less -->
                 <nav class="navbar navbar-static-top">
@@ -57,13 +53,11 @@
                                     <!-- User image -->
                                     <li class="user-header">
                                         <img src="{% static 'appPonto/img/avatar-mini3.jpg' %}" class="user-image" alt="User Image"/>
-
                                         <p>
                                             {{ request.user.pessoa.nome}} - Web Developer
                                             <small>Member since Nov. 2012</small>
                                         </p>
                                     </li>
-
                                     <!-- Menu Footer-->
                                     <li class="user-footer">
                                         <div class="pull-left">
@@ -87,7 +81,6 @@
                     <div class="user-panel">
                         <div class="pull-left image">
                             <img src="{% static 'appPonto/img/avatar-mini3.jpg' %}" class="img-circle" alt="User Image"/>
-
                         </div>
                         <div class="pull-left info">
                             <p>{{ request.user.pessoa.nome }}</p>
@@ -116,22 +109,19 @@
                         <li class="treeview">
                             <a href="#">
                                 <i class="far glyphicon glyphicon-user"></i>
-                                <span>Ponto Funcionário</span>
+                                <span>Funcionário</span>
                                 <span class="pull-right-container">
                                     <i class="far fa fa-angle-left pull-right"></i>
                                 </span>
                             </a>
-
                             <ul class="treeview-menu">
                                 <li><a href="{% url 'funcionario_list' %}"><i class="fa fa-circle-o"></i>Funcionários</a></li>
                                 <li><a href="{% url 'administrador_list' %}"><i class="fa fa-circle-o"></i>Administradores</a></li>
-                                <li><a href="{% url 'funcionario_new' %}"><i class="fa fa-circle-o"></i>Cadastrar Funcionário</a></li>
+                                <li><a href="{% url 'funcionario_new' %}"><i class="fa fa-circle-o"></i>Cadastrar</a></li>
                                 <li><a href="{% url 'administrador_new' %}"><i class="fa fa-circle-o"></i>Adicionar Administrador</a></li>
-
                             </ul>
                         </li>
-
-                         <li class="user-o">
+                            <li class="user-o">
                             <a href="#">
                                 <i class="far fa fa-user"></i>
                                 <span>Ponto Alunos</span>
@@ -155,7 +145,6 @@
                                 <li><a href="{% url 'grupo_new' %}"><i class="fa fa-circle-o"></i>Cadastrar Grupo</a></li>
                                 <li><a href="{% url 'grupo_list' %}"><i class="fa fa-circle-o"></i>Grupos de Acesso</a></li>
                                 <li><a href="{% url 'acesso_grupo_list' %}"><i class="fa fa-circle-o"></i>Editar Grupo</a></li>
-                                <li><a href="{% url 'usuario_list' %}"><i class="fa fa-circle-o"></i>Adicionar Usuário</a></li>
                                 <li><a href="{% url 'porta_list' %}"><i class="fa fa-circle-o"></i>Portas</a></li>
                                 <li><a href="{% url 'porta_new' %}"><i class="fa fa-circle-o"></i>Cadastrar Portas</a></li>
                             </ul>

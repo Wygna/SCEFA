@@ -3,6 +3,17 @@
 
     <section class="container">
         <div class="row">
+        <fieldset>
+             <div class="col-sm-6 col-sm-offset-3">
+                 <form class="navbar-form navbar-left" role="search" method="get" action="">
+                    <div class="form-group">
+                      <label>Descrição:</label>
+                        <input type="text" id="criterio" name="criterio" value="{{ criterio }}" class="form-control" placeholder="Descrição">
+                    </div>
+                    <button type="submit" class="btn btn-default">Buscar</button>
+                 </form>
+             </div>
+            </fieldset>
             <!-- left column -->
             <div class="col-sm-6 col-sm-offset-2">
                 <!-- general form elements -->
@@ -24,6 +35,7 @@
                         {% endfor %}
                     </table>
                 </div>
+                {% include 'utils/paginacao.html' %}
             </div>
         </div>
         <!-- /.row -->

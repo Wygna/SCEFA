@@ -14,15 +14,15 @@ cargo.save()
 cargo2.save()
 cargo3.save()
 
-funcionario = Funcionario(username='11',cargo=cargo,data_nascimento='2001-07-01',cpf='100.000.000-45',first_name='jose',nome='Jose',
+funcionario = Funcionario(username='11',cargo=cargo,first_name='jose',nome='Jose',
                           Email='jose@gmail.com',telefone='(84)99122-3323',matricula='11',password='123')
-funcionario2 = Funcionario(username='12',cargo=cargo2,data_nascimento='2002-11-01',cpf='100.100.000-45',first_name='valerio',nome='Valerio',
+funcionario2 = Funcionario(username='12',cargo=cargo2,first_name='valerio',nome='Valerio',
                            Email='valerio@gmail.com',telefone='(84)99122-0000',matricula='12',password='123')
-funcionario3 = Funcionario(username='13',cargo=cargo,data_nascimento='1990-10-01',cpf='100.010.000-45',first_name='Marcos',nome='Marcos',
+funcionario3 = Funcionario(username='13',cargo=cargo,first_name='Marcos',nome='Marcos',
                            Email='marcos@gmail.com',telefone='(84)99100-3323',matricula='13',password='123')
-funcionario4 = Funcionario(username='111',cargo=cargo,data_nascimento='2003-01-11',cpf='100.001.000-45',first_name='fernanda',nome='Fernanda',
+funcionario4 = Funcionario(username='111',cargo=cargo,first_name='fernanda',nome='Fernanda',
                            Email='fernanda@gmail.com',telefone='(84)98122-3323',matricula='111',password='123')
-funcionario5 = Funcionario(username='119',cargo=cargo3,data_nascimento='1973-01-21',cpf='100.200.000-45', first_name='karol',nome='Karol',
+funcionario5 = Funcionario(username='119',cargo=cargo3, first_name='karol',nome='Karol',
                            Email='karol@gmail.com',telefone='(84)99122-3303',matricula='119',password='123')
 funcionario.save()
 funcionario2.save()

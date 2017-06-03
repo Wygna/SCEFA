@@ -1,31 +1,50 @@
 {% extends 'base.html' %}
 {% block conteudo %}
+    <style>
+    td,th{
+        text-align: center;
+    }
+    </style>
 
     <section class="container">
         <div class="row">
+
+           <fieldset>
+             <div class="col-sm-6 col-sm-offset-3">
+                 <form class="navbar-form navbar-left" role="search" method="get" action="">
+                    <div class="form-group">
+                      <label>Descrição:</label>
+                        <input type="text" id="criterio" name="criterio" value="{{ criterio }}" class="form-control" placeholder="Descrição">
+                    </div>
+                    <button type="submit" class="btn btn-default">Buscar</button>
+                 </form>
+             </div>
+            </fieldset>
+
             <!-- left column -->
-            <div class="col-sm-9 col-sm-offset-1">
+            <div class="col-sm-6 col-sm-offset-2">
                 <!-- general form elements -->
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title" style="text-align: center;">Lista de Funcionários</h3>
+                        <h3 class="panel-title" style="text-align: center;">Funcionários</h3>
                     </div>
                     <table class="table table-bordered">
                         <tr>
                             <th>Nome</th>
                             <th>Matrícula</th>
-                            <th colspan="2"><center>Operações</center></th>
+                            <th>Operações</th>
                         </tr>
                         {% for funcionario in funcionarios %}
                             <tr>
                                 <td><a href="{% url 'funcionario_detail' funcionario.pk %}"> {{funcionario.nome | upper }}</a></td>
                                 <td>{{ funcionario.matricula }}</td>
-                                <td><a href="{% url 'funcionario_update' funcionario.pk %}" class="glyphicon glyphicon-edit"></a></td>
+                                <td> <a href="{% url 'funcionario_update' funcionario.pk %}" class="glyphicon glyphicon-edit"></a></td>
                                 <td><a href="{% url 'funcionario_delete' funcionario.pk %}" style="color:red" class="glyphicon glyphicon-remove"></a></td>
                             </tr>
                         {% endfor %}
                     </table>
                 </div>
+                {% include 'utils/paginacao.html' %}
             </div>
         </div>
         <!-- /.row -->

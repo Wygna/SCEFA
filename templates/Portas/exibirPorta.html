@@ -18,7 +18,7 @@
                         {% for grupo in grupos %}
                             <tr>
                                 <td>{{ grupo.grupo }}</td>
-                                <td><a href="{% url 'grupo_detail' grupo.pk %}"> Usuários com Acesso</a></td>
+                                <td><a href="{% url 'usuario_grupo_list' grupo.pk %}"> Usuários</a></td>
                                 <td><a href="{% url 'cargo_delete' grupo.pk %}" style="color:red" class="glyphicon glyphicon-remove"></a></td>
                             </tr>
                         {% endfor %}

@@ -7,8 +7,8 @@ class Pessoa(User):
     nome = models.CharField("Nome", max_length=255)
     Email = models.EmailField("E-mail", max_length=200)
     telefone = models.CharField("Telefone", max_length=20)
-    matricula = models.CharField("Matricula", max_length=10,unique=True)
     senha = models.CharField(max_length=32)
+    class Meta: permissions = (('view_pessoa', 'Can see pessoa'),)
 
     def __str__(self):
         return self.nome
@@ -27,6 +27,7 @@ class Cargo(models.Model):
         return self.nome_funcao
 
 class Funcionario(Pessoa):
+    matricula = models.CharField("Matricula", max_length=10,unique=True)
     cargo = models.ForeignKey(Cargo,on_delete=models.PROTECT,verbose_name="Cargo")
 
     def setCargo(self,funcao):
@@ -42,16 +43,18 @@ class Frequencia(models.Model):
     hora_entrada = models.TimeField(default=timezone.now)
     hora_saida = models.TimeField(default=timezone.now)
     local = models.CharField("local",max_length=200)
+    observacao = models.CharField("Observação",max_length=200)
+
 
     def hora_inicial_final(self):
         formatacao = '%H:%M:%S'
-        t = datetime.datetime.strptime(str(self.hora_saida), formatacao) - datetime.datetime.strptime(str(self.hora_entrada), formatacao)
-        return t
+        hora = datetime.datetime.strptime(str(self.hora_saida), formatacao) - datetime.datetime.strptime(str(self.hora_entrada), formatacao)
+        return hora
     def tempo_maximo(self):
         formatacao = '%H:%M:%S'
         tempo = str(datetime.datetime.strptime(str(self.hora_saida), formatacao) - datetime.datetime.strptime(str(self.hora_entrada), formatacao))
-        t = int(tempo[0])
-        return t
+        tempo_maximo = int(tempo[0])
+        return tempo_maximo
 
     def diaSemana(self):
         semana= ['Segunda-Feira', 'Terceira-Feira', 'Quarta-Feira',
@@ -67,7 +70,7 @@ class Dias_sem_expediente(models.Model):
     data = models.DateField(default=timezone.now)
 
     def __str__(self):
-        return self.data
+        return self.data.isoformat()
 
 
 

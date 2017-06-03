@@ -27,7 +27,7 @@ def erro_permissao(request):
 def funcionario_list(request):
     criterio = request.GET.get('criterio')
     if criterio:
-        funcionarios = Funcionario.objects.filter(nome__contains=criterio).order_by('nome')
+        funcionarios = Funcionario.objects.filter(nome__icontains=criterio).order_by('nome')
     else:
         funcionarios = Funcionario.objects.all().order_by('nome')
         criterio =""
@@ -41,6 +41,16 @@ def funcionario_list(request):
         funcionarios = paginator.page(paginator.num_pages)
     dados={'funcionarios':funcionarios,'criterio':criterio,'paginator':paginator,'page_obj':funcionarios}
     return render(request, 'Funcionario/funcionario_list.html',dados)
+
+@permission_required('appPonto.delete_funcionario',login_url='erro_permissao')
+def funcionario_delete(request,pk):
+    try:
+        funcionairo =Funcionario.objects.get(id=pk)
+        funcionairo.delete()
+        return redirect('funcionario_list')
+    except Exception:
+        mensagem ={'mensagem':'Não é possível excluir funcionario, excluir o funcionario selecionado exigiria excluir as frequências registradas'}
+        return render(request,'utils/pagina_erro.html',mensagem)
 
 @permission_required('appPonto.view_funcionario',login_url='erro_permissao')
 def funcionario_detail(request,pk):
@@ -88,7 +98,7 @@ def funcionairo_update(request,pk):
 def departamento_list(request):
     criterio = request.GET.get('criterio')
     if criterio:
-        departamentos = Departamento.objects.filter(descricao__contains=criterio).order_by('descricao')
+        departamentos = Departamento.objects.filter(descricao__icontains=criterio).order_by('descricao')
     else:
         departamentos = Departamento.objects.all().order_by('descricao')
         cargos = Cargo.objects.filter()
@@ -145,7 +155,7 @@ def departamento_delete(request,pk):
 def cargo_list(request):
     criterio = request.GET.get('criterio')
     if criterio:
-        cargos = Cargo.objects.filter(nome_funcao__contains=criterio).order_by('nome_funcao')
+        cargos = Cargo.objects.filter(nome_funcao__icontains=criterio).order_by('nome_funcao')
     else:
         departamentos = Cargo.objects.all().order_by('nome_funcao')
         cargos = Cargo.objects.filter()
@@ -218,19 +228,14 @@ def funcionairo_administrardor_update(request, pk):
         dados = {'form': form,'aluno':funcionario}
         return render(request, 'Funcionario/funcionario_form.html', dados)
 
-@permission_required('appPonto.delete_funcionario',login_url='erro_permissao')
-def funcionario_delete(request,pk):
-    funcionairo =Funcionario.objects.get(id=pk)
-    funcionairo.delete()
-    return redirect('funcionario_list')
 
 @permission_required('appPonto.view_funcionario',login_url='erro_permissao')
 def administrador_list(request):
     criterio = request.GET.get('criterio')
     if criterio:
-        administradores = Funcionario.objects.filter(cargo__nome_funcao='Administrador')
+        administradores = Funcionario.objects.filter(cargo__nome_funcao='Administrador',nome__icontains=criterio).order_by('nome')
     else:
-        administradores = Funcionario.objects.filter(cargo__nome_funcao='Administrador')
+        administradores = Funcionario.objects.filter(cargo__nome_funcao='Administrador').order_by('nome')
         criterio =""
     paginator =Paginator(administradores,4)
     page = request.GET.get('page')
