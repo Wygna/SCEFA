@@ -1,6 +1,21 @@
 {% extends 'base.html' %}
 {% block conteudo %}
-
+     <style>
+        td,th{
+            text-align: center;
+        }
+    </style>
+    <fieldset>
+             <div class="col-sm-6 col-sm-offset-3">
+                 <form class="navbar-form navbar-left" role="search" method="get" action="">
+                    <div class="form-group">
+                      <label>Descrição:</label>
+                        <input type="text" id="criterio" name="criterio" value="{{ criterio }}" class="form-control" placeholder="Descrição">
+                    </div>
+                    <button type="submit" class="btn btn-default">Buscar</button>
+                 </form>
+             </div>
+            </fieldset>
     <section class="container-fluid">
         <div class="row">
             <!-- left column -->
@@ -14,10 +29,10 @@
                     <table class="table table-bordered">
                         <tr>
                             <th>Descrição</th>
-                            <th style="width: 10px">Adicionar Usuário</th>
-                            <th>Adicionar Porta</th>
-                            <th>Remover Usuário</th>
-                            <th>Remover Porta</th>
+                            <th>Inserir Usuário</th>
+                            <th>Inserir Porta</th>
+                            <th>Excluir Usuário</th>
+                            <th>Excluir Porta</th>
                         </tr>
                         {% for grupo in grupos %}
                             <tr>
@@ -34,13 +49,13 @@
                                         </button>
                                     </form>
                                 </td>
-                                <td><form action="{% url 'usuario_acesso_grupo_list' grupo.pk %}">
+                                <td><form action="{% url 'usuario_acesso_grupo' grupo.pk %}">
                                         <button type="submit" class="btn btn-danger">
                                             <span class="glyphicon glyphicon-remove"></span>
                                         </button>
                                     </form>
                                 </td>
-                                <td><form action="{% url 'porta_no_grupo_list' grupo.pk %}">
+                                <td><form action="{% url 'porta_no_grupo' grupo.pk %}">
                                         <button type="submit" class="btn btn-danger">
                                             <span class="glyphicon glyphicon-remove"></span>
                                         </button>
@@ -51,6 +66,7 @@
                     </table>
                 </div>
                 </div>
+                {% include 'utils/paginacao.html' %}
             </div>
         </div>
         <!-- /.row -->

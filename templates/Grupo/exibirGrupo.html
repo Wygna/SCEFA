@@ -1,11 +1,15 @@
 {% extends 'base.html' %}
 {% block conteudo %}
-    <br/>
+    <style>
+        td,th{
+            text-align: center;
+        }
+    </style>
     <section class="container">
         <div class="row">
             <!-- left column -->
             <fieldset>
-             <div class="col-sm-6 col-sm-offset-2">
+             <div class="col-sm-6 col-sm-offset-3">
                  <form class="navbar-form navbar-left" role="search" method="get" action="">
                     <div class="form-group">
                       <label>Descrição:</label>
@@ -15,11 +19,11 @@
                  </form>
              </div>
             </fieldset>
-        <br/>
+
             <div class="col-sm-6 col-sm-offset-2">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h5 class="panel-title" style="text-align: center;">Usuários do Grupo {{ grupo }}</h5>
+                        <h5 class="panel-title" style="text-align: center;">Usuários do grupo {{ grupo }}</h5>
                     </div>
                     <table class="table table-bordered">
                         <tr>
@@ -32,7 +36,7 @@
                                 <td>{{ usuario }}</td>
                                 <td>{{ usuario.username }}</td>
                                 <td>
-                                    <form action="{% url 'usuario_acesso_grupo_list' grupo.pk %}">
+                                    <form action="{% url 'grupo_detail' grupo.pk %}">
                                         <input type="hidden" name="usuario" value="{{ usuario.pk }}">
                                         <button type="submit" class="btn btn-danger">
                                             <span class="glyphicon glyphicon-remove"></span>

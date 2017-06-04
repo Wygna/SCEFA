@@ -32,6 +32,10 @@ def porta_list(request):
 
 @permission_required('appPortas.view_porta',login_url='erro_permissao')
 def porta_detail(request,pk):
+    grupo = request.GET.get('grupo')
+    if grupo:
+        porta_grupo = Porta_Grupo.objects.get(gr)
+        porta_grupo.delete()
     porta = Porta.objects.get(id=pk)
     grupos = Porta_Grupo.objects.filter(porta=porta)
     return render(request,'Portas/exibirPorta.html',{'porta':porta,'grupos':grupos})
@@ -61,11 +65,15 @@ def porta_update(request,pk):
         dados = {'form': form,'porta':porta}
         return render(request, 'Portas/porta_form.html', dados)
 
-@permission_required('appPonto.delete_porta',login_url='erro_permissao')
+@permission_required('appPortas.delete_porta',login_url='erro_permissao')
 def porta_delete(request,pk):
-    porta =Porta.objects.get(id=pk)
-    porta.delete()
-    return redirect('porta_list')
+    try:
+        porta =Porta.objects.get(id=pk)
+        porta.delete()
+        return redirect('porta_list')
+    except Exception:
+        mensagem ={'mensagem':'Não é possível excluir porta, a porta selecionado está relacionado a um grupo'}
+        return render(request,'utils/pagina_erro.html',mensagem)
 
 @permission_required('appPortas.view_grupo',login_url='erro_permissao')
 def grupo_list(request):
@@ -92,7 +100,7 @@ def grupo_detail(request,pk):
     usuario = request.GET.get('usuario')
     grupo = Grupo.objects.get(id=pk)
     if usuario:
-        usuario_grupo = Pessoa_Grupo.objects.get(pessoa=usuario)
+        usuario_grupo = Pessoa_Grupo.objects.get(pessoa_id=usuario,grupo=grupo)
         usuario_grupo.delete()
     if criterio:
         usuarios_acesso = Pessoa.objects.filter(pessoa_grupo__grupo=grupo,
@@ -139,9 +147,14 @@ def grupo_update(request,pk):
 
 @permission_required('appPortas.delete_grupo',login_url='erro_permissao')
 def grupo_delete(request,pk):
-    grupo = Grupo.objects.get(id=pk)
-    grupo.delete()
-    return redirect('grupo_list')
+    try:
+        grupo = Grupo.objects.get(id=pk)
+        grupo.delete()
+        return redirect('grupo_list')
+    except Exception:
+        mensagem = {
+            'mensagem': 'Não é possível excluir grupo, o grupo tem portas relacionadas'}
+        return render(request, 'utils/pagina_erro.html', mensagem)
 
 @permission_required('appPonto.view_pessoa',login_url='erro_permissao')
 def usuario_sem_acesso_grupo(request,pk):
@@ -153,7 +166,7 @@ def usuario_sem_acesso_grupo(request,pk):
         usuario_grupo.save()
     if criterio:
         usuarios_sem_acesso = Pessoa.objects.filter(~Q(pessoa_grupo__grupo=grupo),
-                                                     pessoa__nome__contains=criterio).order_by('nome')
+                                                     nome__icontains=criterio).order_by('nome')
     else:
         usuarios_sem_acesso = Pessoa.objects.filter(~Q(pessoa_grupo__grupo=grupo)).order_by('nome')
         criterio = ""
@@ -170,16 +183,16 @@ def usuario_sem_acesso_grupo(request,pk):
     return render(request, 'Acesso/usuario_sem_acesso_grupo.html', dados)
 
 @permission_required('appPonto.view_pessoa',login_url='erro_permissao')
-def usuario_acesso_grupo_list(request,pk):
+def usuario_acesso_grupo(request, pk):
     criterio = request.GET.get('criterio')
     usuario = request.GET.get('usuario')
     grupo = Grupo.objects.get(id=pk)
     if usuario:
-        usuario_grupo = Pessoa_Grupo.objects.get(pessoa=usuario)
+        usuario_grupo = Pessoa_Grupo.objects.get(pessoa_id=usuario,grupo=grupo)
         usuario_grupo.delete()
     if criterio:
         usuarios_acesso = Pessoa.objects.filter(pessoa_grupo__grupo=grupo,
-                                                     pessoa__nome__contains=criterio).order_by('nome')
+                                                     nome__icontains=criterio).order_by('nome')
     else:
         usuarios_acesso = Pessoa.objects.filter(pessoa_grupo__grupo=grupo).order_by('nome')
         criterio = ""
@@ -193,7 +206,7 @@ def usuario_acesso_grupo_list(request,pk):
         usuarios_acesso = paginator.page(paginator.num_pages)
     dados = {'usuarios_acesso': usuarios_acesso,'grupo': grupo, 'criterio': criterio, 'paginator': paginator,
              'page_obj': usuarios_acesso}
-    return render(request, 'Acesso/usuario_acesso_grupo_list.html', dados)
+    return render(request, 'Acesso/usuario_acesso_grupo.html', dados)
 
 @permission_required('appPonto.view_pessoa',login_url='erro_permissao')
 def usuario_grupo_list(request,pk):
@@ -239,7 +252,7 @@ def usuario_list(request):
 
 
 @permission_required('appPortas.view_porta',login_url='erro_permissao')
-def porta_nao_grupo_list(request,pk):
+def porta_nao_grupo(request, pk):
     criterio = request.GET.get('criterio')
     porta = request.GET.get('porta')
     grupo = Grupo.objects.get(id=pk)
@@ -248,7 +261,7 @@ def porta_nao_grupo_list(request,pk):
         porta_grupo.save()
     if criterio:
         porta_nao_grupo = Porta.objects.filter(~Q(porta_grupo__grupo=grupo),
-                                                     descricao__contains=criterio).order_by('descricao')
+                                                     descricao__icontains=criterio).order_by('descricao')
     else:
         porta_nao_grupo = Porta.objects.filter(~Q(porta_grupo__grupo=grupo)).order_by('descricao')
         criterio = ""
@@ -265,12 +278,12 @@ def porta_nao_grupo_list(request,pk):
     return render(request, 'Acesso/porta_nao_grupo.html', dados)
 
 @permission_required('appPortas.view_porta',login_url='erro_permissao')
-def porta_no_grupo_list(request,pk):
+def porta_no_grupo(request, pk):
     criterio = request.GET.get('criterio')
     porta = request.GET.get('porta')
     grupo = Grupo.objects.get(id=pk)
     if porta:
-        porta_grupo = Porta_Grupo.objects.get(porta=porta)
+        porta_grupo = Porta_Grupo.objects.get(porta=porta,grupo=grupo)
         porta_grupo.delete()
     if criterio:
         porta_no_grupo = Porta.objects.filter(porta_grupo__grupo=grupo,
@@ -291,23 +304,23 @@ def porta_no_grupo_list(request,pk):
     return render(request, 'Acesso/porta_no_grupo_list.html', dados)
 
 @permission_required('appPortas.view_grupo',login_url='erro_permissao')
-def acesso_grupo_list(request):
+def edit_grupo(request):
     criterio = request.GET.get('criterio')
     if criterio:
-        grupos = Grupo.objects.filter(descricao_name=criterio).order_by('descricao')
+        grupos = Grupo.objects.filter(descricao__icontains=criterio).order_by('descricao')
     else:
         grupos = Grupo.objects.all().order_by('descricao')
         criterio =""
-    paginator =Paginator(grupos,4)
+    paginator =Paginator(grupos,8)
     page = request.GET.get('page')
     try:
         grupos = paginator.page(page)
     except PageNotAnInteger:
-        portas=paginator.page(1)
+        grupos=paginator.page(1)
     except EmptyPage:
-        portas = paginator.page(paginator.num_pages)
+        grupos = paginator.page(paginator.num_pages)
     dados={'grupos':grupos,'criterio':criterio,'paginator':paginator,'page_obj':grupos}
-    return render(request, 'Acesso/acesso_grupo_list.html',dados)
+    return render(request, 'Acesso/edit_grupo.html', dados)
 
 @permission_required('appPonto.view_funcionario',login_url='erro_permissao')
 def adicionar_acesso_funcionario(request,pk):

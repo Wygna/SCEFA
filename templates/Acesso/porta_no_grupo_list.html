@@ -1,11 +1,15 @@
 {% extends 'base.html' %}
 {% block conteudo %}
-    <br/>
+     <style>
+        td,th{
+            text-align: center;
+        }
+    </style>
     <section class="container">
         <div class="row">
             <!-- left column -->
             <fieldset>
-             <div class="col-sm-6 col-sm-offset-2">
+             <div class="col-sm-6 col-sm-offset-3">
                  <form class="navbar-form navbar-left" role="search" method="get" action="">
                     <div class="form-group">
                       <label>Descrição:</label>
@@ -15,7 +19,6 @@
                  </form>
              </div>
             </fieldset>
-        <br/>
             <div class="col-sm-6 col-sm-offset-2">
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -30,7 +33,7 @@
                             <tr>
                                 <td>{{ porta }}</td>
                                 <td>
-                                    <form action="{% url 'porta_no_grupo_list' grupo.pk %}">
+                                    <form action="{% url 'porta_no_grupo' grupo.pk %}">
                                         <input type="hidden" name="porta" value="{{ porta.pk }}">
                                         <button type="submit" class="btn btn-danger">
                                             <span class="glyphicon glyphicon-remove"></span>

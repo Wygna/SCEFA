@@ -1,5 +1,10 @@
 {% extends 'base.html' %}
 {% block conteudo %}
+    <style>
+        td,th{
+            text-align: center;
+        }
+    </style>
 
     <section class="container">
         <div class="row">
@@ -17,9 +22,14 @@
                         </tr>
                         {% for grupo in grupos %}
                             <tr>
-                                <td>{{ grupo.grupo }}</td>
-                                <td><a href="{% url 'usuario_grupo_list' grupo.pk %}"> Usuários</a></td>
-                                <td><a href="{% url 'cargo_delete' grupo.pk %}" style="color:red" class="glyphicon glyphicon-remove"></a></td>
+                                <td><a href="{% url 'usuario_grupo_list' grupo.pk %}"> {{ grupo.grupo }}</a></td>
+                            <td><form action="{% url 'porta_detail' porta.pk %}">
+                                    <input type="hidden" name="grupo" value="{{ grupo.pk }}">
+                                    <button type="submit" class="btn btn-danger">
+                                        <span class="glyphicon glyphicon-remove"></span>
+                                    </button>
+                                </form>
+                            </td>
                             </tr>
                         {% endfor %}
                     </table>
