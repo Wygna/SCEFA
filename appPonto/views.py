@@ -101,14 +101,13 @@ def departamento_list(request):
         departamentos = Departamento.objects.filter(descricao__icontains=criterio).order_by('descricao')
     else:
         departamentos = Departamento.objects.all().order_by('descricao')
-        cargos = Cargo.objects.filter()
         criterio =""
     paginator =Paginator(departamentos,10)
     page = request.GET.get('page')
     try:
         departamentos = paginator.page(page)
     except PageNotAnInteger:
-        funcionarios=paginator.page(1)
+        departamentos=paginator.page(1)
     except EmptyPage:
         departamentos = paginator.page(paginator.num_pages)
     dados={'departamentos':departamentos,'criterio':criterio,'paginator':paginator,'page_obj':departamentos}
@@ -116,9 +115,23 @@ def departamento_list(request):
 
 @permission_required('appPonto.view_departamento',login_url='erro_permissao')
 def departamento_detail(request,pk):
+    criterio = request.GET.get('criterio')
     departamento = Departamento.objects.get(id=pk)
-    cargos = Cargo.objects.filter(departamento=departamento)
-    return render(request,'Departamento/exibirDepartamento.html',{'departamento':departamento,'cargos':cargos})
+    if criterio:
+        cargos = Cargo.objects.filter(departamento=departamento,nome_funcao__icontains=criterio).order_by('nome_funcao')
+    else:
+        cargos = Cargo.objects.filter(departamento=departamento).order_by('nome_funcao')
+        criterio = ""
+    paginator = Paginator(cargos, 10)
+    page = request.GET.get('page')
+    try:
+        cargos = paginator.page(page)
+    except PageNotAnInteger:
+        cargos = paginator.page(1)
+    except EmptyPage:
+        cargos = paginator.page(paginator.num_pages)
+    dados = {'cargos': cargos, 'criterio': criterio, 'paginator': paginator, 'page_obj': cargos,'departamento':departamento}
+    return render(request,'Departamento/exibirDepartamento.html',dados)
 
 @permission_required('appPonto.add_departamento',login_url='erro_permissao')
 def departamento_new(request):
@@ -147,9 +160,14 @@ def departamento_update(request,pk):
 
 @permission_required('appPonto.delete_departamento', login_url='erro_permissao')
 def departamento_delete(request,pk):
-    departamento =Departamento.objects.get(id=pk)
-    departamento.delete()
-    return redirect('departamento_list')
+    try:
+        departamento =Departamento.objects.get(id=pk)
+        departamento.delete()
+        return redirect('departamento_list')
+    except Exception:
+        mensagem = {'mensagem': 'Não é possível excluir departamento, o departamento selecionado está relacionado a um cargo'}
+        return render(request, 'utils/pagina_erro.html', mensagem)
+
 
 @permission_required('appPonto.view_cargo',login_url='erro_permissao')
 def cargo_list(request):
@@ -157,13 +175,13 @@ def cargo_list(request):
     if criterio:
         cargos = Cargo.objects.filter(nome_funcao__icontains=criterio).order_by('nome_funcao')
     else:
-        departamentos = Cargo.objects.all().order_by('nome_funcao')
+        cargos = Cargo.objects.all().order_by('nome_funcao')
         cargos = Cargo.objects.filter()
         criterio =""
     paginator =Paginator(cargos,10)
     page = request.GET.get('page')
     try:
-        departamentos = paginator.page(page)
+        cargos = paginator.page(page)
     except PageNotAnInteger:
         cargos=paginator.page(1)
     except EmptyPage:

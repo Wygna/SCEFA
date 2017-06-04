@@ -32,13 +32,27 @@ def porta_list(request):
 
 @permission_required('appPortas.view_porta',login_url='erro_permissao')
 def porta_detail(request,pk):
+    criterio = request.GET.get('criterio')
     grupo = request.GET.get('grupo')
-    if grupo:
-        porta_grupo = Porta_Grupo.objects.get(gr)
-        porta_grupo.delete()
     porta = Porta.objects.get(id=pk)
-    grupos = Porta_Grupo.objects.filter(porta=porta)
-    return render(request,'Portas/exibirPorta.html',{'porta':porta,'grupos':grupos})
+    if grupo:
+        porta_grupo = Porta_Grupo.objects.get(porta=porta,grupo_id=grupo)
+        porta_grupo.delete()
+    if criterio:
+        grupos = Grupo.objects.filter(porta_grupo__porta=porta,descricao__icontains=criterio).order_by('descricao')
+    else:
+        grupos = Grupo.objects.filter(porta_grupo__porta=porta)
+    criterio = ""
+    paginator = Paginator(grupos, 10)
+    page = request.GET.get('page')
+    try:
+        grupos = paginator.page(page)
+    except PageNotAnInteger:
+        grupos = paginator.page(1)
+    except EmptyPage:
+        grupos = paginator.page(paginator.num_pages)
+    dados = {'grupos': grupos,'porta':porta, 'criterio': criterio, 'paginator': paginator, 'page_obj': grupos}
+    return render(request, 'Portas/exibirPorta.html', dados)
 
 @permission_required('appPortas.add_porta',login_url='erro_permissao')
 def porta_new(request):
@@ -209,7 +223,7 @@ def usuario_acesso_grupo(request, pk):
     return render(request, 'Acesso/usuario_acesso_grupo.html', dados)
 
 @permission_required('appPonto.view_pessoa',login_url='erro_permissao')
-def usuario_grupo_list(request,pk):
+def grupo_usuario_list(request, pk):
     criterio = request.GET.get('criterio')
     grupo = Grupo.objects.get(id=4)
     if criterio:
@@ -229,27 +243,6 @@ def usuario_grupo_list(request,pk):
     dados = {'usuarios_acesso': usuarios,'grupo': grupo, 'criterio': criterio, 'paginator': paginator,
              'page_obj': usuarios}
     return render(request, 'Grupo/exibirGrupo.html', dados)
-
-
-@permission_required('appPonto.view_pessoa',login_url='erro_permissao')
-def usuario_list(request):
-    criterio = request.GET.get('criterio')
-    if criterio:
-        usuarios = Pessoa.objects.filter(nome=criterio).order_by('nome')
-    else:
-        usuarios = Pessoa.objects.all().order_by('nome')
-        criterio =""
-    paginator =Paginator(usuarios,10)
-    page = request.GET.get('page')
-    try:
-        usuarios = paginator.page(page)
-    except PageNotAnInteger:
-        usuarios=paginator.page(1)
-    except EmptyPage:
-        usuarios = paginator.page(paginator.num_pages)
-    dados={'usuarios':usuarios,'criterio':criterio,'paginator':paginator,'page_obj':usuarios}
-    return render(request, 'Usuario/usuario_list.html',dados)
-
 
 @permission_required('appPortas.view_porta',login_url='erro_permissao')
 def porta_nao_grupo(request, pk):
