@@ -20,10 +20,3 @@ class Aluno(Pessoa):
 
     class Meta: permissions = (('view_aluno', 'Can see aluno'),)
 
-class RegistrarPonto(models.Model):
-    data = models.DateTimeField(default=timezone.now)
-    local = models.CharField("local",max_length=200)
-    aluno = models.ForeignKey(Aluno,on_delete=models.PROTECT,verbose_name="Aluno")
-
-    class Meta: permissions = (('view_relatorio_aluno', 'Can see relatorio aluno'),
-                               ('view_relatorioPonto_aluno', 'Can see relatorio mais aluno'),)

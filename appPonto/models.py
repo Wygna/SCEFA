@@ -8,10 +8,11 @@ class Pessoa(User):
     Email = models.EmailField("E-mail", max_length=200)
     telefone = models.CharField("Telefone", max_length=20)
     senha = models.CharField(max_length=32)
-    class Meta: permissions = (('view_pessoa', 'Can see pessoa'),)
+    situacao = models.CharField('Situação',max_length=200)
 
     def __str__(self):
         return self.nome
+    class Meta: permissions = (('view_pessoa', 'Can see pessoa'),)
 
 class Departamento(models.Model):
     descricao = models.CharField("Descrição",max_length=200)
@@ -40,16 +41,20 @@ class Funcionario(Pessoa):
 
 class Frequencia(models.Model):
     data = models.DateField(default=timezone.now)
-    hora_entrada = models.TimeField(default=timezone.now)
-    hora_saida = models.TimeField(default=timezone.now)
-    local = models.CharField("local",max_length=200)
-    observacao = models.CharField("Observação",max_length=200)
-
+    hora_entrada = models.TimeField(default=timezone.now,null=True)
+    hora_saida = models.TimeField(default=timezone.now,null=True)
+    local = models.CharField("local",max_length=200,null=True)
+    observacao = models.CharField("Observação",max_length=200,null=True)
+    pessoa = models.ForeignKey(Pessoa,on_delete=models.PROTECT,verbose_name="Pessoa")
+    inconsistencia = models.CharField("Inconsistencia",max_length=200,null=True)
 
     def hora_inicial_final(self):
-        formatacao = '%H:%M:%S'
-        hora = datetime.datetime.strptime(str(self.hora_saida), formatacao) - datetime.datetime.strptime(str(self.hora_entrada), formatacao)
-        return hora
+        if self.hora_entrada !=None:
+            formatacao = '%H:%M:%S'
+            hora = datetime.datetime.strptime(str(self.hora_saida), formatacao) - datetime.datetime.strptime(str(self.hora_entrada), formatacao)
+            return hora
+        else:
+            return "00:00:00"
     def tempo_maximo(self):
         formatacao = '%H:%M:%S'
         tempo = str(datetime.datetime.strptime(str(self.hora_saida), formatacao) - datetime.datetime.strptime(str(self.hora_entrada), formatacao))
@@ -61,10 +66,8 @@ class Frequencia(models.Model):
         'Quinta-Feira', 'Sexta-Feira', 'Sábado', 'Domingo']
         return semana[self.data.weekday()]
 
-class Frequencia_funcionario(Frequencia):
-    funcionario = models.ForeignKey(Funcionario,on_delete=models.PROTECT,verbose_name="Funcionario")
-    class Meta: permissions = (('view_frequencia_funcionario', 'Can see frequencia'),
-                               ('view_frequencia_funcionario_admin', 'Can see frequencia a mais'),)
+    class Meta: permissions = (('view_frequencia', 'Can see frequencia'),
+                                   ('view_frequencia_admin', 'Can see frequencia a mais'),)
 
 class Dias_sem_expediente(models.Model):
     data = models.DateField(default=timezone.now)

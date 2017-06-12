@@ -1,10 +1,25 @@
 {% extends 'base.html' %}
 {% block conteudo %}
-
+    <style>
+        td,th{
+            text-align: center;
+        }
+    </style>
     <section class="container">
         <div class="row">
+         <fieldset>
+             <div class="col-sm-6 col-sm-offset-3">
+                 <form class="navbar-form navbar-left" role="search" method="get" action="">
+                    <div class="form-group">
+                      <label>Descrição:</label>
+                        <input type="text" id="criterio" name="criterio" value="{{ criterio }}" class="form-control" placeholder="Descrição">
+                    </div>
+                    <button type="submit" class="btn btn-default">Buscar</button>
+                 </form>
+             </div>
+            </fieldset>
             <!-- left column -->
-            <div class="col-sm-9 col-sm-offset-1">
+            <div class="col-sm-6 col-sm-offset-2">
                 <!-- general form elements -->
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -17,16 +32,17 @@
                             <th>Relatório</th>
                         </tr>
                         {% for funcionario in funcionarios %}
-                         <tr>
-                            <td>
-                                {{ funcionario.nome | upper}}</td>
-                            <td>{{ funcionario.matricula}}</td>
-                            <td><a href="{% url 'funcionario_busca_frequencia' funcionario.pk %}" class="btn btn-success">Frequência</a></td>
+                             <tr>
+                                <td>
+                                    {{ funcionario.nome | upper}}</td>
+                                <td>{{ funcionario.matricula}}</td>
+                                <td><a href="{% url 'funcionario_busca_frequencia' funcionario.pk %}" class="btn btn-success">Frequência</a></td>
 
-                         </tr>
-            {% endfor %}
+                             </tr>
+                        {% endfor %}
                     </table>
                 </div>
+                {% include 'utils/paginacao.html' %}
             </div>
         </div>
         <!-- /.row -->

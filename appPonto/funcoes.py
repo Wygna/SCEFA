@@ -1,3 +1,5 @@
+from appPonto.models import *
+
 def validar_data(data):
     dia = int(data[0:2])
     mes = int(data[3:5])
@@ -21,3 +23,9 @@ def validar_data(data):
     else:
         return False
 
+def datas_sem_expediente():
+    dias_sem_expediente = Dias_sem_expediente.objects.all()
+    datas = []
+    for data in dias_sem_expediente:
+        datas.append(data.data)
+    return datas

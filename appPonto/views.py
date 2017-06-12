@@ -270,7 +270,7 @@ def administrador_list(request):
 def funcionarios_list(request):
     criterio = request.GET.get('criterio')
     if criterio:
-        funcionarios = Funcionario.objects.filter(nome__contains=criterio).order_by('nome')
+        funcionarios = Funcionario.objects.filter(nome__icontains=criterio).order_by('nome')
     else:
         funcionarios = Funcionario.objects.all().order_by('nome')
         criterio =""
@@ -326,7 +326,7 @@ def remover_administrador(request,pk):
     funcionario.save()
     return redirect('administrador_list')
 
-permission_required('appPonto.view_frequencia_funcionario',login_url='erro_permissao')
+@permission_required('appPonto.view_frequencia_admin',login_url='erro_permissao')
 def funcionario_frequencia(request,pk):
     data_inicial = request.GET.get('data_inicial')
     data_final = request.GET.get('data_final')
@@ -334,15 +334,16 @@ def funcionario_frequencia(request,pk):
         data_inicial_formatada = datetime.datetime.strptime(data_inicial, "%d/%m/%Y").strftime("%Y-%m-%d")
         data_final_formatada = datetime.datetime.strptime(data_final, "%d/%m/%Y").strftime("%Y-%m-%d")
         funcionario = Funcionario.objects.get(id=pk)
-        frequencias = funcionario.frequencia_funcionario_set.filter(data__gte=data_inicial_formatada,data__lte=data_final_formatada).order_by('data')
-        dados = {'frequencias':frequencias,'funcionario':funcionario,'data_inicial':data_inicial,'data_final':data_final}
+        frequencias = funcionario.frequencia_set.filter(~Q(data__week_day=7),~Q(data__week_day=1),data__gte=data_inicial_formatada,data__lte=data_final_formatada).order_by('data')
+        frequencia_dias_com_expediente = []
+        for frequencia in frequencias:
+            if frequencia.data not in datas_sem_expediente():
+                frequencia_dias_com_expediente.append(frequencia)
+        dias = funcionario.frequencia_set.filter(~Q(data__week_day=7),~Q(data__week_day=1),data__gte=data_inicial_formatada,data__lte=data_final_formatada).count()
+        dados = {'frequencias':frequencia_dias_com_expediente,'funcionario':funcionario,'data_inicial':data_inicial,'data_final':data_final,'dias':dias}
         return render(request, 'Frequencia/exibir_frequencia_funcionario.html', dados)
-    else:
-        funcionario = Funcionario.objects.get(id=pk)
-        data = "Data incorreta"
-        return render(request, 'Frequencia/busca_frequencia.html', {'funcionario': funcionario,'data':data})
 
-@permission_required('appPonto.view_frequencia_funcionario',login_url='erro_permissao')
+@permission_required('appPonto.view_frequencia',login_url='erro_permissao')
 def funcionario_busca_frequencia(request, pk):
     funcionario = Funcionario.objects.get(id=pk)
     return render(request, 'Frequencia/busca_frequencia.html', {'funcionario':funcionario})
