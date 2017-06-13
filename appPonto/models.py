@@ -55,6 +55,7 @@ class Frequencia(models.Model):
             return hora
         else:
             return "00:00:00"
+
     def tempo_maximo(self):
         formatacao = '%H:%M:%S'
         tempo = str(datetime.datetime.strptime(str(self.hora_saida), formatacao) - datetime.datetime.strptime(str(self.hora_entrada), formatacao))
@@ -65,6 +66,9 @@ class Frequencia(models.Model):
         semana= ['Segunda-Feira', 'Terceira-Feira', 'Quarta-Feira',
         'Quinta-Feira', 'Sexta-Feira', 'Sábado', 'Domingo']
         return semana[self.data.weekday()]
+
+    def __str__(self):
+        return str(self.data.isoformat())+" "+str(self.pessoa)
 
     class Meta: permissions = (('view_frequencia', 'Can see frequencia'),
                                    ('view_frequencia_admin', 'Can see frequencia a mais'),)
