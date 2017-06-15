@@ -15,7 +15,7 @@ aluno3.save()
 aluno4.save()
 aluno5.save()
 
-grupoAluno = Group.objects.get(name='aluno')
+grupoAluno = Group.objects.get(name='Alunos')
 grupoAluno.user_set.add(aluno)
 grupoAluno.user_set.add(aluno2)
 grupoAluno.user_set.add(aluno3)

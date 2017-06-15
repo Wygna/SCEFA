@@ -66,7 +66,7 @@ def funcionario_new(request):
             funcionario.username = funcionario.matricula
             funcionario.first_name = funcionario.nome
             funcionario.set_password(funcionario.senha)
-            grupoFuncionario = Group.objects.get(name='funcionario')
+            grupoFuncionario = Group.objects.get(name='Funcionarios')
             grupoFuncionario.user_set.add(funcionario)
             funcionario.save()
             return redirect('funcionario_list')
@@ -237,7 +237,7 @@ def funcionairo_administrardor_update(request, pk):
             funcionario.username = funcionario.matricula
             funcionario.first_name = funcionario.nome
             funcionario.set_password(funcionario.senha)
-            grupoFuncionario = Group.objects.get(name='funcionario')
+            grupoFuncionario = Group.objects.get(name='Funcionarios')
             grupoFuncionario.user_set.add(funcionario)
             funcionario.save()
             return redirect('administrador_list')
@@ -307,8 +307,8 @@ def administrador_new(request):
 @permission_required('appPonto.view_funcionario',login_url='erro_permissao')
 def adicionar_administrador(request,pk):
     funcionario = Funcionario.objects.get(id=pk)
-    grupoAdministrador = Group.objects.get(name='administrador')
-    grupoFuncionario = Group.objects.get(name='funcionario')
+    grupoAdministrador = Group.objects.get(name='Administradores')
+    grupoFuncionario = Group.objects.get(name='Funcionarios')
     grupoFuncionario.user_set.remove(funcionario)
     grupoAdministrador.user_set.add(funcionario)
     funcionario.setCargo('Administrador')
@@ -318,8 +318,8 @@ def adicionar_administrador(request,pk):
 @permission_required('appPonto.view_funcionario',login_url='erro_permissao')
 def remover_administrador(request,pk):
     funcionario = Funcionario.objects.get(id=pk)
-    grupoAdministrador = Group.objects.get(name='administrador')
-    grupoFuncionario = Group.objects.get(name='funcionario')
+    grupoAdministrador = Group.objects.get(name='Administradores')
+    grupoFuncionario = Group.objects.get(name='Funcionarios')
     grupoAdministrador.user_set.remove(funcionario)
     grupoFuncionario.user_set.add(funcionario)
     funcionario.setCargo('Professor')

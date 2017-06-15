@@ -18,7 +18,7 @@ def aluno_new(request):
             aluno.username = aluno.matricula
             aluno.first_name = aluno.nome
             aluno.set_password(aluno.senha)
-            grupoAluno = Group.objects.get(name='aluno')
+            grupoAluno = Group.objects.get(name='Alunos')
             grupoAluno.user_set.add(aluno)
             aluno.save()
             return redirect('aluno_list')

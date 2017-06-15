@@ -1,6 +1,13 @@
 from appPonto.models import *
 from django.contrib.auth.models import Group
 
+funcionarios=Group(name="Funcionarios")
+funcionarios.save()
+alunos=Group(name="Alunos")
+alunos.save()
+administradores=Group(name="Administradores")
+administradores.save()
+
 departamento = Departamento(descricao='Coordenação de Pesquisa')
 departamento2 = Departamento(descricao='Coordenação de Cursos')
 
@@ -30,13 +37,13 @@ pessoa3.save()
 pessoa4.save()
 pessoa5.save()
 
-grupofuncionario = Group.objects.get(name='funcionario')
+grupofuncionario = Group.objects.get(name='Funcionarios')
 grupofuncionario.user_set.add(pessoa)
 grupofuncionario.user_set.add(pessoa3)
 grupofuncionario.user_set.add(pessoa4)
 grupofuncionario.user_set.add(pessoa5)
 
-grupoAdministrador = Group.objects.get(name='administrador')
+grupoAdministrador = Group.objects.get(name='Administradores')
 grupoAdministrador.user_set.add(pessoa2)
 
 registro01 = Frequencia (data='2017-05-01', hora_entrada='08:00:00', hora_saida='17:00:00', local="secretaria Acadêmica", pessoa=pessoa)
