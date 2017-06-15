@@ -1,4 +1,6 @@
+from django.db.models import Q
 from appPonto.models import *
+import datetime
 
 def validar_data(data):
     dia = int(data[0:2])
@@ -29,3 +31,30 @@ def datas_sem_expediente():
     for data in dias_sem_expediente:
         datas.append(data.data)
     return datas
+def dias_registrados(frequencia_com_expediente):
+    quantidade_dias = 0
+    for frequencia in frequencia_com_expediente:
+        if frequencia.hora_entrada != None:
+            quantidade_dias+=1
+    return quantidade_dias
+
+def dias_nao_registrados(frequencia_com_expediente):
+    quantidade_dias = 0
+    for frequencia in frequencia_com_expediente:
+        if frequencia.hora_entrada == None or frequencia.hora_saida == None:
+            quantidade_dias+=1
+    return quantidade_dias
+def tempo_total(frequencias):
+    segundos = 0
+    formatacao = '%H:%M:%S'
+    for frequencia in frequencias:
+        if frequencia.hora_saida ==None:
+            continue
+        segundos += (datetime.datetime.strptime(str(frequencia.hora_saida), formatacao) - datetime.datetime.strptime(
+            str(frequencia.hora_entrada),
+            formatacao)).seconds
+    horas = segundos / 3600
+    min = (segundos % 3600) / 60
+    sec = segundos % 60
+    tempo = "%d:%d:%d" % (horas, min, sec)
+    return tempo

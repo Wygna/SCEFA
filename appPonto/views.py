@@ -326,22 +326,36 @@ def remover_administrador(request,pk):
     funcionario.save()
     return redirect('administrador_list')
 
-@permission_required('appPonto.view_frequencia_admin',login_url='erro_permissao')
+@permission_required('appPonto.view_frequencia',login_url='erro_permissao')
 def funcionario_frequencia(request,pk):
-    data_inicial = request.GET.get('data_inicial')
-    data_final = request.GET.get('data_final')
-    if validar_data(data_inicial) and validar_data(data_final):
-        data_inicial_formatada = datetime.datetime.strptime(data_inicial, "%d/%m/%Y").strftime("%Y-%m-%d")
-        data_final_formatada = datetime.datetime.strptime(data_final, "%d/%m/%Y").strftime("%Y-%m-%d")
+    current_user = request.user
+    try:
         funcionario = Funcionario.objects.get(id=pk)
-        frequencias = funcionario.frequencia_set.filter(~Q(data__week_day=7),~Q(data__week_day=1),data__gte=data_inicial_formatada,data__lte=data_final_formatada).order_by('data')
-        frequencia_dias_com_expediente = []
-        for frequencia in frequencias:
-            if frequencia.data not in datas_sem_expediente():
-                frequencia_dias_com_expediente.append(frequencia)
-        dias = funcionario.frequencia_set.filter(~Q(data__week_day=7),~Q(data__week_day=1),data__gte=data_inicial_formatada,data__lte=data_final_formatada).count()
-        dados = {'frequencias':frequencia_dias_com_expediente,'funcionario':funcionario,'data_inicial':data_inicial,'data_final':data_final,'dias':dias}
-        return render(request, 'Frequencia/exibir_frequencia_funcionario.html', dados)
+        if funcionario.matricula ==  current_user.username:
+            data_inicial = request.GET.get('data_inicial')
+            data_final = request.GET.get('data_final')
+            if validar_data(data_inicial) and validar_data(data_final):
+                data_inicial_formatada = datetime.datetime.strptime(data_inicial, "%d/%m/%Y").strftime("%Y-%m-%d")
+                data_final_formatada = datetime.datetime.strptime(data_final, "%d/%m/%Y").strftime("%Y-%m-%d")
+
+                frequencias = funcionario.frequencia_set.filter(~Q(data__week_day=7),~Q(data__week_day=1),data__gte=data_inicial_formatada,data__lte=data_final_formatada).order_by('data')
+                frequencia_com_expediente = []
+                for frequencia in frequencias:
+                    if frequencia.data not in datas_sem_expediente():
+                        frequencia_com_expediente.append(frequencia)
+                dias_trabalhados = dias_registrados(frequencia_com_expediente)
+                dias_nao_trabalhados = dias_nao_registrados(frequencia_com_expediente)
+                horas_total = tempo_total(frequencia_com_expediente)
+                dados = {'frequencias':frequencia_com_expediente,'funcionario':funcionario,'data_inicial':data_inicial,
+                         'data_final':data_final,'dias_trabalhos':dias_trabalhados,'dias_nao_trabalhos':dias_nao_trabalhados,'horas_total':horas_total}
+                return render(request, 'Frequencia/exibir_frequencia_funcionario.html', dados)
+        else:
+            return render(request,'utils/permissao.html')
+    except Exception:
+        mensagem = {
+            'mensagem': 'Funcionario não existe'}
+        return render(request, 'utils/pagina_erro.html', mensagem)
+
 
 @permission_required('appPonto.view_frequencia',login_url='erro_permissao')
 def funcionario_busca_frequencia(request, pk):
