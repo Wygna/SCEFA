@@ -150,7 +150,7 @@
                             </ul>
                         </li>
                     {% endif %}
-                        {% if request.user.groups.all.0.name == 'administrador' %}
+                        {% if request.user.groups.all.0.name == 'Administradores' %}
                         <li class="treeview">
                             <a href="#">
                                 <i class="far fa fa-file-text-o"></i> <span>Frequências</span>
@@ -178,7 +178,7 @@
                             </ul>
                         </li>
                         {% endif %}
-                        {% if request.user.groups.all.0.name == 'funcionario'  %}
+                        {% if request.user.groups.all.0.name == 'Funcionarios'  %}
                             <li class="treeview">
                             <a href="{% url 'funcionario_busca_frequencia' request.user.id %}">
                                 <i class="far fa fa-file-text-o"></i> <span>Frequência</span>

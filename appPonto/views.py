@@ -237,8 +237,8 @@ def funcionairo_administrardor_update(request, pk):
             funcionario.username = funcionario.matricula
             funcionario.first_name = funcionario.nome
             funcionario.set_password(funcionario.senha)
-            grupoFuncionario = Group.objects.get(name='Funcionarios')
-            grupoFuncionario.user_set.add(funcionario)
+            grupoAdministradores = Group.objects.get(name='Administradores')
+            grupoAdministradores.user_set.add(funcionario)
             funcionario.save()
             return redirect('administrador_list')
     else:
