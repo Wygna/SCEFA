@@ -1,27 +1,67 @@
 {% extends 'base.html' %}
 {% block conteudo %}
-    <center><h3>Registro de horários</h3></center>
-    <hr>
-
-    <table border="2" class="table table-hover ">
-        <thead>
-            <tr>
-                <th>Entrada</th>
-                <th>Saida</th>
-                <th>Local</th>
-                <th>Aluno</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for registroPonto in registroPontos %}
-               <tr>
-                   <td>
-                    {{ registroPonto.entrada}}</td>
-                   <td>{{ registroPonto.saida}}</td>
-                   <td>{{ registroPonto.local}}</td>
-                   <td>{{ registroPonto.aluno}}</td>
-               </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <section class="container" xmlns="http://www.w3.org/1999/html">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-sm-9 col-sm-offset-1">
+                <!-- general form elements -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title" style="text-align: center;">Frequências</h3>
+                    </div>
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>Nome: {{ aluno.nome }}</th>
+                        </tr>
+                       <tr>
+                           <th>Data</th>
+                           <th>Registros</th>
+                           <th>CH</th>
+                           <th>Duração</th>
+                           <th>Observações do sistema</th>
+                           <th>Observações Pessoais</th>
+                        </tr>
+                        {% for frequencia in frequencias %}
+                           <tr>
+                               <td>{{ frequencia.data|date:"d/m/Y"}}({{ frequencia.diaSemana }})</td>
+                               <td style="width: 30%">
+                                   {% if frequencia.hora_entrada %}
+                                   <b>E: </b><span style="color:green">{{ frequencia.hora_entrada.isoformat}}</span>({{ frequencia.local }})
+                                      {% endif %}
+                                  {% if frequencia.hora_saida %}
+                                   <b>S: </b> <span style="color:red">{{ frequencia.hora_saida.isoformat}}</span>({{ frequencia.local }})
+                                  {% endif %}
+                                  </td>
+                               <td>8h</td>
+                               <td>
+                                   {{ frequencia.hora_inicial_final }}</td>
+                               <td>
+                                   {% if frequencia.tempo_maximo == 1%}
+                                   <div class="alert alert-danger">
+                                        Tempo de aula superior a 10h!
+                                   </div>
+                                    {% endif %}
+                               </td>
+                               <td><button class="btn btn-circle btn-success" >Adicionar observação</button> </td>
+                           </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            <table class="table table-bordered">
+                <tr>
+                    <th>Carga horária total</th>
+                    <th>Número de dias úteis sem registros</th>
+                    <th>Número de dias úteis  em aula</th>
+                    <th>Periódo do relatório</th>
+                </tr>
+                <tr>
+                    <td>{{ horas_total }}</td>
+                    <td>{{ dias_nao_aulas }}</td>
+                    <td>{{ dias_aulas }}</td>
+                    <td>{{ data_inicial }} até {{ data_final }}</td>
+                </tr>
+            </table>
+            </div>
+        </div>
+    </section>
 {% endblock %}

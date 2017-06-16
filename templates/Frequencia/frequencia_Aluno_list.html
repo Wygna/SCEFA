@@ -1,14 +1,13 @@
 {% extends 'base.html' %}
 {% block conteudo %}
-     <style>
+    <style>
         td,th{
             text-align: center;
         }
     </style>
-
     <section class="container">
         <div class="row">
-        <fieldset>
+         <fieldset>
              <div class="col-sm-6 col-sm-offset-3">
                  <form class="navbar-form navbar-left" role="search" method="get" action="">
                     <div class="form-group">
@@ -24,21 +23,21 @@
                 <!-- general form elements -->
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title" style="text-align: center;">Lista de Alunos</h3>
+                        <h3 class="panel-title" style="text-align: center;">Alunos</h3>
                     </div>
                     <table class="table table-bordered">
                         <tr>
                             <th>Nome</th>
                             <th>Matrícula</th>
-                            <th colspan="2"><center>Operações</center></th>
+                            <th>Relatório</th>
                         </tr>
                         {% for aluno in alunos %}
-                            <tr>
-                                <td><a href="{% url 'aluno_detail' aluno.pk %}"> {{aluno.nome | upper }}</a></td>
-                                <td>{{ aluno.matricula }}</td>
-                                <td><a href="{% url 'aluno_update' aluno.pk %}" class="glyphicon glyphicon-edit"></a></td>
-                                <td><a href="{% url 'aluno_delete' aluno.pk %}" style="color:red" class="glyphicon glyphicon-remove"></a></td>
-                            </tr>
+                             <tr>
+                                <td>
+                                    {{ aluno.nome | upper}}</td>
+                                <td>{{ aluno.matricula}}</td>
+                                <td><a href="{% url 'busca_aluno_frequencia' aluno.pk %}" class="btn btn-success">Frequência</a></td>
+                             </tr>
                         {% endfor %}
                     </table>
                 </div>

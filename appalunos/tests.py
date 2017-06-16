@@ -1,3 +1,7 @@
 from django.test import TestCase
 
-# Create your tests here.
+from appalunos.models import *
+
+
+aluno = Aluno.objects.get(id=7)
+print(aluno)

@@ -43,7 +43,13 @@
                         </h3>
                     </div>
                     <br/>
-                    <form class="form-horizontal" role="search" method="GET" action="{% url 'funcionario_frequencia' funcionario.pk %}">
+                    <form class="form-horizontal" role="search" method="GET"
+                            {% if request.user.groups.all.0.name == 'Administradores' %}
+                          action="{% url 'funcionario_frequencias' funcionario.pk %}">
+                        {% endif %}
+                        {% if request.user.groups.all.0.name == 'Funcionarios' %}
+                          action="{% url 'funcionario_frequencia' funcionario.pk %}">
+                        {% endif %}
                         <div class="form-group">
                             <label Class="col-sm-4 control-label">Inicio:</label>
                             <div class="col-md-5">

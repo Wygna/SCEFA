@@ -36,7 +36,7 @@
                                 <td>
                                     {{ funcionario.nome | upper}}</td>
                                 <td>{{ funcionario.matricula}}</td>
-                                <td><a href="{% url 'funcionario_busca_frequencia' funcionario.pk %}" class="btn btn-success">Frequência</a></td>
+                                <td><a href="{% url 'busca_funcionario_frequencia' funcionario.pk %}" class="btn btn-success">Frequência</a></td>
 
                              </tr>
                         {% endfor %}
