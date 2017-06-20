@@ -1,9 +1,27 @@
-from django.conf.urls import url
+from django.conf.urls import url,include
 from django.contrib.auth.views import login,logout
 
 from appPonto.views import *
+from .api import *
+from tastypie.api import Api
+
+api=Api(api_name='dados')
+
+pessoaResource=PessoaResource()
+funcionarioResource=FuncionarioResource()
+cargoResource=CargosResource()
+portasResource=PortasResource()
+frequenciaResource = FrequenciasResource()
+pessoafrequenciaresource = PessoaFrequenciasResource()
+api.register(pessoaResource)
+api.register(funcionarioResource)
+api.register(cargoResource)
+api.register(portasResource)
+api.register(frequenciaResource)
+api.register(pessoafrequenciaresource)
 
 urlpatterns = [
+    url(r'^api/', include(api.urls)),
     url(r'^$', home, name='home'),
     url(r'^login/', login, {'template_name': 'utils/login.html'}, name='login'),
     url(r'^logout/$', logout, {'next_page': 'home'}, name='logout'),

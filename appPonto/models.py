@@ -45,7 +45,7 @@ class Frequencia(models.Model):
     hora_saida = models.TimeField(default=timezone.now,null=True)
     local = models.CharField("local",max_length=200,null=True)
     observacao = models.CharField("Observação",max_length=200,null=True)
-    pessoa = models.ForeignKey(Pessoa,on_delete=models.PROTECT,verbose_name="Pessoa")
+    pessoa = models.ForeignKey(Pessoa,on_delete=models.PROTECT)
     inconsistencia = models.CharField("Inconsistencia",max_length=200,null=True)
 
     def hora_inicial_final(self):
