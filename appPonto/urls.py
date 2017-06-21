@@ -8,17 +8,13 @@ from tastypie.api import Api
 api=Api(api_name='dados')
 
 pessoaResource=PessoaResource()
-funcionarioResource=FuncionarioResource()
-cargoResource=CargosResource()
-portasResource=PortasResource()
+
 frequenciaResource = FrequenciasResource()
-pessoafrequenciaresource = PessoaFrequenciasResource()
+
 api.register(pessoaResource)
-api.register(funcionarioResource)
-api.register(cargoResource)
-api.register(portasResource)
+
 api.register(frequenciaResource)
-api.register(pessoafrequenciaresource)
+
 
 urlpatterns = [
     url(r'^api/', include(api.urls)),
