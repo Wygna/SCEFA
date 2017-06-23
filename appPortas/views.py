@@ -1,15 +1,11 @@
-from django.contrib.auth.management import get_default_username
+from django.contrib.auth.decorators import permission_required
 from django.core.paginator import PageNotAnInteger, EmptyPage, Paginator
-from django.http import HttpResponse
-from django.shortcuts import render,redirect,get_object_or_404
-from django.forms import formset_factory
-import datetime as DT
-from django.contrib.auth.decorators import login_required,permission_required
-from django.contrib.auth.forms import SetPasswordForm
+from django.db.models import Q
+from django.shortcuts import render, redirect
+
 from appPortas.forms import *
 from appPortas.models import *
-from appalunos.models import Aluno
-from django.db.models import Q
+
 
 @permission_required('appPortas.view_porta',login_url='erro_permissao')
 def porta_list(request):

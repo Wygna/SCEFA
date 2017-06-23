@@ -1,13 +1,14 @@
-from django.forms import ModelForm,forms, DateInput
 from django import forms
+from django.forms import ModelForm, forms, DateInput
 
 from appPonto.models import *
+
 
 class FuncionarioForm(ModelForm):
     senha = forms.CharField(label='Senha', widget=forms.PasswordInput)
     class Meta:
         model = Funcionario
-        fields = ('nome','matricula','telefone','cargo','Email','senha')
+        fields = ('nome', 'matricula', 'telefone', 'cargo', 'Email', 'foto', 'situacao', 'senha')
 
 
 class DepartamentoForm(ModelForm):

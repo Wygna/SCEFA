@@ -1,6 +1,7 @@
-from django.forms import ModelForm,forms
-from appalunos.models import Aluno
 from django import forms
+from django.forms import ModelForm, forms
+
+from appAlunos.models import Aluno
 
 
 class AlunoForm(ModelForm):

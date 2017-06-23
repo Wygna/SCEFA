@@ -1,20 +1,17 @@
-from django.conf.urls import url,include
-from django.contrib.auth.views import login,logout
+from django.conf import settings
+from django.conf.urls import url, include
+from django.conf.urls.static import static
+from django.contrib.auth.views import login, logout
+from tastypie.api import Api
 
 from appPonto.views import *
 from .api import *
-from tastypie.api import Api
 
 api=Api(api_name='dados')
-
 pessoaResource=PessoaResource()
-
 frequenciaResource = FrequenciasResource()
-
 api.register(pessoaResource)
-
 api.register(frequenciaResource)
-
 
 urlpatterns = [
     url(r'^api/', include(api.urls)),
@@ -61,7 +58,6 @@ urlpatterns = [
         busca_funcionario_frequencia, name='busca_funcionario_frequencia'),
 
 
-
-
-
 ]
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

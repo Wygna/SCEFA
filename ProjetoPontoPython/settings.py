@@ -36,11 +36,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'appPonto',
-    'appalunos',
+    'appAlunos',
     'widget_tweaks',
     'appPortas',
-        'django_static_jquery',
-
+    'django_static_jquery',
+    'tastypie',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -84,7 +84,7 @@ DATABASES = {
     #   'ENGINE': 'django.db.backends.sqlite3',
     #  'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     # }
-
+    # }
 
 }
 
@@ -129,4 +129,10 @@ STATICFILES_DIRS = [
 ]
 UTH_USER_MODEL='appPonto.Funcionario'
 
+STATIC_ROOT = 'staticfiles'
+
 DATE_INPUT_FORMATS = ['%d/%m/%Y']
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media').replace('\\', '/')
+MEDIA_URL = '/media/'
+SERVE_STATIC_FILES = True

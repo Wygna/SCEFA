@@ -1,16 +1,8 @@
-from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
-from django.http import HttpRequest
-from django.template.context_processors import request
-from tastypie.http import HttpGone, HttpMultipleChoices
-from tastypie.resources import ModelResource
-from tastypie.constants import ALL, ALL_WITH_RELATIONS
-from appPortas.models import *
 from tastypie import fields
-from appPonto.models import *
-from tastypie.exceptions import NotFound
+from tastypie.authentication import BasicAuthentication
 from tastypie.resources import ModelResource
-from tastypie.authentication import BasicAuthentication, ApiKeyAuthentication, Authentication
-from tastypie.authorization import DjangoAuthorization, ReadOnlyAuthorization
+
+from appPonto.models import *
 from appPonto.teste import *
 
 
@@ -18,7 +10,8 @@ class PessoaResource(ModelResource):
     class Meta:
         queryset = Pessoa.objects.all()
         resource_name = 'pessoa'
-        fields = ['username', 'nome', 'email']
+        fields = ['username', 'nome', 'Email']
+        excludes = ['resource_uri']
         list_allowed_methods = ['get', 'post']
         authentication = BasicAuthentication()
         authorization = Authorization()

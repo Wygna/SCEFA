@@ -1,13 +1,12 @@
-from django.conf.locale import id
-from django.shortcuts import render, redirect
-from django.db.models.fields import Empty
-from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.models import Group
-from django.contrib.auth.decorators import login_required,permission_required
-from appalunos.forms import AlunoForm
-from appalunos.models import *
-from appPonto.models import *
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.shortcuts import render, redirect
+
+from appAlunos.forms import AlunoForm
+from appAlunos.models import *
 from appPonto.funcoes import *
+
 
 def aluno_new(request):
     if request.method == 'POST':
@@ -137,7 +136,8 @@ def busca_aluno_frequencia(request, pk):
     aluno = Aluno.objects.get(id=pk)
     return render(request, 'Frequencia/busca_frequencia_aluno.html', {'aluno':aluno})
 
-@permission_required('appalunos.view_aluno',login_url='erro_permissao')
+
+@permission_required('appAlunos.view_aluno', login_url='erro_permissao')
 def alunos_list(request):
     criterio = request.GET.get('criterio')
     if criterio:

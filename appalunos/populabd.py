@@ -1,6 +1,7 @@
 from django.contrib.auth.models import Group
+
+from appAlunos.models import Aluno
 from appPonto.models import *
-from appalunos.models import Aluno
 
 aluno = Aluno(username='183',first_name='Paulo',nome='Paulo',
                   Email='Paulo@gmail.com',telefone='(84)99102-3323',matricula='183',password='123')
