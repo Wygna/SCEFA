@@ -83,9 +83,14 @@ DATABASES = {
     # 'default': {
     #   'ENGINE': 'django.db.backends.sqlite3',
     #  'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    # }
-    # }
-
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'BancoPonto',
+        'USER': 'postgres',
+        'PASSWORD': '123',
+        'HOST': 'localhost',
+        'PORT': '5432',  # 8000 is default8
+    }
 }
 
 # Password validation
