@@ -55,9 +55,8 @@ def funcionario_new(request):
         form=FuncionarioForm(request.POST)
         if(form.is_valid()):
             funcionario = form.save(commit=False)
-            foto = request.FILES['foto']
             funcionario.username = funcionario.matricula
-            funcionario.foto = foto
+            funcionario.foto = request.FILES['foto']
             funcionario.first_name = funcionario.nome
             funcionario.set_password(funcionario.senha)
             grupoFuncionario = Group.objects.get(name='Funcionarios')
@@ -337,7 +336,6 @@ def funcionario_frequencia(request,pk):
         if validar_data(data_inicial) and validar_data(data_final):
             data_inicial_formatada = datetime.datetime.strptime(data_inicial, "%d/%m/%Y").strftime("%Y-%m-%d")
             data_final_formatada = datetime.datetime.strptime(data_final, "%d/%m/%Y").strftime("%Y-%m-%d")
-
             frequencias = funcionario.frequencia_set.filter(~Q(data__week_day=7), ~Q(data__week_day=1),
                                                             data__gte=data_inicial_formatada,
                                                             data__lte=data_final_formatada).order_by('data')

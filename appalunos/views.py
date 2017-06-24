@@ -8,11 +8,13 @@ from appAlunos.models import *
 from appPonto.funcoes import *
 
 
+@permission_required('appAlunos.add_aluno', login_url='erro_permissao')
 def aluno_new(request):
     if request.method == 'POST':
         form = AlunoForm(request.POST)
         if form.is_valid():
-            aluno = form.save()
+            aluno = form.save(commit=False)
+            aluno.foto = request.FILES['foto']
             aluno.username = aluno.matricula
             aluno.first_name = aluno.nome
             aluno.set_password(aluno.senha)
@@ -25,10 +27,14 @@ def aluno_new(request):
         dados = {'form': form}
         return render(request, 'Alunos/aluno_form.html', dados)
 
+
+@permission_required('appAlunos.view_aluno', login_url='erro_permissao')
 def aluno_detail(request, pk):
     aluno = Aluno.objects.get(id=pk)
     return render(request, 'Alunos/exibirAlunos.html',{'aluno':aluno})
 
+
+@permission_required('appAlunos.view_aluno', login_url='erro_permissao')
 def aluno_list(request):
     criterio = request.GET.get('criterio')
     if criterio:
@@ -48,6 +54,8 @@ def aluno_list(request):
              'paginator': paginator, 'page_obj': alunos}
     return render(request, 'Alunos/alunos_list.html', dados)
 
+
+@permission_required('appAlunos.delete_aluno', login_url='erro_permissao')
 def aluno_delete(request, pk):
     try:
         aluno = Aluno.objects.get(id=pk)
@@ -57,12 +65,15 @@ def aluno_delete(request, pk):
         mensagem ={'mensagem':'Não é possível excluir aluno, excluir o aluno selecionado exigiria excluir as frequências registradas'}
         return render(request,'utils/pagina_erro.html',mensagem)
 
+
+@permission_required('appAlunos.change_aluno', login_url='erro_permissao')
 def aluno_update(request,pk):
     aluno = Aluno.objects.get(id=pk)
     if request.method == "POST":
         form = AlunoForm(request.POST, instance=aluno)
         if form.is_valid():
-            aluno = form.save()
+            aluno = form.save(commit=False)
+            aluno.foto = request.FILES['foto']
             aluno.username = aluno.matricula
             aluno.first_name = aluno.nome
             aluno.set_password(aluno.senha)
@@ -108,34 +119,36 @@ def aluno_frequencia(request,pk):
 def aluno_frequencias(request,pk):
     try:
         aluno = Aluno.objects.get(id=pk)
-        data_inicial = request.GET.get('data_inicial')
-        data_final = request.GET.get('data_final')
-        if validar_data(data_inicial) and validar_data(data_final):
-            data_inicial_formatada = datetime.datetime.strptime(data_inicial, "%d/%m/%Y").strftime("%Y-%m-%d")
-            data_final_formatada = datetime.datetime.strptime(data_final, "%d/%m/%Y").strftime("%Y-%m-%d")
-            frequencias = aluno.frequencia_set.filter(~Q(data__week_day=7),~Q(data__week_day=1),data__gte=data_inicial_formatada,data__lte=data_final_formatada).order_by('data')
-            frequencia_com_expediente = []
-            for frequencia in frequencias:
-                if frequencia.data not in datas_sem_expediente():
-                    frequencia_com_expediente.append(frequencia)
-            dias_aulas = dias_registrados(frequencia_com_expediente)
-            dias_nao_aulas = dias_nao_registrados(frequencia_com_expediente)
-            horas_total = tempo_total(frequencia_com_expediente)
-            dados = {'frequencias':frequencia_com_expediente,'aluno':aluno,'data_inicial':data_inicial,
-                         'data_final':data_final,'dias_aulas':dias_aulas,'dias_nao_aulas':dias_nao_aulas,'horas_total':horas_total}
-            return render(request, 'Frequencia/exibir_frequencia_aluno.html', dados)
-        else:
-            return render(request,'utils/permissao.html')
     except Exception:
         mensagem = {
             'mensagem': 'Aluno não existe'}
         return render(request, 'utils/pagina_erro.html', mensagem)
+    data_inicial = request.GET.get('data_inicial')
+    data_final = request.GET.get('data_final')
+    if validar_data(data_inicial) and validar_data(data_final):
+        data_inicial_formatada = datetime.datetime.strptime(data_inicial, "%d/%m/%Y").strftime("%Y-%m-%d")
+        data_final_formatada = datetime.datetime.strptime(data_final, "%d/%m/%Y").strftime("%Y-%m-%d")
+        frequencias = aluno.frequencia_set.filter(~Q(data__week_day=7), ~Q(data__week_day=1),
+                                                  data__gte=data_inicial_formatada,
+                                                  data__lte=data_final_formatada).order_by('data')
+        frequencia_com_expediente = []
+        for frequencia in frequencias:
+            if frequencia.data not in datas_sem_expediente():
+                frequencia_com_expediente.append(frequencia)
+        dias_aulas = dias_registrados(frequencia_com_expediente)
+        dias_nao_aulas = dias_nao_registrados(frequencia_com_expediente)
+        horas_total = tempo_total(frequencia_com_expediente)
+        dados = {'frequencias': frequencia_com_expediente, 'aluno': aluno, 'data_inicial': data_inicial,
+                 'data_final': data_final, 'dias_aulas': dias_aulas, 'dias_nao_aulas': dias_nao_aulas,
+                 'horas_total': horas_total}
+        return render(request, 'Frequencia/exibir_frequencia_aluno.html', dados)
+    else:
+        return render(request, 'utils/permissao.html')
 
 @permission_required('appPonto.view_frequencia',login_url='erro_permissao')
 def busca_aluno_frequencia(request, pk):
     aluno = Aluno.objects.get(id=pk)
     return render(request, 'Frequencia/busca_frequencia_aluno.html', {'aluno':aluno})
-
 
 @permission_required('appAlunos.view_aluno', login_url='erro_permissao')
 def alunos_list(request):

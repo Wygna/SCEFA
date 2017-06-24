@@ -15,7 +15,7 @@ def porta_list(request):
     else:
         portas = Porta.objects.all().order_by('descricao')
         criterio =""
-    paginator =Paginator(portas,4)
+    paginator = Paginator(portas, 10)
     page = request.GET.get('page')
     try:
         portas = paginator.page(page)

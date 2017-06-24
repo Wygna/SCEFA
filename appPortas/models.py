@@ -1,6 +1,7 @@
-from django.db import models
-from appPonto.models import *
 from django.utils import timezone
+
+from appPonto.models import *
+
 
 class Porta(models.Model):
     descricao = models.CharField('Descrição', max_length=255)
@@ -10,7 +11,8 @@ class Porta(models.Model):
         return self.descricao
     class Meta: permissions = (('view_porta', 'Can see porta'),)
 
-class Registro_porta(models.Model):
+
+class Registro_Porta(models.Model):
     data = models.DateField(default=timezone.now)
     hora_acesso = models.TimeField(default=timezone.now)
     porta = models.ForeignKey(Porta,on_delete=models.PROTECT,verbose_name="Porta")
