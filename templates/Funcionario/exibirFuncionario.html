@@ -8,21 +8,28 @@
                  <h3 class="panel-title" style="text-align: center;">Dados do Funcionário</h3>
              </div>
              <table class="table table-bordered">
-        <tr>
-            <td><b>Nome:</b> {{funcionario.nome}}</td></tr>
-        <tr>
-            <td><b>Matricula:</b> {{ funcionario.matricula }}</td>
-        </tr>
-        <tr>
-            <td><b>Telefone:</b> {{ funcionario.telefone}}</td>
-        </tr>
-        <tr>
-            <td><b>E-mail:</b> {{ funcionario.Email}}</td>
-        </tr>
-        <tr>
-            <td><b>Departamento:</b> {{ funcionario.cargo.departamento}}</td>
-        </tr>
-    </table>
+                 <tr>
+                     <td><b>Nome:</b> {{ funcionario.nome }}</td>
+                 </tr>
+                 <tr>
+                     <td><b>Matricula:</b> {{ funcionario.matricula }}</td>
+                 </tr>
+                 <tr>
+                     <td><b>Telefone:</b> {{ funcionario.telefone }}</td>
+                 </tr>
+                 <tr>
+                     <td><b>E-mail:</b> {{ funcionario.Email }}</td>
+                 </tr>
+                 <tr>
+                     <td><b>Profissão:</b> {{ funcionario.cargo }}</td>
+                 </tr>
+                 <tr>
+                     <td><b>Departamento:</b> {{ funcionario.cargo.departamento }}</td>
+                 </tr>
+                 <tr>
+                     <td><b>Situação:</b> {{ funcionario.situacao }}</td>
+                 </tr>
+             </table>
          </div>
      </div>
 {% endblock %}

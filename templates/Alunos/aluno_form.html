@@ -1,6 +1,14 @@
 {% extends 'base.html' %}
+{% load static %}
 {% load widget_tweaks %}
 <%{% block conteudo %}
+    <script type="text/javascript" src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+    <script src="{% static "appPonto/js/jquery.maskedinput.js" %}"></script>
+    <script>
+        $(document).ready(function () {
+            $("#id_telefone").mask("(99) 99999-9999");
+        });
+    </script>
     <section class="container">
         <div class="row">
                         <!-- left column -->

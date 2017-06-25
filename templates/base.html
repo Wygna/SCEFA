@@ -196,19 +196,10 @@
                             </ul>
                         </li>
                         {% endif %}
-                        {% if request.user.groups.all.0.name == 'Funcionarios'%}
-                            <li class="treeview">
-                            <a href="{% url 'busca_funcionario_frequencia' request.user.id %}">
-                                <i class="far fa fa-file-text-o"></i> <span>Frequêcia de ponto</span>
-                            </a>
-                            <a href="{% url 'busca_porta_pessoa_frequencia' request.user.id %}">
-                                <i class="far fa fa-file-text-o"></i> <span>Acessos de portas</span>
-                            </a>
-                    {% endif %}
-                    {% if request.user.groups.all.0.name == 'Alunos'%}
+                        {% if request.user.groups.all.0.name == 'Alunos' or request.user.groups.all.0.name == 'Funcionarios' %}
                             <li class="treeview">
                             <a href="{% url 'busca_aluno_frequencia' request.user.id %}">
-                                <i class="far fa fa-file-text-o"></i> <span>Frequêcia de ponto</span>
+                                <i class="far fa fa-file-text-o"></i> <span>Frequência de ponto</span>
                             </a>
                         <a href="{% url 'busca_porta_pessoa_frequencia' request.user.id %}">
                             <i class="far fa fa-file-text-o"></i> <span>Acessos de portas</span>

@@ -7,14 +7,13 @@ from appAlunos.forms import AlunoForm
 from appAlunos.models import *
 from appPonto.funcoes import *
 
-
 @permission_required('appAlunos.add_aluno', login_url='erro_permissao')
 def aluno_new(request):
     if request.method == 'POST':
         form = AlunoForm(request.POST)
         if form.is_valid():
-            aluno = form.save(commit=False)
-            aluno.foto = request.FILES['foto']
+            aluno = form.save()
+            if request.FILES.get('foto'): aluno.foto = request.FILES['foto']
             aluno.username = aluno.matricula
             aluno.first_name = aluno.nome
             aluno.set_password(aluno.senha)
@@ -27,12 +26,15 @@ def aluno_new(request):
         dados = {'form': form}
         return render(request, 'Alunos/aluno_form.html', dados)
 
-
 @permission_required('appAlunos.view_aluno', login_url='erro_permissao')
 def aluno_detail(request, pk):
-    aluno = Aluno.objects.get(id=pk)
-    return render(request, 'Alunos/exibirAlunos.html',{'aluno':aluno})
-
+    try:
+        aluno = Aluno.objects.get(id=pk)
+        return render(request, 'Alunos/exibirAlunos.html', {'aluno': aluno})
+    except Exception:
+        mensagem = {
+            'mensagem': 'O Aluno não existe'}
+        return render(request, 'utils/pagina_erro.html', mensagem)
 
 @permission_required('appAlunos.view_aluno', login_url='erro_permissao')
 def aluno_list(request):
@@ -54,7 +56,6 @@ def aluno_list(request):
              'paginator': paginator, 'page_obj': alunos}
     return render(request, 'Alunos/alunos_list.html', dados)
 
-
 @permission_required('appAlunos.delete_aluno', login_url='erro_permissao')
 def aluno_delete(request, pk):
     try:
@@ -65,15 +66,19 @@ def aluno_delete(request, pk):
         mensagem ={'mensagem':'Não é possível excluir aluno, excluir o aluno selecionado exigiria excluir as frequências registradas'}
         return render(request,'utils/pagina_erro.html',mensagem)
 
-
 @permission_required('appAlunos.change_aluno', login_url='erro_permissao')
 def aluno_update(request,pk):
-    aluno = Aluno.objects.get(id=pk)
+    try:
+        aluno = Aluno.objects.get(id=pk)
+    except Exception:
+        mensagem = {
+            'mensagem': 'O Aluno não existe'}
+        return render(request, 'utils/pagina_erro.html', mensagem)
     if request.method == "POST":
         form = AlunoForm(request.POST, instance=aluno)
         if form.is_valid():
             aluno = form.save(commit=False)
-            aluno.foto = request.FILES['foto']
+            if request.FILES.get('foto'): aluno.foto = request.FILES['foto']
             aluno.username = aluno.matricula
             aluno.first_name = aluno.nome
             aluno.set_password(aluno.senha)
