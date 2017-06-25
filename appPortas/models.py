@@ -11,12 +11,16 @@ class Porta(models.Model):
         return self.descricao
     class Meta: permissions = (('view_porta', 'Can see porta'),)
 
-
 class Registro_Porta(models.Model):
     data = models.DateField(default=timezone.now)
     hora_acesso = models.TimeField(default=timezone.now)
     porta = models.ForeignKey(Porta,on_delete=models.PROTECT,verbose_name="Porta")
     pessoa = models.ForeignKey(Pessoa,on_delete=models.PROTECT,verbose_name='Pessoa')
+
+    def diaSemana(self):
+        semana = ['Segunda-Feira', 'Terceira-Feira', 'Quarta-Feira',
+                  'Quinta-Feira', 'Sexta-Feira', 'Sábado', 'Domingo']
+        return semana[self.data.weekday()]
 
     class Meta: permissions = (('view_Registro_porta', 'Can see Registro_porta'),)
 

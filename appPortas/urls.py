@@ -25,6 +25,10 @@ urlpatterns = [
     url(r'^porta/no_grupo/(?P<pk>\d+)$', porta_no_grupo, name='porta_no_grupo'),
     url(r'^porta/nao_grupo/(?P<pk>\d+)$', porta_nao_grupo, name='porta_nao_grupo'),
 
-
-
+    url(r'^frequencia/porta/$', portas_list, name='portas_list'),
+    url(r'^busca/porta/frequencia/(?P<pk>\d+)$', busca_porta_frequencia, name='busca_porta_frequencia'),
+    url(r'^busca/porta/frequencia/usuario/(?P<pk>\d+)$', busca_porta_pessoa_frequencia,
+        name='busca_porta_pessoa_frequencia'),
+    url(r'^porta/frequencia/list/(?P<pk>\d+)$', porta_frequencias, name='portas_frequencias'),
+    url(r'^porta/frequencia/usuario/(?P<pk>\d+)$', porta_pessoa_frequencia, name='porta_pessoa_frequencia'),
 ]

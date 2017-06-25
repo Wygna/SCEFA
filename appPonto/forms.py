@@ -1,8 +1,6 @@
-from django import forms
 from django.forms import ModelForm, forms, DateInput
-
 from appPonto.models import *
-
+from django import forms
 
 class FuncionarioForm(ModelForm):
     senha = forms.CharField(label='Senha', widget=forms.PasswordInput)

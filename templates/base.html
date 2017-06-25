@@ -177,6 +177,8 @@
                             <ul class="treeview-menu">
                                 <li><a href="{% url 'frequencia_list'%}"><i class="fa fa-circle-o"></i>Frequências de Funcionários</a></li>
                                 <li><a href="{% url 'Frequencia_list' %}"><i class="fa fa-circle-o"></i>Frequências de Alunos</a></li>
+                                <li><a href="{% url 'portas_list' %}"><i class="fa fa-circle-o"></i>Frequências de
+                                    Portas</a></li>
                             </ul>
                         </li>
                             <li class="treeview">
@@ -197,16 +199,20 @@
                         {% if request.user.groups.all.0.name == 'Funcionarios'%}
                             <li class="treeview">
                             <a href="{% url 'busca_funcionario_frequencia' request.user.id %}">
-                                <i class="far fa fa-file-text-o"></i> <span>Frequência</span>
-
+                                <i class="far fa fa-file-text-o"></i> <span>Frequêcia de ponto</span>
+                            </a>
+                            <a href="{% url 'busca_porta_pessoa_frequencia' request.user.id %}">
+                                <i class="far fa fa-file-text-o"></i> <span>Acessos de portas</span>
                             </a>
                     {% endif %}
                     {% if request.user.groups.all.0.name == 'Alunos'%}
                             <li class="treeview">
                             <a href="{% url 'busca_aluno_frequencia' request.user.id %}">
-                                <i class="far fa fa-file-text-o"></i> <span>Gerar relatório</span>
-
+                                <i class="far fa fa-file-text-o"></i> <span>Frequêcia de ponto</span>
                             </a>
+                        <a href="{% url 'busca_porta_pessoa_frequencia' request.user.id %}">
+                            <i class="far fa fa-file-text-o"></i> <span>Acessos de portas</span>
+                        </a>
                     {% endif %}
                     </ul>
                 </section>

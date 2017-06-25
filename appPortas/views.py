@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import permission_required
 from django.core.paginator import PageNotAnInteger, EmptyPage, Paginator
 from django.db.models import Q
 from django.shortcuts import render, redirect
-
+from appPonto.funcoes import *
 from appPortas.forms import *
 from appPortas.models import *
 
@@ -315,3 +315,81 @@ def edit_grupo(request):
 def adicionar_acesso_funcionario(request,pk):
     funcionario = Funcionario.objects.get()
     return redirect('administrador_new')
+
+
+@permission_required('appPonto.view_pessoa', login_url='erro_permissao')
+def portas_list(request):
+    criterio = request.GET.get('criterio')
+    if criterio:
+        portas = Porta.objects.filter(nome__icontains=criterio).order_by('descricao')
+    else:
+        portas = Porta.objects.all().order_by('descricao')
+        criterio = ""
+    paginator = Paginator(portas, 10)
+    page = request.GET.get('page')
+    try:
+        portas = paginator.page(page)
+    except PageNotAnInteger:
+        portas = paginator.page(1)
+    except EmptyPage:
+        portas = paginator.page(paginator.num_pages)
+    dados = {'portas': portas, 'criterio': criterio, 'paginator': paginator, 'page_obj': portas}
+    return render(request, 'Registro_Porta/frequencia_porta_list.html', dados)
+
+
+@permission_required('appPortas.view_Registro_porta', login_url='erro_permissao')
+def busca_porta_frequencia(request, pk):
+    porta = Porta.objects.get(id=pk)
+    return render(request, 'Registro_Porta/busca_frequencia_porta.html', {'porta': porta})
+
+
+@permission_required('appPortas.view_Registro_porta', login_url='erro_permissao')
+def busca_porta_pessoa_frequencia(request, pk):
+    pessoa = Pessoa.objects.get(id=pk)
+    return render(request, 'Registro_Porta/busca_frequencia_porta.html', {'pessoa': pessoa})
+
+
+@permission_required('appPortas.view_Registro_porta', login_url='erro_permissao')
+def porta_frequencias(request, pk):
+    try:
+        porta = Porta.objects.get(id=pk)
+    except Exception:
+        mensagem = {
+            'mensagem': 'Porta não existe'}
+        return render(request, 'utils/pagina_erro.html', mensagem)
+    data_inicial = request.GET.get('data_inicial')
+    data_final = request.GET.get('data_final')
+    if validar_data(data_inicial) and validar_data(data_final):
+        data_inicial_formatada = datetime.datetime.strptime(data_inicial, "%d/%m/%Y").strftime("%Y-%m-%d")
+        data_final_formatada = datetime.datetime.strptime(data_final, "%d/%m/%Y").strftime("%Y-%m-%d")
+        frequencias = porta.registro_porta_set.filter(data__gte=data_inicial_formatada,
+                                                      data__lte=data_final_formatada).order_by('data')
+        dados = {'frequencias': frequencias, 'porta': porta, 'data_inicial': data_inicial,
+                 'data_final': data_final}
+        return render(request, 'Registro_Porta/exibir_frequencia_porta.html', dados)
+    else:
+        return render(request, 'utils/permissao.html')
+
+
+@permission_required('appPortas.view_Registro_porta', login_url='erro_permissao')
+def porta_pessoa_frequencia(request, pk):
+    current_user = request.user
+    try:
+        pessoa = Pessoa.objects.get(id=pk)
+    except Exception:
+        mensagem = {
+            'mensagem': 'Usuário não existe'}
+        return render(request, 'utils/pagina_erro.html', mensagem)
+    if pessoa.username == current_user.username:
+        data_inicial = request.GET.get('data_inicial')
+        data_final = request.GET.get('data_final')
+        if validar_data(data_inicial) and validar_data(data_final):
+            data_inicial_formatada = datetime.datetime.strptime(data_inicial, "%d/%m/%Y").strftime("%Y-%m-%d")
+            data_final_formatada = datetime.datetime.strptime(data_final, "%d/%m/%Y").strftime("%Y-%m-%d")
+            frequencias = pessoa.registro_porta_set.filter(data__gte=data_inicial_formatada,
+                                                           data__lte=data_final_formatada).order_by('data')
+            dados = {'frequencias': frequencias, 'pessoa': pessoa, 'data_inicial': data_inicial,
+                     'data_final': data_final}
+            return render(request, 'Registro_Porta/exibir_frequencia_porta_pessoa.html', dados)
+    else:
+        return render(request, 'utils/permissao.html')
