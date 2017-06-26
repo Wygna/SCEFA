@@ -107,11 +107,12 @@ def aluno_frequencia(request,pk):
                 for frequencia in frequencias:
                     if frequencia.data not in datas_sem_expediente():
                         frequencia_com_expediente.append(frequencia)
-                dias_trabalhados = dias_registrados(frequencia_com_expediente)
-                dias_nao_trabalhados = dias_nao_registrados(frequencia_com_expediente)
+                dias_aulas = dias_registrados(frequencia_com_expediente)
+                dias_nao_aulas = dias_nao_registrados(frequencia_com_expediente)
                 horas_total = tempo_total(frequencia_com_expediente)
                 dados = {'frequencias':frequencia_com_expediente,'aluno':aluno,'data_inicial':data_inicial,
-                         'data_final':data_final,'dias_trabalhos':dias_trabalhados,'dias_nao_trabalhos':dias_nao_trabalhados,'horas_total':horas_total}
+                         'data_final': data_final, 'dias_aulas': dias_aulas, 'dias_nao_aulas': dias_nao_aulas,
+                         'horas_total': horas_total}
                 return render(request, 'Frequencia/exibir_frequencia_aluno.html', dados)
         else:
             return render(request,'utils/permissao.html')

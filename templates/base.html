@@ -202,15 +202,21 @@
                             </ul>
                         </li>
                         {% endif %}
-                        {% if request.user.groups.all.0.name == 'Alunos' or request.user.groups.all.0.name == 'Funcionarios' %}
+                        {% if request.user.groups.all.0.name == 'Alunos' %}
                             <li class="treeview">
-                            <a href="{% url 'busca_aluno_frequencia' request.user.id %}">
-                                <i class="far fa fa-file-text-o"></i> <span>Frequência de ponto</span>
-                            </a>
-                        <a href="{% url 'busca_porta_pessoa_frequencia' request.user.id %}">
-                            <i class="far fa fa-file-text-o"></i> <span>Acessos de portas</span>
-                        </a>
-                    {% endif %}
+                                <a href="{% url 'busca_aluno_frequencia' request.user.id %}">
+                                    <i class="far fa fa-file-text-o"></i> <span>Frequência de ponto</span></a>
+                            </li>
+                        {% elif request.user.groups.all.0.name == 'Funcionarios' %}
+                            <li class="treeview">
+                                <a href="{% url 'busca_funcionario_frequencia' request.user.id %}">
+                                    <i class="far fa fa-file-text-o"></i> <span>Frequência de ponto</span></a>
+                            </li>
+                        {% endif %}
+                        <li class="treeview">
+                            <a href="{% url 'busca_porta_pessoa_frequencia' request.user.id %}">
+                                <i class="far fa fa-file-text-o"></i> <span>Acessos de portas</span></a>
+                        </li>
                     </ul>
                 </section>
                 <!-- /.sidebar -->
