@@ -1,66 +1,121 @@
 {% extends 'base.html' %}
 {% block conteudo %}
-    <section class="container" xmlns="http://www.w3.org/1999/html">
+    <style>
+        .botao {
+            width: 100%;
+            height: 40px;
+            border-radius: 10px;
+            margin: auto;
+            background-color: #e6c1c7;
+        }
+    </style>
+    <section class="container-fluid">
         <div class="row">
             <!-- left column -->
-            <div class="col-sm-9 col-sm-offset-1">
+            <div class="col-sm-10 col-sm-offset-1">
                 <!-- general form elements -->
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title" style="text-align: center;">Frequências</h3>
                     </div>
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <tr>
+                                <th>Nome: {{ funcionario.nome }}</th>
+                            </tr>
+                            <tr>
+                                <th>Data</th>
+                                <th>Registros</th>
+                                <th>CH</th>
+                                <th>Duração</th>
+                                <th>Observações do sistema</th>
+                                <th>Observação</th>
+                            </tr>
+                            {% for frequencia in frequencias %}
+                                <tr>
+                                    <td style="width: 22%">
+                                        {{ frequencia.data|date:"d/m/Y"}}({{ frequencia.diaSemana }})
+                                    </td>
+                                    <td style="width: 30%">
+                                        {% if frequencia.hora_entrada %}
+                                            <b>E: </b>
+                                            <span style="color:green">{{ frequencia.hora_entrada.isoformat }}</span> (
+                                            {{ frequencia.local }})
+                                        {% endif %}
+                                        {% if frequencia.hora_saida %}
+                                            <b>S: </b>
+                                            <span style="color:red">{{ frequencia.hora_saida.isoformat }}</span> (
+                                            {{ frequencia.local }})
+                                        {% endif %}
+                                    </td>
+                                    <td>8h</td>
+                                    <td>
+                                        {{ frequencia.hora_inicial_final }}</td>
+                                    <td style="text-align: center;">
+                                        {% if frequencia.tempo_maximo == 1 %}
+                                            <div class="botao">
+                                                Tempo de trabalho superior a 10h!
+                                            </div>
+                                        {% elif frequencia.hora_entrada == None %}
+                                            <div class="botao">
+                                                Sem registro
+                                            </div>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-facebook" data-toggle="modal"
+                                                data-target="#exampleModal" data-whatever="@mdo">
+                                            <i class="glyphicon glyphicon-pencil"></i>
+                                        </button>
+                                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                                             aria-labelledby="exampleModalLabel">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close"><span
+                                                                aria-hidden="true">&times;</span></button>
+                                                        <h4 class="modal-title" id="exampleModalLabel">Observação</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form>
+                                                            <div class="form-group">
+                                                                <label for="message-text" class="control-label"></label>
+                                                                <textarea Class="form-control"></textarea>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button class="btn btn-primary">Salvar</button>
+                                                                <button type="button" class="btn btn-default"
+                                                                        data-dismiss="modal">Fechar
+                                                                </button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+                <div class="table-responsive">
                     <table class="table table-bordered">
                         <tr>
-                            <th>Nome: {{ funcionario.nome }}</th>
+                            <th>Carga total da semana</th>
+                            <th>Número de dias úteis sem registros</th>
+                            <th>Número de dias úteis trabalhados</th>
+                            <th>Periódo do relatório</th>
                         </tr>
-                       <tr>
-                           <th>Data</th>
-                           <th>Registros</th>
-                           <th>CH</th>
-                           <th>Duração</th>
-                           <th>Observações do sistema</th>
-                           <th>Observações Pessoais</th>
+                        <tr>
+                            <td>{{ horas_total }}</td>
+                            <td>{{ dias_nao_trabalhos }}</td>
+                            <td>{{ dias_trabalhos }}</td>
+                            <td>{{ data_inicial }} até {{ data_final }}</td>
                         </tr>
-                        {% for frequencia in frequencias %}
-                           <tr>
-                               <td>{{ frequencia.data|date:"d/m/Y"}}({{ frequencia.diaSemana }})</td>
-                               <td style="width: 27%">
-                                   {% if frequencia.hora_entrada %}
-                                   <b>E: </b><span style="color:green">{{ frequencia.hora_entrada.isoformat}}</span>({{ frequencia.local }})
-                                      {% endif %}
-                                  {% if frequencia.hora_saida %}
-                                   <b>S: </b> <span style="color:red">{{ frequencia.hora_saida.isoformat}}</span>({{ frequencia.local }})
-                                  {% endif %}
-                                  </td>
-                               <td>8h</td>
-                               <td>
-                                   {{ frequencia.hora_inicial_final }}</td>
-                               <td>
-                                   {% if frequencia.tempo_maximo == 1%}
-                                   <div class="alert alert-danger">
-                                        Tempo de trabalho superior a 10h!
-                                   </div>
-                                    {% endif %}
-                               </td>
-                               <td><button class="btn btn-circle btn-success" >Adicionar observação</button> </td>
-                           </tr>
-                        {% endfor %}
                     </table>
                 </div>
-            <table class="table table-bordered">
-                <tr>
-                    <th>Carga total da semana</th>
-                    <th>Número de dias úteis sem registros</th>
-                    <th>Número de dias úteis  trabalhados</th>
-                    <th>Periódo do relatório</th>
-                </tr>
-                <tr>
-                    <td>{{ horas_total }}</td>
-                    <td>{{ dias_nao_trabalhos }}</td>
-                    <td>{{ dias_trabalhos }}</td>
-                    <td>{{ data_inicial }} até {{ data_final }}</td>
-                </tr>
-            </table>
             </div>
         </div>
     </section>

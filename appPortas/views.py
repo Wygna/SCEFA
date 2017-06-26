@@ -345,9 +345,13 @@ def busca_porta_frequencia(request, pk):
 
 @permission_required('appPortas.view_Registro_porta', login_url='erro_permissao')
 def busca_porta_pessoa_frequencia(request, pk):
-    pessoa = Pessoa.objects.get(id=pk)
-    return render(request, 'Registro_Porta/busca_frequencia_porta.html', {'pessoa': pessoa})
-
+    try:
+        pessoa = Pessoa.objects.get(id=pk)
+        return render(request, 'Registro_Porta/busca_frequencia_porta.html', {'pessoa': pessoa})
+    except Pessoa.DoesNotExist:
+        mensagem = {
+            'mensagem': 'O Usuário não existe'}
+        return render(request, 'utils/pagina_erro.html', mensagem)
 
 @permission_required('appPortas.view_Registro_porta', login_url='erro_permissao')
 def porta_frequencias(request, pk):
@@ -369,7 +373,6 @@ def porta_frequencias(request, pk):
         return render(request, 'Registro_Porta/exibir_frequencia_porta.html', dados)
     else:
         return render(request, 'utils/permissao.html')
-
 
 @permission_required('appPortas.view_Registro_porta', login_url='erro_permissao')
 def porta_pessoa_frequencia(request, pk):

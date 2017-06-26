@@ -1,10 +1,9 @@
 from tastypie import fields
+from tastypie.authorization import Authorization
 from tastypie.authentication import BasicAuthentication
 from tastypie.resources import ModelResource
-
 from appPonto.models import *
-from appPonto.teste import *
-
+from appPortas.models import *
 
 class PessoaResource(ModelResource):
     class Meta:
@@ -22,7 +21,6 @@ class PessoaResource(ModelResource):
     def authorized_read_list(self, object_list, bundle):
         return object_list.filter(username=bundle.request.user)
 
-
 class FrequenciasResource(ModelResource):
     pessoa = fields.ForeignKey(PessoaResource,'pessoa',full=True)
     class Meta:
@@ -38,11 +36,30 @@ class FrequenciasResource(ModelResource):
         return object_list.filter(pessoa=bundle.request.user)
 
 
+class PortaResource(ModelResource):
+    class Meta:
+        queryset = Porta.objects.all()
+        resource_name = 'porta'
+        list_allowed_methods = ['get', 'post']
+        authentication = BasicAuthentication()
+        authorization = Authorization()
+
+        # def obj_create(self, bundle, **kwargs):
+        #   return super(PessoaResource, self).obj_create(bundle, user=bundle.request.user)
 
 
+class RegistroPortaResource(ModelResource):
+    pessoa = fields.ForeignKey(PessoaResource, 'pessoa', full=True)
+    porta = fields.ForeignKey(PortaResource, 'porta', full=True)
 
+    class Meta:
+        queryset = Registro_Porta.objects.all()
+        resource_name = 'registro_portas'
+        limit = 0
+        max_limit = 0
+        list_allowed_methods = ['get', 'post']
+        authentication = BasicAuthentication()
+        authorization = Authorization()
 
-
-
-
-
+    def authorized_read_list(self, object_list, bundle):
+        return object_list.filter(pessoa=bundle.request.user)

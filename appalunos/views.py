@@ -152,8 +152,13 @@ def aluno_frequencias(request,pk):
 
 @permission_required('appPonto.view_frequencia',login_url='erro_permissao')
 def busca_aluno_frequencia(request, pk):
-    aluno = Aluno.objects.get(id=pk)
-    return render(request, 'Frequencia/busca_frequencia_aluno.html', {'aluno':aluno})
+    try:
+        aluno = Aluno.objects.get(id=pk)
+        return render(request, 'Frequencia/busca_frequencia_aluno.html', {'aluno': aluno})
+    except Aluno.DoesNotExist:
+        mensagem = {
+            'mensagem': 'O Aluno não existe'}
+        return render(request, 'utils/pagina_erro.html', mensagem)
 
 @permission_required('appAlunos.view_aluno', login_url='erro_permissao')
 def alunos_list(request):

@@ -10,8 +10,12 @@ from .api import *
 api=Api(api_name='dados')
 pessoaResource=PessoaResource()
 frequenciaResource = FrequenciasResource()
+registroPortaResource = RegistroPortaResource()
+portaResource = PortaResource()
 api.register(pessoaResource)
 api.register(frequenciaResource)
+api.register(portaResource)
+api.register(registroPortaResource)
 
 urlpatterns = [
     url(r'^api/', include(api.urls)),
