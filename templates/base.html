@@ -213,10 +213,12 @@
                                     <i class="far fa fa-file-text-o"></i> <span>Frequência de ponto</span></a>
                             </li>
                         {% endif %}
+                        {% if request.user.groups.all.0.name == 'Funcionarios' or request.user.groups.all.0.name == 'Alunos' %}
                         <li class="treeview">
                             <a href="{% url 'busca_porta_pessoa_frequencia' request.user.id %}">
                                 <i class="far fa fa-file-text-o"></i> <span>Acessos de portas</span></a>
                         </li>
+                        {% endif %}
                     </ul>
                 </section>
                 <!-- /.sidebar -->

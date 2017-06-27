@@ -4,16 +4,19 @@ from tastypie.authentication import BasicAuthentication
 from tastypie.resources import ModelResource
 from appPonto.models import *
 from appPortas.models import *
+from tastypie.constants import ALL, ALL_WITH_RELATIONS
+
 
 class PessoaResource(ModelResource):
     class Meta:
         queryset = Pessoa.objects.all()
         resource_name = 'pessoa'
         fields = ['username', 'nome', 'Email']
-        excludes = ['resource_uri']
+        filtering = {'nome': ALL}
         list_allowed_methods = ['get', 'post']
         authentication = BasicAuthentication()
         authorization = Authorization()
+        include_resource_uri = False
 
     #def obj_create(self, bundle, **kwargs):
      #   return super(PessoaResource, self).obj_create(bundle, user=bundle.request.user)
@@ -28,7 +31,11 @@ class FrequenciasResource(ModelResource):
         resource_name = 'frequencias'
         limit = 0
         max_limit = 0
+        filtering = {
+            "data": ['gte', 'lte'],
+        }
         list_allowed_methods = ['get', 'post']
+        include_resource_uri = False
         authentication = BasicAuthentication()
         authorization = Authorization()
 

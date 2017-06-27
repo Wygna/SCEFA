@@ -4,3 +4,4 @@ django_static_jquery
 paho-mqtt
 psycopg2
 django-tastypie
+pillow
