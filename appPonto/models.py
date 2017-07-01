@@ -1,9 +1,8 @@
 import datetime
-
+from django.db.models import Q
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
-
 
 class Pessoa(User):
     nome = models.CharField("Nome", max_length=255)
@@ -60,8 +59,11 @@ class Frequencia(models.Model):
     observacao = models.CharField("Observação",max_length=200,null=True)
     pessoa = models.ForeignKey(Pessoa,on_delete=models.PROTECT)
     inconsistencia = models.CharField("Inconsistencia",max_length=200,null=True)
+    arquivo = models.FileField(
+        upload_to='arquivos', verbose_name='arquivo',
+        null=True, blank=True)
 
-    def hora_inicial_final(self):
+    def TotalEntradaSaida(self):
         if self.hora_entrada !=None:
             formatacao = '%H:%M:%S'
             hora = datetime.datetime.strptime(str(self.hora_saida), formatacao) - datetime.datetime.strptime(str(self.hora_entrada), formatacao)
@@ -69,7 +71,7 @@ class Frequencia(models.Model):
         else:
             return "00:00:00"
 
-    def tempo_maximo(self):
+    def tempoMaximo(self):
         formatacao = '%H:%M:%S'
         tempo = str(datetime.datetime.strptime(str(self.hora_saida), formatacao) - datetime.datetime.strptime(str(self.hora_entrada), formatacao))
         tempo_maximo = int(tempo[0])
@@ -83,17 +85,88 @@ class Frequencia(models.Model):
     def __str__(self):
         return str(self.data.isoformat())+" "+str(self.pessoa)
 
+    @classmethod
+    def tempoTotal(cls, frequencias):
+        segundos = 0
+        formatacao = '%H:%M:%S'
+        for frequencia in frequencias:
+            if frequencia.hora_saida == None:
+                continue
+            segundos += (
+                datetime.datetime.strptime(str(frequencia.hora_saida), formatacao) - datetime.datetime.strptime(
+                    str(frequencia.hora_entrada),
+                    formatacao)).seconds
+        horas = segundos / 3600
+        min = (segundos % 3600) / 60
+        sec = segundos % 60
+        tempo = "%d:%d:%d" % (horas, min, sec)
+        return tempo
+
+    @classmethod
+    def validarData(cls, data):
+        dia = int(data[0:2])
+        mes = int(data[3:5])
+        ano = int(data[6:10])
+        validade = "true"
+        i = 0
+        while validade == "true" and i == 0:
+            if (ano % 4 == 0 and ano % 100 != 0) or ano % 400 == 0:
+                bissexto = "sim"
+            else:
+                bissexto = "nao"
+            if mes < 1 or mes > 12:
+                validade = "false"
+            if dia > 31 or ((mes == 4 or mes == 6 or mes == 9 or mes == 11) and dia > 30):
+                validade = "false"
+            if (mes == 2 and bissexto == "nao" and dia > 28) or (mes == 2 and bissexto == "sim" and dia > 29):
+                validade = "false"
+            i = i + 1
+        if validade == "true":
+            return True
+        else:
+            return False
+
+    @classmethod
+    def quantidadePresenca(cls, frequencias):
+        quantidade_dias = 0
+        for frequencia in frequencias:
+            if frequencia.hora_entrada != None:
+                quantidade_dias += 1
+        return quantidade_dias
+
+    @classmethod
+    def quantidadeFaltas(cls, frequencias):
+        quantidade_dias = 0
+        for frequencia in frequencias:
+            if frequencia.hora_entrada == None or frequencia.hora_saida == None:
+                quantidade_dias += 1
+        return quantidade_dias
+
+    @classmethod
+    def frequencias(cls, data_inicial, data_final, pessoa):
+        frequencias = pessoa.frequencia_set.filter(~Q(data__week_day=7), ~Q(data__week_day=1), data__gte=data_inicial,
+                                                   data__lte=data_final).order_by('data')
+        frequencia_com_expediente = []
+        for frequencia in frequencias:
+            if frequencia.data not in DiasSemExpediente.datasSemExpediente():
+                frequencia_com_expediente.append(frequencia)
+        return frequencia_com_expediente
+
     class Meta: permissions = (('view_frequencia', 'Can see frequencia'),
                                    ('view_frequencia_admin', 'Can see frequencia a mais'),)
 
-class Dias_sem_expediente(models.Model):
+
+class DiasSemExpediente(models.Model):
     data = models.DateField(default=timezone.now)
+
+    @classmethod
+    def datasSemExpediente(cls):
+        datas = []
+        for data in DiasSemExpediente.objects.all():
+            datas.append(data)
+        return datas
 
     def __str__(self):
         return self.data.isoformat()
 
-
-
-
-
-
+    class Meta: permissions = (('view_dias_sem_expediente', 'Can see dias sem expediente'),)

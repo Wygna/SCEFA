@@ -32,19 +32,22 @@
                         {% for frequencia in frequencias %}
                             <tr>
                                 <td>{{ frequencia.data|date:"d/m/Y"}}({{ frequencia.diaSemana }})</td>
-                                <td style="width: 30%">
+                                <td>
                                     {% if frequencia.hora_entrada %}
-                                        <b>E: </b>
+                                        <div><b>E: </b>
                                         <span style="color:green">{{ frequencia.hora_entrada.isoformat }}</span>(
                                         {{ frequencia.local }})
+                                        </div>
                                     {% endif %}
                                     {% if frequencia.hora_saida %}
-                                        <b>S: </b> <span style="color:red">{{ frequencia.hora_saida.isoformat }}</span>(
+                                        <div><b>S: </b>
+                                            <span style="color:red">{{ frequencia.hora_saida.isoformat }}</span>(
                                         {{ frequencia.local }})
+                                        </div>
                                     {% endif %}
                                 </td>
                                 <td>
-                                    {{ frequencia.hora_inicial_final }}</td>
+                                    {{ frequencia.TotalEntradaSaida }}</td>
                                 <td style="text-align: center">
                                     {% if frequencia.hora_entrada == None %}
                                         <div class="botao">

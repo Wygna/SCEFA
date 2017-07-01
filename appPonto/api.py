@@ -60,7 +60,7 @@ class RegistroPortaResource(ModelResource):
     porta = fields.ForeignKey(PortaResource, 'porta', full=True)
 
     class Meta:
-        queryset = Registro_Porta.objects.all()
+        queryset = RegistroPorta.objects.all()
         resource_name = 'registro_portas'
         limit = 0
         max_limit = 0

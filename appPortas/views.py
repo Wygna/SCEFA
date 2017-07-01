@@ -2,10 +2,8 @@ from django.contrib.auth.decorators import permission_required
 from django.core.paginator import PageNotAnInteger, EmptyPage, Paginator
 from django.db.models import Q
 from django.shortcuts import render, redirect
-from appPonto.funcoes import *
 from appPortas.forms import *
 from appPortas.models import *
-
 
 @permission_required('appPortas.view_porta',login_url='erro_permissao')
 def porta_list(request):
@@ -32,7 +30,7 @@ def porta_detail(request,pk):
     grupo = request.GET.get('grupo')
     porta = Porta.objects.get(id=pk)
     if grupo:
-        porta_grupo = Porta_Grupo.objects.get(porta=porta,grupo_id=grupo)
+        porta_grupo = GrupoPorta.objects.get(porta=porta, grupo_id=grupo)
         porta_grupo.delete()
     if criterio:
         grupos = Grupo.objects.filter(porta_grupo__porta=porta,descricao__icontains=criterio).order_by('descricao')
@@ -110,7 +108,7 @@ def grupo_detail(request,pk):
     usuario = request.GET.get('usuario')
     grupo = Grupo.objects.get(id=pk)
     if usuario:
-        usuario_grupo = Pessoa_Grupo.objects.get(pessoa_id=usuario,grupo=grupo)
+        usuario_grupo = GrupoPessoa.objects.get(pessoa_id=usuario, grupo=grupo)
         usuario_grupo.delete()
     if criterio:
         usuarios_acesso = Pessoa.objects.filter(pessoa_grupo__grupo=grupo,
@@ -172,7 +170,7 @@ def usuario_sem_acesso_grupo(request,pk):
     usuario = request.GET.get('usuario')
     grupo = Grupo.objects.get(id=pk)
     if usuario:
-        usuario_grupo = Pessoa_Grupo(grupo=grupo,pessoa_id=usuario)
+        usuario_grupo = GrupoPessoa(grupo=grupo, pessoa_id=usuario)
         usuario_grupo.save()
     if criterio:
         usuarios_sem_acesso = Pessoa.objects.filter(~Q(pessoa_grupo__grupo=grupo),
@@ -198,7 +196,7 @@ def usuario_acesso_grupo(request, pk):
     usuario = request.GET.get('usuario')
     grupo = Grupo.objects.get(id=pk)
     if usuario:
-        usuario_grupo = Pessoa_Grupo.objects.get(pessoa_id=usuario,grupo=grupo)
+        usuario_grupo = GrupoPessoa.objects.get(pessoa_id=usuario, grupo=grupo)
         usuario_grupo.delete()
     if criterio:
         usuarios_acesso = Pessoa.objects.filter(pessoa_grupo__grupo=grupo,
@@ -246,7 +244,7 @@ def porta_nao_grupo(request, pk):
     porta = request.GET.get('porta')
     grupo = Grupo.objects.get(id=pk)
     if porta:
-        porta_grupo = Porta_Grupo(grupo=grupo,porta_id=porta)
+        porta_grupo = GrupoPorta(grupo=grupo, porta_id=porta)
         porta_grupo.save()
     if criterio:
         porta_nao_grupo = Porta.objects.filter(~Q(porta_grupo__grupo=grupo),
@@ -272,7 +270,7 @@ def porta_no_grupo(request, pk):
     porta = request.GET.get('porta')
     grupo = Grupo.objects.get(id=pk)
     if porta:
-        porta_grupo = Porta_Grupo.objects.get(porta=porta,grupo=grupo)
+        porta_grupo = GrupoPorta.objects.get(porta=porta, grupo=grupo)
         porta_grupo.delete()
     if criterio:
         porta_no_grupo = Porta.objects.filter(porta_grupo__grupo=grupo,
@@ -336,7 +334,6 @@ def portas_list(request):
     dados = {'portas': portas, 'criterio': criterio, 'paginator': paginator, 'page_obj': portas}
     return render(request, 'Registro_Porta/frequencia_porta_list.html', dados)
 
-
 @permission_required('appPortas.view_Registro_porta', login_url='erro_permissao')
 def busca_porta_frequencia(request, pk):
     porta = Porta.objects.get(id=pk)
@@ -363,7 +360,7 @@ def porta_frequencias(request, pk):
         return render(request, 'utils/pagina_erro.html', mensagem)
     data_inicial = request.GET.get('data_inicial')
     data_final = request.GET.get('data_final')
-    if validar_data(data_inicial) and validar_data(data_final):
+    if RegistroPorta.validarData(data_inicial) and RegistroPorta.validarData(data_final):
         data_inicial_formatada = datetime.datetime.strptime(data_inicial, "%d/%m/%Y").strftime("%Y-%m-%d")
         data_final_formatada = datetime.datetime.strptime(data_final, "%d/%m/%Y").strftime("%Y-%m-%d")
         frequencias = porta.registro_porta_set.filter(data__gte=data_inicial_formatada,
@@ -386,7 +383,7 @@ def porta_pessoa_frequencia(request, pk):
     if pessoa.username == current_user.username:
         data_inicial = request.GET.get('data_inicial')
         data_final = request.GET.get('data_final')
-        if validar_data(data_inicial) and validar_data(data_final):
+        if RegistroPorta.validarData(data_inicial) and RegistroPorta.validarData(data_final):
             data_inicial_formatada = datetime.datetime.strptime(data_inicial, "%d/%m/%Y").strftime("%Y-%m-%d")
             data_final_formatada = datetime.datetime.strptime(data_final, "%d/%m/%Y").strftime("%Y-%m-%d")
             frequencias = pessoa.registro_porta_set.filter(data__gte=data_inicial_formatada,

@@ -33,3 +33,7 @@ class DataForm(forms.Form):
             'data_final': DateInput(attrs={'class': 'datepicker'}),
 
         }
+
+
+class AddObservacaoFrequencia(forms.Form):
+    observacao = forms.CharField(widget=forms.Textarea, label='Observação')

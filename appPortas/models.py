@@ -11,7 +11,8 @@ class Porta(models.Model):
         return self.descricao
     class Meta: permissions = (('view_porta', 'Can see porta'),)
 
-class Registro_Porta(models.Model):
+
+class RegistroPorta(models.Model):
     data = models.DateField(default=timezone.now)
     hora_acesso = models.TimeField(default=timezone.now)
     porta = models.ForeignKey(Porta,on_delete=models.PROTECT,verbose_name="Porta")
@@ -22,7 +23,32 @@ class Registro_Porta(models.Model):
                   'Quinta-Feira', 'Sexta-Feira', 'Sábado', 'Domingo']
         return semana[self.data.weekday()]
 
-    class Meta: permissions = (('view_Registro_porta', 'Can see Registro_porta'),)
+    @classmethod
+    def validarData(cls, data):
+        dia = int(data[0:2])
+        mes = int(data[3:5])
+        ano = int(data[6:10])
+        validade = "true"
+        i = 0
+        while validade == "true" and i == 0:
+            if (ano % 4 == 0 and ano % 100 != 0) or ano % 400 == 0:
+                bissexto = "sim"
+            else:
+                bissexto = "nao"
+            if mes < 1 or mes > 12:
+                validade = "false"
+            if dia > 31 or ((mes == 4 or mes == 6 or mes == 9 or mes == 11) and dia > 30):
+                validade = "false"
+            if (mes == 2 and bissexto == "nao" and dia > 28) or (mes == 2 and bissexto == "sim" and dia > 29):
+                validade = "false"
+            i = i + 1
+        if validade == "true":
+            return True
+        else:
+            return False
+
+    class Meta:
+        permissions = (('view_registro_porta', 'Can see registro_porta'),)
 
 class Grupo(models.Model):
     descricao = models.CharField('Descrição', max_length=255)
@@ -33,15 +59,16 @@ class Grupo(models.Model):
 
     class Meta: permissions = (('view_grupo', 'Can see grupo'),)
 
-class Porta_Grupo(models.Model):
+
+class GrupoPorta(models.Model):
     porta = models.ForeignKey(Porta,on_delete=models.PROTECT,verbose_name="Porta")
     grupo = models.ForeignKey(Grupo,on_delete=models.PROTECT,verbose_name="Grupo")
 
-    class Meta: permissions = (('view_porta_grupo', 'Can see porta_grupo'),)
+    class Meta: permissions = (('view_grupo_porta', 'Can see grupo_porta'),)
 
-class Pessoa_Grupo(models.Model):
+
+class GrupoPessoa(models.Model):
     grupo = models.ForeignKey(Grupo,on_delete=models.PROTECT,verbose_name="Grupo")
     pessoa = models.ForeignKey(Pessoa,on_delete=models.PROTECT,verbose_name="Pessoa")
 
-    class Meta: permissions = (('view_pessoa_grupo', 'Can see pessoa_grupo'),)
-
+    class Meta: permissions = (('view_grupo_pessoa', 'Can see grupo_pessoa'),)

@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 
 from appAlunos.forms import AlunoForm
 from appAlunos.models import *
-from appPonto.funcoes import *
+from appPonto.models import *
 
 @permission_required('appAlunos.add_aluno', login_url='erro_permissao')
 def aluno_new(request):
@@ -99,18 +99,14 @@ def aluno_frequencia(request,pk):
         if aluno.matricula ==  current_user.username:
             data_inicial = request.GET.get('data_inicial')
             data_final = request.GET.get('data_final')
-            if validar_data(data_inicial) and validar_data(data_final):
+            if Frequencia.validarData(data_inicial) and Frequencia.validarData(data_final):
                 data_inicial_formatada = datetime.datetime.strptime(data_inicial, "%d/%m/%Y").strftime("%Y-%m-%d")
                 data_final_formatada = datetime.datetime.strptime(data_final, "%d/%m/%Y").strftime("%Y-%m-%d")
-                frequencias = aluno.frequencia_set.filter(~Q(data__week_day=7),~Q(data__week_day=1),data__gte=data_inicial_formatada,data__lte=data_final_formatada).order_by('data')
-                frequencia_com_expediente = []
-                for frequencia in frequencias:
-                    if frequencia.data not in datas_sem_expediente():
-                        frequencia_com_expediente.append(frequencia)
-                dias_aulas = dias_registrados(frequencia_com_expediente)
-                dias_nao_aulas = dias_nao_registrados(frequencia_com_expediente)
-                horas_total = tempo_total(frequencia_com_expediente)
-                dados = {'frequencias':frequencia_com_expediente,'aluno':aluno,'data_inicial':data_inicial,
+                frequencias = Frequencia.frequencias(data_inicial_formatada, data_final_formatada, aluno)
+                dias_aulas = Frequencia.quantidadePresenca(frequencias)
+                dias_nao_aulas = Frequencia.quantidadeFaltas(frequencias)
+                horas_total = Frequencia.tempoTotal(frequencias)
+                dados = {'frequencias': frequencias, 'aluno': aluno, 'data_inicial': data_inicial,
                          'data_final': data_final, 'dias_aulas': dias_aulas, 'dias_nao_aulas': dias_nao_aulas,
                          'horas_total': horas_total}
                 return render(request, 'Frequencia/exibir_frequencia_aluno.html', dados)
@@ -131,20 +127,17 @@ def aluno_frequencias(request,pk):
         return render(request, 'utils/pagina_erro.html', mensagem)
     data_inicial = request.GET.get('data_inicial')
     data_final = request.GET.get('data_final')
-    if validar_data(data_inicial) and validar_data(data_final):
+    if Frequencia.validarData(data_inicial) and Frequencia.validarData(data_final):
         data_inicial_formatada = datetime.datetime.strptime(data_inicial, "%d/%m/%Y").strftime("%Y-%m-%d")
         data_final_formatada = datetime.datetime.strptime(data_final, "%d/%m/%Y").strftime("%Y-%m-%d")
-        frequencias = aluno.frequencia_set.filter(~Q(data__week_day=7), ~Q(data__week_day=1),
-                                                  data__gte=data_inicial_formatada,
-                                                  data__lte=data_final_formatada).order_by('data')
-        frequencia_com_expediente = []
-        for frequencia in frequencias:
-            if frequencia.data not in datas_sem_expediente():
-                frequencia_com_expediente.append(frequencia)
-        dias_aulas = dias_registrados(frequencia_com_expediente)
-        dias_nao_aulas = dias_nao_registrados(frequencia_com_expediente)
-        horas_total = tempo_total(frequencia_com_expediente)
-        dados = {'frequencias': frequencia_com_expediente, 'aluno': aluno, 'data_inicial': data_inicial,
+        frequencias = Frequencia.frequencias(data_inicial_formatada, data_final_formatada, aluno)
+        dias_aulas = Frequencia.quantidadePresenca(frequencias)
+        dias_nao_aulas = Frequencia.quantidadeFaltas(frequencias)
+        horas_total = Frequencia.tempoTotal(frequencias)
+        dados = {'frequencias': frequencias, 'aluno': aluno, 'data_inicial': data_inicial,
+                 'data_final': data_final, 'dias_aulas': dias_aulas, 'dias_nao_aulas': dias_nao_aulas,
+                 'horas_total': horas_total}
+        dados = {'frequencias': frequencias, 'aluno': aluno, 'data_inicial': data_inicial,
                  'data_final': data_final, 'dias_aulas': dias_aulas, 'dias_nao_aulas': dias_nao_aulas,
                  'horas_total': horas_total}
         return render(request, 'Frequencia/exibir_frequencia_aluno.html', dados)

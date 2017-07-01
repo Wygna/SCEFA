@@ -5,6 +5,6 @@ from appPortas.models import *
 # Register your models here.
 admin.site.register(Grupo)
 admin.site.register(Porta)
-admin.site.register(Porta_Grupo)
-admin.site.register(Pessoa_Grupo)
-admin.site.register(Registro_Porta)
+admin.site.register(GrupoPorta)
+admin.site.register(GrupoPessoa)
+admin.site.register(RegistroPorta)

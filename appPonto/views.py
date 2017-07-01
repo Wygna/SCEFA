@@ -3,7 +3,6 @@ from django.contrib.auth.models import Group
 from django.core.paginator import PageNotAnInteger, EmptyPage, Paginator
 from django.shortcuts import render, redirect
 from appPonto.forms import *
-from appPonto.funcoes import *
 
 @login_required(login_url='login')
 def home(request):
@@ -370,22 +369,16 @@ def funcionario_frequencia(request,pk):
     if funcionario.matricula == current_user.username:
         data_inicial = request.GET.get('data_inicial')
         data_final = request.GET.get('data_final')
-        if validar_data(data_inicial) and validar_data(data_final):
+        if Frequencia.validarData(data_inicial) and Frequencia.validarData(data_final):
             data_inicial_formatada = datetime.datetime.strptime(data_inicial, "%d/%m/%Y").strftime("%Y-%m-%d")
             data_final_formatada = datetime.datetime.strptime(data_final, "%d/%m/%Y").strftime("%Y-%m-%d")
-            frequencias = funcionario.frequencia_set.filter(~Q(data__week_day=7), ~Q(data__week_day=1),
-                                                            data__gte=data_inicial_formatada,
-                                                            data__lte=data_final_formatada).order_by('data')
-            frequencia_com_expediente = []
-            for frequencia in frequencias:
-                if frequencia.data not in datas_sem_expediente():
-                    frequencia_com_expediente.append(frequencia)
-            dias_trabalhados = dias_registrados(frequencia_com_expediente)
-            dias_nao_trabalhados = dias_nao_registrados(frequencia_com_expediente)
-            horas_total = tempo_total(frequencia_com_expediente)
-            dados = {'frequencias': frequencia_com_expediente, 'funcionario': funcionario, 'data_inicial': data_inicial,
-                     'data_final': data_final, 'dias_trabalhos': dias_trabalhados,
-                     'dias_nao_trabalhos': dias_nao_trabalhados, 'horas_total': horas_total}
+            frequencias = Frequencia.frequencias(data_inicial_formatada, data_final_formatada, funcionario)
+            quantidade_presencas = Frequencia.quantidadePresenca(frequencias)
+            quantidade_faltas = Frequencia.quantidadeFaltas(frequencias)
+            horas_total = Frequencia.tempoTotal(frequencias)
+            dados = {'frequencias': frequencias, 'funcionario': funcionario, 'data_inicial': data_inicial,
+                     'data_final': data_final, 'quantidade_presenca': quantidade_presencas,
+                     'quantidade_faltas': quantidade_faltas, 'horas_total': horas_total}
             return render(request, 'Frequencia/exibir_frequencia_funcionario.html', dados)
     else:
         return render(request, 'utils/permissao.html')
@@ -401,22 +394,16 @@ def funcionario_frequencias(request,pk):
             'mensagem': 'Funcionario não existe'}
         return render(request, 'utils/pagina_erro.html', mensagem)
 
-    if validar_data(data_inicial) and validar_data(data_final):
+    if Frequencia.validarData(data_inicial) and Frequencia.validarData(data_final):
         data_inicial_formatada = datetime.datetime.strptime(data_inicial, "%d/%m/%Y").strftime("%Y-%m-%d")
         data_final_formatada = datetime.datetime.strptime(data_final, "%d/%m/%Y").strftime("%Y-%m-%d")
-        frequencias = funcionario.frequencia_set.filter(~Q(data__week_day=7), ~Q(data__week_day=1),
-                                                        data__gte=data_inicial_formatada,
-                                                        data__lte=data_final_formatada).order_by('data')
-        frequencia_com_expediente = []
-        for frequencia in frequencias:
-            if frequencia.data not in datas_sem_expediente():
-                frequencia_com_expediente.append(frequencia)
-        dias_trabalhados = dias_registrados(frequencia_com_expediente)
-        dias_nao_trabalhados = dias_nao_registrados(frequencia_com_expediente)
-        horas_total = tempo_total(frequencia_com_expediente)
-        dados = {'frequencias': frequencia_com_expediente, 'funcionario': funcionario, 'data_inicial': data_inicial,
-                 'data_final': data_final, 'dias_trabalhos': dias_trabalhados,
-                 'dias_nao_trabalhos': dias_nao_trabalhados, 'horas_total': horas_total}
+        frequencias = Frequencia.frequencias(data_inicial_formatada, data_final_formatada, funcionario)
+        quantidade_presencas = Frequencia.quantidadePresenca(frequencias)
+        quantidade_faltas = Frequencia.quantidadeFaltas(frequencias)
+        horas_total = Frequencia.tempoTotal(frequencias)
+        dados = {'frequencias': frequencias, 'funcionario': funcionario, 'data_inicial': data_inicial,
+                 'data_final': data_final, 'quantidade_presenca': quantidade_presencas,
+                 'quantidade_faltas': quantidade_faltas, 'horas_total': horas_total}
         return render(request, 'Frequencia/exibir_frequencia_funcionario.html', dados)
     else:
         dados = {'data': 'Data inválida', 'funcionario': funcionario}
@@ -431,3 +418,23 @@ def busca_funcionario_frequencia(request, pk):
         mensagem = {
             'mensagem': 'Funcionario não existe'}
         return render(request, 'utils/pagina_erro.html', mensagem)
+
+
+@permission_required('appPonto.view_frequencia', login_url='erro_permissao')
+def frequencia_add_observacao(request, pk):
+    try:
+        frequencia_pessoa = Frequencia.objects.get(id=pk)
+    except Frequencia.DoesNotExist:
+        mensagem = {
+            'mensagem': 'Frequência não existe'}
+        return render(request, 'utils/pagina_erro.html', mensagem)
+
+    if request.FILES.get('arquivo'):
+        frequencia_pessoa.observacao = request.POST['observacao']
+        frequencia_pessoa.arquivo = request.FILES['arquivo']
+        frequencia_pessoa.save()
+        return redirect('home')
+    else:
+        form = AddObservacaoFrequencia()
+        dados = {'frequencia': frequencia_pessoa, 'form': form}
+        return render(request, 'Frequencia/frequencia_add_observacao.html', dados)
