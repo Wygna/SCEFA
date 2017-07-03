@@ -1,11 +1,11 @@
- $(document).ready( function() {
-	$("#id_data_inicial").datepicker({
-        dateFormat: 'dd/mm/yy',
-    dayNames: ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'],
-    dayNamesMin: ['D','S','T','Q','Q','S','S','D'],
-    dayNamesShort: ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb','Dom'],
-    monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
-    monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'],
-    nextText: 'Próximo',
-    prevText: 'Anterior', changeYear: true }).mask("99/99/9999");
+var nombre_boton_eliminar = ".add"; // Clase
+
+    $(document).on('ready',function(){
+        $(nombre_boton_eliminar).on('click',function(e){
+            e.preventDefault();
+            var Pid = $(this).attr('id');
+            var name = $(this).data('name');
+            $('#modal_idFrequencia').val(Pid);
+            $('#modal_name').text(name);
+        });
     });

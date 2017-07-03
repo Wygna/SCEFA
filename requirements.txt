@@ -5,3 +5,5 @@ paho-mqtt
 psycopg2
 django-tastypie
 pillow
+django-tastypie
+simplejson

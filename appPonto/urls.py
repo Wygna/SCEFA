@@ -6,7 +6,6 @@ from tastypie.api import Api
 
 from appPonto.views import *
 from .api import *
-from rest_framework_swagger.views import get_swagger_view
 
 api=Api(api_name='dados')
 pessoaResource=PessoaResource()
@@ -17,10 +16,8 @@ api.register(pessoaResource)
 api.register(frequenciaResource)
 api.register(portaResource)
 api.register(registroPortaResource)
-schema_view = get_swagger_view(title='Pessoa')
 
 urlpatterns = [
-    url(r'^swagger/$', schema_view),
     url(r'^api/', include(api.urls)),
     url(r'^$', home, name='home'),
     url(r'^login/', login, {'template_name': 'utils/login.html'}, name='login'),
@@ -56,8 +53,6 @@ urlpatterns = [
     url(r'^funcionario/frequencias/(?P<pk>\d+)$', funcionario_frequencias, name='funcionario_frequencias'),
     url(r'^busca/funcionario/frequencia/(?P<pk>\d+)$', busca_funcionario_frequencia,
         name='busca_funcionario_frequencia'),
-    url(r'^frequencia/add/observacao/(?P<pk>\d+)$', frequencia_add_observacao, name='frequencia_add_observacao'),
-
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

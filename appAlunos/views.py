@@ -93,6 +93,13 @@ def aluno_update(request,pk):
 
 @permission_required('appPonto.view_frequencia',login_url='erro_permissao')
 def aluno_frequencia(request,pk):
+    if request.method == 'POST':
+        if "frequencia_id" in request.POST:
+            id_frequencia = int(request.POST['frequencia_id'])
+            frequencia = Frequencia.objects.get(pk=id_frequencia)
+            frequencia.observacao = request.POST['observacao']
+            if request.FILES.get('arquivo'): frequencia.arquivo = request.FILES['arquivo']
+            frequencia.save()
     current_user = request.user
     try:
         aluno = Aluno.objects.get(id=pk)

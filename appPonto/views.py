@@ -1,6 +1,9 @@
+from http.client import HTTPResponse
+
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import Group
 from django.core.paginator import PageNotAnInteger, EmptyPage, Paginator
+from django.http.request import QueryDict
 from django.shortcuts import render, redirect
 from appPonto.forms import *
 
@@ -359,6 +362,13 @@ def remover_administrador(request,pk):
 
 @permission_required('appPonto.view_frequencia',login_url='erro_permissao')
 def funcionario_frequencia(request,pk):
+    if request.method == 'POST':
+        if "frequencia_id" in request.POST:
+            id_frequencia = int(request.POST['frequencia_id'])
+            frequencia = Frequencia.objects.get(pk=id_frequencia)
+            frequencia.observacao = request.POST['observacao']
+            if request.FILES.get('arquivo'):frequencia.arquivo = request.FILES['arquivo']
+            frequencia.save()  # Elinamos objeto de la base de datos
     current_user = request.user
     try:
         funcionario = Funcionario.objects.get(id=pk)
@@ -421,20 +431,16 @@ def busca_funcionario_frequencia(request, pk):
 
 
 @permission_required('appPonto.view_frequencia', login_url='erro_permissao')
-def frequencia_add_observacao(request, pk):
+def frequencia_add_observacao(request):
     try:
-        frequencia_pessoa = Frequencia.objects.get(id=pk)
-    except Frequencia.DoesNotExist:
+        if request.method == 'POST':
+            id_producto = request.POST['product_id']
+            p = Frequencia.objects.get(pk=id_producto)
+            p.delete()  # Elinamos objeto de la base de datos
+            return HTTPResponse('')
+        else:
+            return redirect('home')
+    except Exception:
         mensagem = {
-            'mensagem': 'Frequência não existe'}
+            'mensagem': 'deu erro'}
         return render(request, 'utils/pagina_erro.html', mensagem)
-
-    if request.FILES.get('arquivo'):
-        frequencia_pessoa.observacao = request.POST['observacao']
-        frequencia_pessoa.arquivo = request.FILES['arquivo']
-        frequencia_pessoa.save()
-        return redirect('home')
-    else:
-        form = AddObservacaoFrequencia()
-        dados = {'frequencia': frequencia_pessoa, 'form': form}
-        return render(request, 'Frequencia/frequencia_add_observacao.html', dados)
