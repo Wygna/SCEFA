@@ -96,7 +96,7 @@ registro_Porta19 = RegistroPorta(data='2017-05-25', hora_acesso='08:00:00', pess
                                  porta=portaCoordenacaoCursos)
 registro_Porta20 = RegistroPorta(data='2017-05-26', hora_acesso='08:00:00', pessoa=pessoa, porta=portaInformatica)
 registro_Porta21 = RegistroPorta(data='2017-05-29', hora_acesso='08:00:00', pessoa=pessoa, porta=portaInformatica)
-registro_Porta22 = RegistroPorta(data='2017-05-30', hora_acesso='08:00:00', pessoa=pessoa, porta=portaInformatica)
+registro_Porta22 = RegistroPorta(data='2017-05-30', hora_acesso='08:45:00', pessoa=pessoa, porta=portaInformatica)
 registro_Porta23 = RegistroPorta(data='2017-05-31', hora_acesso='08:00:00', pessoa=pessoa, porta=portaInformatica)
 registro_Porta24 = RegistroPorta(data='2017-06-01', hora_acesso='08:10:00', pessoa=pessoa,
                                  porta=portaCoordenacaoCursos)
