@@ -18,7 +18,6 @@ urlpatterns = [
 
     url(r'^edit/grupo/$', edit_grupo, name='edit_grupo'),
 
-    url(r'^grupo/usuario/list/(?P<pk>\d+)$', grupo_usuario_list, name='grupo_usuario_list'),
     url(r'^usuario/acesso/grupo/(?P<pk>\d+)$', usuario_acesso_grupo, name='usuario_acesso_grupo'),
     url(r'^usuario/sem_acesso/grupo/(?P<pk>\d+)$', usuario_sem_acesso_grupo, name='usuario_sem_acesso_grupo'),
 
