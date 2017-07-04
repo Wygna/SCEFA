@@ -167,11 +167,11 @@ def grupo_delete(request,pk):
 @permission_required('appPonto.view_pessoa',login_url='erro_permissao')
 def usuario_sem_acesso_grupo(request,pk):
     criterio = request.GET.get('criterio')
-    usuario = request.GET.get('usuario')
+    # usuario = request.GET.get('usuario')
     grupo = Grupo.objects.get(id=pk)
-    if usuario:
-        usuario_grupo = GrupoPessoa(grupo=grupo, pessoa_id=usuario)
-        usuario_grupo.save()
+    # if usuario:
+    #   usuario_grupo = GrupoPessoa(grupo=grupo, pessoa_id=usuario)
+    #  usuario_grupo.save()
     if criterio:
         usuarios_sem_acesso = Pessoa.objects.filter(~Q(pessoa_grupo__grupo=grupo),
                                                      nome__icontains=criterio).order_by('nome')

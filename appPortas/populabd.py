@@ -45,7 +45,6 @@ porta_grupo4 = GrupoPorta(porta=portaCoordenacaoCursos, grupo=grupoCoordenacaoCu
 porta_grupo5 = GrupoPorta(porta=portaEletronica, grupo=grupoEletronica)
 porta_grupo6 = GrupoPorta(porta=portaPesquisa, grupo=grupoPesquisa)
 porta_grupo7 = GrupoPorta(porta=portaExtensao, grupo=grupoExtensao)
-porta_grupo8 = GrupoPorta(porta=portaInformatica, grupo=grupoInformatica)
 
 porta_grupo.save()
 porta_grupo2.save()
@@ -54,7 +53,6 @@ porta_grupo4.save()
 porta_grupo5.save()
 porta_grupo6.save()
 porta_grupo7.save()
-porta_grupo8.save()
 
 pessoa = Pessoa.objects.get(nome__icontains="Bruno Silva")
 pessoa2 = Pessoa.objects.get(nome__icontains="Valerio Junior")
