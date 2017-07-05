@@ -322,13 +322,14 @@ def portas_list(request):
     dados = {'portas': portas, 'criterio': criterio, 'paginator': paginator, 'page_obj': portas}
     return render(request, 'Registro_Porta/frequencia_porta_list.html', dados)
 
-@permission_required('appPortas.view_Registro_porta', login_url='erro_permissao')
+
+@permission_required('appPortas.view_registro_porta', login_url='erro_permissao')
 def busca_porta_frequencia(request, pk):
     porta = Porta.objects.get(id=pk)
     return render(request, 'Registro_Porta/busca_frequencia_porta.html', {'porta': porta})
 
 
-@permission_required('appPortas.view_Registro_porta', login_url='erro_permissao')
+@permission_required('appPortas.view_registro_porta', login_url='erro_permissao')
 def busca_porta_pessoa_frequencia(request, pk):
     try:
         pessoa = Pessoa.objects.get(id=pk)
@@ -338,7 +339,8 @@ def busca_porta_pessoa_frequencia(request, pk):
             'mensagem': 'O Usuário não existe'}
         return render(request, 'utils/pagina_erro.html', mensagem)
 
-@permission_required('appPortas.view_Registro_porta', login_url='erro_permissao')
+
+@permission_required('appPortas.view_registro_porta', login_url='erro_permissao')
 def porta_frequencias(request, pk):
     try:
         porta = Porta.objects.get(id=pk)
@@ -359,7 +361,8 @@ def porta_frequencias(request, pk):
     else:
         return render(request, 'utils/permissao.html')
 
-@permission_required('appPortas.view_Registro_porta', login_url='erro_permissao')
+
+@permission_required('appPortas.view_registro_porta', login_url='erro_permissao')
 def porta_pessoa_frequencia(request, pk):
     current_user = request.user
     try:

@@ -16,7 +16,7 @@ def aluno_new(request):
             if request.FILES.get('foto'): aluno.foto = request.FILES['foto']
             aluno.username = aluno.matricula
             aluno.first_name = aluno.nome
-            aluno.set_password(aluno.senha)
+            aluno.set_password(request.POST['senha'])
             grupoAluno = Group.objects.get(name='Alunos')
             grupoAluno.user_set.add(aluno)
             aluno.save()

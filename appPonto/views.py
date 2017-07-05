@@ -63,7 +63,7 @@ def funcionario_new(request):
             if request.FILES.get('foto'): funcionario.foto = request.FILES['foto']
             funcionario.username = funcionario.matricula
             funcionario.first_name = funcionario.nome
-            funcionario.set_password(funcionario.senha)
+            funcionario.set_password(request.POST['senha'])
             grupoFuncionario = Group.objects.get(name='Funcionarios')
             grupoFuncionario.user_set.add(funcionario)
             funcionario.save()
@@ -74,7 +74,7 @@ def funcionario_new(request):
         return render(request,'Funcionario/funcionario_form.html',dados)
 
 @permission_required('appPonto.change_funcionario',login_url='erro_permissao')
-def funcionairo_update(request,pk):
+def funcionario_update(request, pk):
     try:
         funcionario = Funcionario.objects.get(id=pk)
     except Exception:
@@ -89,43 +89,35 @@ def funcionairo_update(request,pk):
             funcionario = form.save(commit=False)
             funcionario.username = funcionario.matricula
             funcionario.first_name = funcionario.nome
-            funcionario.set_password(funcionario.senha)
+            if request.POST.get('senha'): funcionario.set_password(request.POST['senha'])
             grupoFuncionario = Group.objects.get(name='Funcionarios')
             grupoFuncionario.user_set.add(funcionario)
             funcionario.save()
             return redirect('funcionario_list')
     else:
         form = FuncionarioForm(instance=funcionario)
-        dados = {'form': form,'aluno':funcionario}
+        dados = {'form': form, 'funcionario': funcionario}
         return render(request, 'Funcionario/funcionario_form.html', dados)
 
 
-@permission_required('appPonto.change_funcionario', login_url='erro_permissao')
-def funcionairo_administrardor_update(request, pk):
-    try:
-        funcionario = Funcionario.objects.get(id=pk)
-    except Exception:
-        mensagem = {
-            'mensagem': 'O funcionario não existe'}
-        return render(request, 'utils/pagina_erro.html', mensagem)
-    if request.FILES.get('foto'):
-        funcionario.foto = request.FILES['foto']
-    if request.method == "POST":
-        form = FuncionarioForm(request.POST, instance=funcionario)
-        if form.is_valid():
-            funcionario = form.save(commit=False)
-            funcionario.username = funcionario.matricula
-            funcionario.first_name = funcionario.nome
-            funcionario.set_password(funcionario.senha)
-            grupoAdministradores = Group.objects.get(name='Administradores')
-            grupoAdministradores.user_set.add(funcionario)
-            funcionario.save()
-            return redirect('administrador_list')
+@permission_required('appPonto.view_funcionario', login_url='erro_permissao')
+def funcionarios_list(request):
+    criterio = request.GET.get('criterio')
+    if criterio:
+        funcionarios = Funcionario.objects.filter(nome__icontains=criterio).order_by('nome')
     else:
-        form = FuncionarioForm(instance=funcionario)
-        dados = {'form': form, 'aluno': funcionario}
-        return render(request, 'Funcionario/funcionario_form.html', dados)
-
+        funcionarios = Funcionario.objects.all().order_by('nome')
+        criterio = ""
+    paginator = Paginator(funcionarios, 10)
+    page = request.GET.get('page')
+    try:
+        funcionarios = paginator.page(page)
+    except PageNotAnInteger:
+        funcionarios = paginator.page(1)
+    except EmptyPage:
+        funcionarios = paginator.page(paginator.num_pages)
+    dados = {'funcionarios': funcionarios, 'criterio': criterio, 'paginator': paginator, 'page_obj': funcionarios}
+    return render(request, 'Frequencia/frequencia_funcionario_list.html', dados)
 
 @permission_required('appPonto.view_funcionario', login_url='erro_permissao')
 def administrador_list(request):
@@ -147,6 +139,51 @@ def administrador_list(request):
     dados = {'administradores': administradores, 'criterio': criterio, 'paginator': paginator,
              'page_obj': administradores}
     return render(request, 'Administrador/administrador_list.html', dados)
+
+
+@permission_required('appPonto.view_funcionario', login_url='erro_permissao')
+def administrador_new(request):
+    criterio = request.GET.get('criterio')
+    if criterio:
+        funcionarios = Funcionario.objects.filter(~Q(cargo__nome_funcao__contains='Administrador'),
+                                                  nome__icontains=criterio).order_by('nome')
+    else:
+        funcionarios = Funcionario.objects.filter(~Q(cargo__nome_funcao__contains='Administrador'))
+        criterio = ""
+    paginator = Paginator(funcionarios, 7)
+    page = request.GET.get('page')
+    try:
+        funcionarios = paginator.page(page)
+    except PageNotAnInteger:
+        funcionarios = paginator.page(1)
+    except EmptyPage:
+        funcionarios = paginator.page(paginator.num_pages)
+    dados = {'funcionarios': funcionarios, 'criterio': criterio, 'paginator': paginator, 'page_obj': funcionarios}
+    return render(request, 'Administrador/administrador_form.html', dados)
+
+
+@permission_required('appPonto.view_funcionario', login_url='erro_permissao')
+def adicionar_administrador(request, pk):
+    funcionario = Funcionario.objects.get(id=pk)
+    grupoAdministrador = Group.objects.get(name='Administradores')
+    grupoFuncionario = Group.objects.get(name='Funcionarios')
+    grupoFuncionario.user_set.remove(funcionario)
+    grupoAdministrador.user_set.add(funcionario)
+    funcionario.setCargo('Administrador')
+    funcionario.save()
+    return redirect('administrador_new')
+
+
+@permission_required('appPonto.view_funcionario', login_url='erro_permissao')
+def remover_administrador(request, pk):
+    funcionario = Funcionario.objects.get(id=pk)
+    grupoAdministrador = Group.objects.get(name='Administradores')
+    grupoFuncionario = Group.objects.get(name='Funcionarios')
+    grupoAdministrador.user_set.remove(funcionario)
+    grupoFuncionario.user_set.add(funcionario)
+    funcionario.setCargo('Professor')
+    funcionario.save()
+    return redirect('administrador_list')
 
 @permission_required('appPonto.view_funcionario',login_url='erro_permissao')
 def departamento_list(request):
@@ -300,66 +337,6 @@ def cargo_delete(request,pk):
     cargo.delete()
     return redirect('cargo_list')
 
-@permission_required('appPonto.view_funcionario',login_url='erro_permissao')
-def funcionarios_list(request):
-    criterio = request.GET.get('criterio')
-    if criterio:
-        funcionarios = Funcionario.objects.filter(nome__icontains=criterio).order_by('nome')
-    else:
-        funcionarios = Funcionario.objects.all().order_by('nome')
-        criterio =""
-    paginator = Paginator(funcionarios, 10)
-    page = request.GET.get('page')
-    try:
-        funcionarios = paginator.page(page)
-    except PageNotAnInteger:
-        funcionarios=paginator.page(1)
-    except EmptyPage:
-        funcionarios = paginator.page(paginator.num_pages)
-    dados={'funcionarios':funcionarios,'criterio':criterio,'paginator':paginator,'page_obj':funcionarios}
-    return render(request, 'Frequencia/frequencia_funcionario_list.html', dados)
-
-@permission_required('appPonto.view_funcionario',login_url='erro_permissao')
-def administrador_new(request):
-    criterio = request.GET.get('criterio')
-    if criterio:
-        funcionarios = Funcionario.objects.filter(nome__contains=criterio).order_by('nome')
-    else:
-        funcionarios = Funcionario.objects.filter(~Q(cargo__nome_funcao__contains='Administrador'))
-        criterio = ""
-    paginator = Paginator(funcionarios, 4)
-    page = request.GET.get('page')
-    try:
-        funcionarios = paginator.page(page)
-    except PageNotAnInteger:
-        funcionarios = paginator.page(1)
-    except EmptyPage:
-        funcionarios = paginator.page(paginator.num_pages)
-    dados = {'funcionarios': funcionarios, 'criterio': criterio, 'paginator': paginator, 'page_obj': funcionarios}
-    return render(request, 'Administrador/administrador_form.html', dados)
-
-@permission_required('appPonto.view_funcionario',login_url='erro_permissao')
-def adicionar_administrador(request,pk):
-    funcionario = Funcionario.objects.get(id=pk)
-    grupoAdministrador = Group.objects.get(name='Administradores')
-    grupoFuncionario = Group.objects.get(name='Funcionarios')
-    grupoFuncionario.user_set.remove(funcionario)
-    grupoAdministrador.user_set.add(funcionario)
-    funcionario.setCargo('Administrador')
-    funcionario.save()
-    return redirect('administrador_new')
-
-@permission_required('appPonto.view_funcionario',login_url='erro_permissao')
-def remover_administrador(request,pk):
-    funcionario = Funcionario.objects.get(id=pk)
-    grupoAdministrador = Group.objects.get(name='Administradores')
-    grupoFuncionario = Group.objects.get(name='Funcionarios')
-    grupoAdministrador.user_set.remove(funcionario)
-    grupoFuncionario.user_set.add(funcionario)
-    funcionario.setCargo('Professor')
-    funcionario.save()
-    return redirect('administrador_list')
-
 @permission_required('appPonto.view_frequencia',login_url='erro_permissao')
 def funcionario_frequencia(request,pk):
     if request.method == 'POST':
@@ -427,20 +404,4 @@ def busca_funcionario_frequencia(request, pk):
     except Exception:
         mensagem = {
             'mensagem': 'Funcionario não existe'}
-        return render(request, 'utils/pagina_erro.html', mensagem)
-
-
-@permission_required('appPonto.view_frequencia', login_url='erro_permissao')
-def frequencia_add_observacao(request):
-    try:
-        if request.method == 'POST':
-            id_producto = request.POST['product_id']
-            p = Frequencia.objects.get(pk=id_producto)
-            p.delete()  # Elinamos objeto de la base de datos
-            return HTTPResponse('')
-        else:
-            return redirect('home')
-    except Exception:
-        mensagem = {
-            'mensagem': 'deu erro'}
         return render(request, 'utils/pagina_erro.html', mensagem)

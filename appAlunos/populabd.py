@@ -5,35 +5,35 @@ from appPonto.models import *
 
 aluno = Aluno(username='183', first_name='Paulo Cesar', nome='Paulo Cesar', Email='paulo@gmail.com',
               telefone='(84)99102-3323', situacao='Ativo',
-              matricula='183', password='123', turno_aula='Matutino')
+              matricula='183', turno_aula='Matutino')
 aluno2 = Aluno(username='129', first_name='Luiz Felipe', nome='Luiz Felipe', Email='luiz@gmail.com', situacao='Ativo',
-               matricula='129', password='123', turno_aula='Matutino')
+               matricula='129', turno_aula='Matutino')
 aluno3 = Aluno(username='138', first_name='Wallysson Lima', nome='Wallysson Lima', Email='wallysson@gmail.com',
                telefone='(84)99122-3323', situacao='Ativo',
-               matricula='138', password='123', turno_aula='Matutino')
+               matricula='138', turno_aula='Matutino')
 aluno4 = Aluno(username='118', first_name='Judas', nome='Judas', Email='judas@gmail.com', telefone='(84)91102-3323',
                situacao='Ativo',
-               matricula='118', password='123', turno_aula='Matutino')
+               matricula='118', turno_aula='Matutino')
 aluno5 = Aluno(username='1197', first_name='Daniel', nome='Daniel', Email='daniel@gmail.com', telefone='(84)94102-3323',
                situacao='Ativo',
-               matricula='1197', password='123', turno_aula='Matutino')
+               matricula='1197', turno_aula='Matutino')
 aluno6 = Aluno(username='2183', first_name='Juliana Soares', nome='Juliana Soares', Email='juliana@gmail.com',
                telefone='(84)99202-3323', situacao='Ativo',
-               matricula='2183', password='123', turno_aula='Vespetino')
+               matricula='2183', turno_aula='Vespetino')
 aluno7 = Aluno(username='2129', first_name='Lucas Lima', nome='Lucas Lima', Email='lucas@gmail.com', situacao='Ativo',
-               matricula='2129', password='123', turno_aula='Vespetino')
+               matricula='2129', turno_aula='Vespetino')
 aluno8 = Aluno(username='2138', first_name='Matheus Oliveria', nome='Matheus Oliveria', Email='matheus@gmail.com',
                telefone='(84)98102-3323', situacao='Ativo',
-               matricula='2138', password='123', turno_aula='Vespetino')
+               matricula='2138', turno_aula='Vespetino')
 aluno9 = Aluno(username='2118', first_name='Thiago Silva', nome='Thiago Silva', Email='thiago@gmail.com',
                telefone='(84)91102-3323', situacao='Ativo',
-               matricula='2118', password='123', turno_aula='Vespetino')
+               matricula='2118', turno_aula='Vespetino')
 aluno10 = Aluno(username='21197', first_name='Josival Xavier', nome='Josival Xavier', Email='josival@gmail.com',
                 telefone='(84)94102-3323', situacao='Ativo',
-                matricula='21197', password='123', turno_aula='Vespetino')
+                matricula='21197', turno_aula='Vespetino')
 aluno11 = Aluno(username='21090', first_name='Emilly Xavier', nome='Emilly Xavier', Email='emylli@gmail.com',
                 telefone='(84)94102-3323', situacao='Ativo',
-                matricula='21090', password='123', turno_aula='Vespetino')
+                matricula='21090', turno_aula='Vespetino')
 aluno.save()
 aluno2.save()
 aluno3.save()

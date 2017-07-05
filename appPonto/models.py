@@ -8,7 +8,6 @@ class Pessoa(User):
     nome = models.CharField("Nome", max_length=255)
     Email = models.EmailField("E-mail", max_length=200)
     telefone = models.CharField("Telefone", max_length=20)
-    senha = models.CharField(max_length=32, blank=True, null=True)
     id_digital = models.IntegerField(null=True, blank=True)
     img_dital = models.CharField(null=True, max_length=100, blank=True)
     Situacoes = (

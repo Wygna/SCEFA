@@ -27,7 +27,7 @@ urlpatterns = [
     url(r'^funcionario/list$', funcionario_list, name='funcionario_list'),
     url(r'^funcionario/detail/(?P<pk>\d+)$',funcionario_detail, name='funcionario_detail'),
     url(r'^funcionario/new/$', funcionario_new, name='funcionario_new'),
-    url(r'^funcionario/update/(?P<pk>\d+)$', funcionairo_update, name='funcionario_update'),
+    url(r'^funcionario/update/(?P<pk>\d+)$', funcionario_update, name='funcionario_update'),
     url(r'^funcionario/delete/(?P<pk>\d+)$',funcionario_delete, name='funcionario_delete'),
 
     url(r'^departamento/list$', departamento_list, name='departamento_list'),
@@ -45,7 +45,6 @@ urlpatterns = [
     url(r'^administrador/list$', administrador_list, name='administrador_list'),
     url(r'^administrador/new/$', administrador_new, name='administrador_new'),
     url(r'^administrador/add/(?P<pk>\d+)$',adicionar_administrador, name='administrador_add'),
-    url(r'^administrador/update/(?P<pk>\d+)$', funcionairo_administrardor_update, name='administrador_update'),
     url(r'^administrador/delete/(?P<pk>\d+)$', remover_administrador, name='remover_administrador'),
 
     url(r'^Frequencia/list$', funcionarios_list, name='frequencia_list'),

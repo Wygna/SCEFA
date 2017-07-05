@@ -1,3 +1,5 @@
+from django.contrib.gis.utils.wkt import precision_wkt
+
 from appPonto.models import *
 from appPortas.models import *
 from datetime import datetime
@@ -62,3 +64,6 @@ def adicionar_biometria(id_digital, img_digital, matricula):
     pessoa.img_dital = img_digital
     pessoa.save()
     return True
+
+
+print(conultar_pessoa_acesso_porta(5, 10, "oo"))

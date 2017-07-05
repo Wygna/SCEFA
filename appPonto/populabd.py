@@ -23,36 +23,36 @@ cargo2.save()
 cargo3.save()
 
 funcionario = Funcionario(username='225', cargo=cargo, first_name='Jose Antonio', nome='Jose Antonio', situacao='Ativo',
-                          Email='jose@gmail.com', telefone='(84)99122-3323', matricula='225', password='123')
+                          Email='jose@gmail.com', telefone='(84)99122-3323', matricula='225')
 funcionario2 = Funcionario(username='2212', cargo=cargo2, first_name='Valerio Junior', nome='Valerio Junior',
                            situacao='Ativo',
-                           Email='valerio@gmail.com', telefone='(84)99122-0000', matricula='2212', password='123')
+                           Email='valerio@gmail.com', telefone='(84)99122-0000', matricula='2212')
 funcionario3 = Funcionario(username='213', cargo=cargo, first_name='Marcos Calvacante', nome='Marcos Calvacante',
                            situacao='Ativo',
-                           Email='marcos@gmail.com', telefone='(84)99100-3323', matricula='213', password='123')
+                           Email='marcos@gmail.com', telefone='(84)99100-3323', matricula='213')
 funcionario4 = Funcionario(username='251', cargo=cargo, first_name='Fernanda Silva', nome='Fernanda Silva',
                            situacao='Ativo',
-                           Email='fernanda@gmail.com', telefone='(84)98122-3323', matricula='251', password='123')
+                           Email='fernanda@gmail.com', telefone='(84)98122-3323', matricula='251')
 funcionario5 = Funcionario(username='259', cargo=cargo3, first_name='karol Soares', nome='Karol Soares',
                            situacao='Ativo',
-                           Email='karol@gmail.com', telefone='(84)99122-3303', matricula='259', password='123')
+                           Email='karol@gmail.com', telefone='(84)99122-3303', matricula='259')
 funcionario6 = Funcionario(username='3225', cargo=cargo, first_name='Bruno Silva', nome='Bruno Silva', situacao='Ativo',
-                           Email='Bruno@gmail.com', telefone='(84)93122-3323', matricula='3225', password='123')
+                           Email='Bruno@gmail.com', telefone='(84)93122-3323', matricula='3225')
 funcionario7 = Funcionario(username='32212', cargo=cargo2, first_name='Marcelo Siqueira', nome='Marcelo Siqueira',
                            situacao='Ativo',
-                           Email='marcelo@gmail.com', telefone='(84)99422-0000', matricula='32212', password='123')
+                           Email='marcelo@gmail.com', telefone='(84)99422-0000', matricula='32212')
 funcionario8 = Funcionario(username='3213', cargo=cargo, first_name='Bento Oliveira', nome='Bento Oliveria',
                            situacao='Ativo',
-                           Email='bento@gmail.com', telefone='(84)99130-3323', matricula='3213', password='123')
+                           Email='bento@gmail.com', telefone='(84)99130-3323', matricula='3213')
 funcionario9 = Funcionario(username='3251', cargo=cargo, first_name='Ericka Lopes', nome='Ericka Lopes',
                            situacao='Ativo',
-                           Email='ericka@gmail.com', telefone='(84)98152-3323', matricula='3251', password='123')
+                           Email='ericka@gmail.com', telefone='(84)98152-3323', matricula='3251')
 funcionario10 = Funcionario(username='3259', cargo=cargo, first_name='Joselha Oliveira', nome='Joselha Oliveira',
                             situacao='Ativo',
-                            Email='joselha@gmail.com', telefone='(84)99342-3303', matricula='3259', password='123')
+                            Email='joselha@gmail.com', telefone='(84)99342-3303', matricula='3259')
 funcionario11 = Funcionario(username='30259', cargo=cargo, first_name='Neide Oliveira', nome='Neide Oliveira',
                             situacao='Ativo',
-                            Email='neide@gmail.com', telefone='(84)98042-3303', matricula='30259', password='123')
+                            Email='neide@gmail.com', telefone='(84)98042-3303', matricula='30259')
 
 funcionario.save()
 funcionario2.save()
