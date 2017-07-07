@@ -90,15 +90,12 @@ def funcionario_update(request, pk):
             funcionario.username = funcionario.matricula
             funcionario.first_name = funcionario.nome
             if request.POST.get('senha'): funcionario.set_password(request.POST['senha'])
-            grupoFuncionario = Group.objects.get(name='Funcionarios')
-            grupoFuncionario.user_set.add(funcionario)
             funcionario.save()
             return redirect('funcionario_list')
     else:
         form = FuncionarioForm(instance=funcionario)
         dados = {'form': form, 'funcionario': funcionario}
         return render(request, 'Funcionario/funcionario_form.html', dados)
-
 
 @permission_required('appPonto.view_funcionario', login_url='erro_permissao')
 def funcionarios_list(request):
@@ -140,7 +137,6 @@ def administrador_list(request):
              'page_obj': administradores}
     return render(request, 'Administrador/administrador_list.html', dados)
 
-
 @permission_required('appPonto.view_funcionario', login_url='erro_permissao')
 def administrador_new(request):
     criterio = request.GET.get('criterio')
@@ -161,7 +157,6 @@ def administrador_new(request):
     dados = {'funcionarios': funcionarios, 'criterio': criterio, 'paginator': paginator, 'page_obj': funcionarios}
     return render(request, 'Administrador/administrador_form.html', dados)
 
-
 @permission_required('appPonto.view_funcionario', login_url='erro_permissao')
 def adicionar_administrador(request, pk):
     funcionario = Funcionario.objects.get(id=pk)
@@ -172,7 +167,6 @@ def adicionar_administrador(request, pk):
     funcionario.setCargo('Administrador')
     funcionario.save()
     return redirect('administrador_new')
-
 
 @permission_required('appPonto.view_funcionario', login_url='erro_permissao')
 def remover_administrador(request, pk):

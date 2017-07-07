@@ -9,25 +9,27 @@
                     <div class="panel-heading">
                         <h3 class="panel-title" style="text-align: center;">Registros de acessos</h3>
                     </div>
-                    <table class="table table-bordered">
-                        <tr>
-                            <th>{{ pessoa }}</th>
-                        </tr>
-                        <tr>
-                            <th>Data</th>
-                            <th>Hora de Acesso</th>
-                            <th>Local</th>
-                        </tr>
-                        {% for frequencia in frequencias %}
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
                             <tr>
-                                <td>{{ frequencia.data|date:"d/m/Y"}}({{ frequencia.diaSemana }})</td>
-                                <td style="width: 27%">
-                                    <span style="color:green">{{ frequencia.hora_acesso.isoformat }}</span>
-                                </td>
-                                <td>{{ frequencia.porta }}</td>
+                                <th>Nome: {{ pessoa }}</th>
                             </tr>
-                        {% endfor %}
-                    </table>
+                            <tr>
+                                <th>Data</th>
+                                <th>Hora de Acesso</th>
+                                <th>Local</th>
+                            </tr>
+                            {% for frequencia in frequencias %}
+                                <tr>
+                                    <td>{{ frequencia.data|date:"d/m/Y"}}({{ frequencia.diaSemana }})</td>
+                                    <td style="width: 27%">
+                                        <span style="color:green"><b>{{ frequencia.hora_acesso.isoformat }}</b></span>
+                                    </td>
+                                    <td>{{ frequencia.porta }}</td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

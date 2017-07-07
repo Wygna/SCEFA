@@ -16,7 +16,7 @@ def aluno_new(request):
             if request.FILES.get('foto'): aluno.foto = request.FILES['foto']
             aluno.username = aluno.matricula
             aluno.first_name = aluno.nome
-            aluno.set_password(request.POST['senha'])
+            if request.POST.get('senha'): aluno.set_password(request.POST['senha'])
             grupoAluno = Group.objects.get(name='Alunos')
             grupoAluno.user_set.add(aluno)
             aluno.save()
@@ -31,7 +31,7 @@ def aluno_detail(request, pk):
     try:
         aluno = Aluno.objects.get(id=pk)
         return render(request, 'Alunos/exibirAlunos.html', {'aluno': aluno})
-    except Exception:
+    except Aluno:
         mensagem = {
             'mensagem': 'O Aluno não existe'}
         return render(request, 'utils/pagina_erro.html', mensagem)
@@ -81,9 +81,7 @@ def aluno_update(request,pk):
             if request.FILES.get('foto'): aluno.foto = request.FILES['foto']
             aluno.username = aluno.matricula
             aluno.first_name = aluno.nome
-            aluno.set_password(aluno.senha)
-            grupoAluno = Group.objects.get(name='Alunos')
-            grupoAluno.user_set.add(aluno)
+            if request.POST.get('senha'): aluno.set_password(request.POST['senha'])
             aluno.save()
             return redirect('aluno_list')
     else:

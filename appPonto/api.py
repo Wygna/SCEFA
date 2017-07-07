@@ -47,13 +47,14 @@ class PortaResource(ModelResource):
     class Meta:
         queryset = Porta.objects.all()
         resource_name = 'porta'
+        fields = ['descricao']
         list_allowed_methods = ['get', 'post']
+        include_resource_uri = False
         authentication = BasicAuthentication()
         authorization = Authorization()
 
         # def obj_create(self, bundle, **kwargs):
         #   return super(PessoaResource, self).obj_create(bundle, user=bundle.request.user)
-
 
 class RegistroPortaResource(ModelResource):
     pessoa = fields.ForeignKey(PessoaResource, 'pessoa', full=True)
@@ -65,6 +66,7 @@ class RegistroPortaResource(ModelResource):
         limit = 0
         max_limit = 0
         list_allowed_methods = ['get', 'post']
+        include_resource_uri = False
         authentication = BasicAuthentication()
         authorization = Authorization()
 

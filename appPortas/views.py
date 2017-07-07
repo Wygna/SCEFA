@@ -106,10 +106,20 @@ def grupo_list(request):
 def grupo_detail(request,pk):
     criterio = request.GET.get('criterio')
     usuario = request.GET.get('usuario')
-    grupo = Grupo.objects.get(id=pk)
+    try:
+        grupo = Grupo.objects.get(id=pk)
+    except Grupo.DoesNotExist:
+        mensagem = {
+            'mensagem': 'Grupo não existe'}
+        return render(request, 'utils/pagina_erro.html', mensagem)
     if usuario:
-        usuario_grupo = GrupoPessoa.objects.get(pessoa_id=usuario, grupo=grupo)
-        usuario_grupo.delete()
+        try:
+            usuario_grupo = GrupoPessoa.objects.get(pessoa_id=usuario, grupo=grupo)
+            usuario_grupo.delete()
+        except GrupoPessoa.DoesNotExist:
+            mensagem = {
+                'mensagem': 'Usuário não existe'}
+            return render(request, 'utils/pagina_erro.html', mensagem)
     if criterio:
         usuarios_acesso = Pessoa.objects.filter(grupopessoa__grupo=grupo,
                                                 nome__icontains=criterio).order_by('nome')
@@ -142,7 +152,12 @@ def grupo_new(request):
 
 @permission_required('appPortas.change_grupo',login_url='erro_permissao')
 def grupo_update(request,pk):
-    grupo = Grupo.objects.get(id=pk)
+    try:
+        grupo = Grupo.objects.get(id=pk)
+    except Grupo.DoesNotExist:
+        mensagem = {
+            'mensagem': 'Grupo não existe'}
+        return render(request, 'utils/pagina_erro.html', mensagem)
     if(request.method=='POST'):
         form=PortaForm(request.POST,instance=grupo)
         if (form.is_valid()):
@@ -175,8 +190,13 @@ def usuario_sem_acesso_grupo(request,pk):
             'mensagem': 'Grupo não existe'}
         return render(request, 'utils/pagina_erro.html', mensagem)
     if usuario:
-        usuario_grupo = GrupoPessoa(grupo=grupo, pessoa_id=usuario)
-        usuario_grupo.save()
+        try:
+            usuario_grupo = GrupoPessoa(grupo=grupo, pessoa_id=usuario)
+            usuario_grupo.save()
+        except GrupoPessoa.DoesNotExist:
+            mensagem = {
+                'mensagem': 'Usuário não existe'}
+            return render(request, 'utils/pagina_erro.html', mensagem)
     if criterio:
         usuarios_sem_acesso = Pessoa.objects.filter(~Q(grupopessoa__grupo=grupo),
                                                     nome__icontains=criterio).order_by('nome')
@@ -206,8 +226,13 @@ def usuario_acesso_grupo(request, pk):
             'mensagem': 'Grupo não existe'}
         return render(request, 'utils/pagina_erro.html', mensagem)
     if usuario:
-        usuario_grupo = GrupoPessoa.objects.get(pessoa_id=usuario, grupo=grupo)
-        usuario_grupo.delete()
+        try:
+            usuario_grupo = GrupoPessoa.objects.get(pessoa_id=usuario, grupo=grupo)
+            usuario_grupo.delete()
+        except GrupoPessoa.DoesNotExist:
+            mensagem = {
+                'mensagem': 'Usuário não existe'}
+            return render(request, 'utils/pagina_erro.html', mensagem)
     if criterio:
         usuarios_acesso = Pessoa.objects.filter(grupopessoa__grupo=grupo,
                                                 nome__icontains=criterio).order_by('nome')
@@ -232,8 +257,13 @@ def porta_nao_grupo(request, pk):
     porta = request.GET.get('porta')
     grupo = Grupo.objects.get(id=pk)
     if porta:
-        porta_grupo = GrupoPorta(grupo=grupo, porta_id=porta)
-        porta_grupo.save()
+        try:
+            porta_grupo = GrupoPorta(grupo=grupo, porta_id=porta)
+            porta_grupo.save()
+        except GrupoPorta.DoesNotExist:
+            mensagem = {
+                'mensagem': 'Porta não existe'}
+            return render(request, 'utils/pagina_erro.html', mensagem)
     if criterio:
         porta_nao_grupo = Porta.objects.filter(~Q(grupoporta__grupo=grupo),
                                                descricao__icontains=criterio).order_by('descricao')
@@ -258,11 +288,16 @@ def porta_no_grupo(request, pk):
     porta = request.GET.get('porta')
     grupo = Grupo.objects.get(id=pk)
     if porta:
-        porta_grupo = GrupoPorta.objects.get(porta=porta, grupo=grupo)
-        porta_grupo.delete()
+        try:
+            porta_grupo = GrupoPorta.objects.get(porta=porta, grupo=grupo)
+            porta_grupo.delete()
+        except GrupoPorta.DoesNotExist:
+            mensagem = {
+                'mensagem': 'Porta não existe'}
+            return render(request, 'utils/pagina_erro.html', mensagem)
     if criterio:
         porta_no_grupo = Porta.objects.filter(grupoporta__grupo=grupo,
-                                              descricao__contains=criterio).order_by('descricao')
+                                              descricao__icontains=criterio).order_by('descricao')
     else:
         porta_no_grupo = Porta.objects.filter(grupoporta__grupo=grupo).order_by('descricao')
         criterio = ""
@@ -297,12 +332,6 @@ def edit_grupo(request):
     dados={'grupos':grupos,'criterio':criterio,'paginator':paginator,'page_obj':grupos}
     return render(request, 'Acesso/edit_grupo.html', dados)
 
-@permission_required('appPonto.view_funcionario',login_url='erro_permissao')
-def adicionar_acesso_funcionario(request,pk):
-    funcionario = Funcionario.objects.get()
-    return redirect('administrador_new')
-
-
 @permission_required('appPonto.view_pessoa', login_url='erro_permissao')
 def portas_list(request):
     criterio = request.GET.get('criterio')
@@ -322,12 +351,15 @@ def portas_list(request):
     dados = {'portas': portas, 'criterio': criterio, 'paginator': paginator, 'page_obj': portas}
     return render(request, 'Registro_Porta/frequencia_porta_list.html', dados)
 
-
 @permission_required('appPortas.view_registro_porta', login_url='erro_permissao')
 def busca_porta_frequencia(request, pk):
-    porta = Porta.objects.get(id=pk)
+    try:
+        porta = Porta.objects.get(id=pk)
+    except Porta.DoesNotExist:
+        mensagem = {
+            'mensagem': 'Porta não existe'}
+        return render(request, 'utils/pagina_erro.html', mensagem)
     return render(request, 'Registro_Porta/busca_frequencia_porta.html', {'porta': porta})
-
 
 @permission_required('appPortas.view_registro_porta', login_url='erro_permissao')
 def busca_porta_pessoa_frequencia(request, pk):
@@ -338,7 +370,6 @@ def busca_porta_pessoa_frequencia(request, pk):
         mensagem = {
             'mensagem': 'O Usuário não existe'}
         return render(request, 'utils/pagina_erro.html', mensagem)
-
 
 @permission_required('appPortas.view_registro_porta', login_url='erro_permissao')
 def porta_frequencias(request, pk):
@@ -353,14 +384,13 @@ def porta_frequencias(request, pk):
     if RegistroPorta.validarData(data_inicial) and RegistroPorta.validarData(data_final):
         data_inicial_formatada = datetime.datetime.strptime(data_inicial, "%d/%m/%Y").strftime("%Y-%m-%d")
         data_final_formatada = datetime.datetime.strptime(data_final, "%d/%m/%Y").strftime("%Y-%m-%d")
-        frequencias = porta.registro_porta_set.filter(data__gte=data_inicial_formatada,
-                                                      data__lte=data_final_formatada).order_by('data')
+        frequencias = porta.registroporta_set.filter(data__gte=data_inicial_formatada,
+                                                     data__lte=data_final_formatada).order_by('data')
         dados = {'frequencias': frequencias, 'porta': porta, 'data_inicial': data_inicial,
                  'data_final': data_final}
         return render(request, 'Registro_Porta/exibir_frequencia_porta.html', dados)
     else:
         return render(request, 'utils/permissao.html')
-
 
 @permission_required('appPortas.view_registro_porta', login_url='erro_permissao')
 def porta_pessoa_frequencia(request, pk):
@@ -377,8 +407,8 @@ def porta_pessoa_frequencia(request, pk):
         if RegistroPorta.validarData(data_inicial) and RegistroPorta.validarData(data_final):
             data_inicial_formatada = datetime.datetime.strptime(data_inicial, "%d/%m/%Y").strftime("%Y-%m-%d")
             data_final_formatada = datetime.datetime.strptime(data_final, "%d/%m/%Y").strftime("%Y-%m-%d")
-            frequencias = pessoa.registro_porta_set.filter(data__gte=data_inicial_formatada,
-                                                           data__lte=data_final_formatada).order_by('data')
+            frequencias = pessoa.registroporta_set.filter(data__gte=data_inicial_formatada,
+                                                          data__lte=data_final_formatada).order_by('data')
             dados = {'frequencias': frequencias, 'pessoa': pessoa, 'data_inicial': data_inicial,
                      'data_final': data_final}
             return render(request, 'Registro_Porta/exibir_frequencia_porta_pessoa.html', dados)
