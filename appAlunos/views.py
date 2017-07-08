@@ -165,7 +165,6 @@ def alunos(request):
     dados={'alunos':alunos,'criterio':criterio,'paginator':paginator,'page_obj':alunos}
     return render(request, 'Frequencia/alunos.html', dados)
 
-
 @permission_required('appPonto.view_frequencia', login_url='erro_permissao')
 def busca_frequencia_aluno(request, pk):
     try:
@@ -175,7 +174,6 @@ def busca_frequencia_aluno(request, pk):
         mensagem = {
             'mensagem': 'O Aluno não existe'}
         return render(request, 'utils/pagina_erro.html', mensagem)
-
 
 @login_required(login_url='login')
 def perfil_aluno(request):

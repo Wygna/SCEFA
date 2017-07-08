@@ -49,6 +49,7 @@ urlpatterns = [
 
     url(r'^busca/frequencia/$', busca_frequencia, name='busca_frequencia'),
     url(r'^ponto/frequencia_funcionario/$', funcionario_frequencia, name='funcionario_frequencia'),
+    url(r'^perfil_funcionario/$', perfil_funcionario, name='perfil_funcionario'),
 
     url(r'^funcionarios/$', funcionarios, name='funcionarios'),
     url(r'^busca/frequencia_funcionario/(?P<pk>\d+)$', busca_frequencia_funcionario,

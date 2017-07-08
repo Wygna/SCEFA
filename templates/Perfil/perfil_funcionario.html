@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block conteudo %}
+    <br>
+    <div class="col-sm-5 col-sm-offset-3">
+        <!-- general form elements -->
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title" style="text-align: center;">Perfil do funcionário</h3>
+            </div>
+            <table class="table table-bordered">
+                <tr>
+                    <td><b>Nome:</b> {{ funcionario.nome }}</td>
+                </tr>
+                <tr>
+                    <td><b>Matrícula:</b> {{ funcionario.matricula }}</td>
+                </tr>
+                <tr>
+                    <td><b>Telefone:</b> {{ funcionario.telefone }}</td>
+                </tr>
+                <tr>
+                    <td><b>E-mail:</b> {{ funcionario.Email }}</td>
+                </tr>
+                <tr>
+                    <td><b>Cargo:</b> {{ funcionario.cargo }}</td>
+                </tr>
+                <tr>
+                    <td><b>Departamento:</b> {{ funcionario.cargo.departamento }}</td>
+                </tr>
+                <tr>
+                    <td><b>Situação:</b> {{ funcionario.situacao }}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+{% endblock %}

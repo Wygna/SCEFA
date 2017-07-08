@@ -333,7 +333,7 @@ def edit_grupo(request):
     return render(request, 'Acesso/edit_grupo.html', dados)
 
 @permission_required('appPonto.view_pessoa', login_url='erro_permissao')
-def portas_list(request):
+def portas(request):
     criterio = request.GET.get('criterio')
     if criterio:
         portas = Porta.objects.filter(nome__icontains=criterio).order_by('descricao')
@@ -349,25 +349,24 @@ def portas_list(request):
     except EmptyPage:
         portas = paginator.page(paginator.num_pages)
     dados = {'portas': portas, 'criterio': criterio, 'paginator': paginator, 'page_obj': portas}
-    return render(request, 'Registro_Porta/frequencia_porta_list.html', dados)
+    return render(request, 'Registro_Porta/portas.html', dados)
 
 @permission_required('appPortas.view_registro_porta', login_url='erro_permissao')
-def busca_porta_frequencia(request, pk):
-    try:
-        porta = Porta.objects.get(id=pk)
-    except Porta.DoesNotExist:
-        mensagem = {
-            'mensagem': 'Porta não existe'}
-        return render(request, 'utils/pagina_erro.html', mensagem)
-    return render(request, 'Registro_Porta/busca_frequencia_porta.html', {'porta': porta})
-
-@permission_required('appPortas.view_registro_porta', login_url='erro_permissao')
-def busca_frequencia_porta(request):
+def busca_porta_frequencia(request):
     try:
         id_pessoa = request.user.id
         pessoa = Pessoa.objects.get(id=id_pessoa)
         return render(request, 'Registro_Porta/busca_frequencia_porta.html')
     except Pessoa.DoesNotExist:
+        return render(request, 'utils/permissao.html')
+
+
+@permission_required('appPortas.view_registro_porta', login_url='erro_permissao')
+def busca_porta(request, pk):
+    try:
+        porta = Porta.objects.get(id=pk)
+        return render(request, 'Registro_Porta/busca_frequencia_porta.html', {'porta': porta})
+    except Porta.DoesNotExist:
         return render(request, 'utils/permissao.html')
 
 @permission_required('appPortas.view_registro_porta', login_url='erro_permissao')

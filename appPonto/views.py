@@ -413,3 +413,13 @@ def busca_frequencia_funcionario(request, pk):
         mensagem = {
             'mensagem': 'O pessoa não existe'}
         return render(request, 'utils/pagina_erro.html', mensagem)
+
+
+@login_required(login_url='login')
+def perfil_funcionario(request):
+    try:
+        id_funcionario = request.user.id
+        funcionario = Funcionario.objects.get(id=id_funcionario)
+        return render(request, 'Perfil/perfil_funcionario.html', {'funcionario': funcionario})
+    except Funcionario.DoesNotExist:
+        return render(request, 'utils/permissao.html', )

@@ -14,12 +14,16 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title" style="text-align: center;">
-                            Buscar Acessos
+                            Buscar Frequência
                         </h3>
                     </div>
                     <br/>
                     <form class="form-horizontal" role="search" method="GET"
-                          action="{% url 'frequencia_porta_acesso' %}">
+                            {% if request.user.groups.all.0.name == 'Administradores' %}
+                          action="{% url 'porta_frequencias' porta.pk %}">
+                            {% else %}
+                                action="{% url 'frequencia_porta_acesso' %}">
+                            {% endif %}
                     <div class="form-group">
                         <label Class="col-sm-4 control-label">Inicio:</label>
                         <div class="col-md-5">

@@ -35,7 +35,7 @@
                             <tr>
                                 <td>
                                     {{ porta.descricao | upper }}</td>
-                                <td><a href="{% url 'busca_porta_frequencia' porta.pk %}" class="btn btn-success">Frequência</a>
+                                <td><a href="{% url 'busca_porta' porta.pk %}" class="btn btn-success">Frequência</a>
                                 </td>
                             </tr>
                         {% endfor %}
