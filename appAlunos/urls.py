@@ -8,13 +8,10 @@ urlpatterns = [
     url(r'^aluno/update/(?P<pk>\d+)$', aluno_update, name='aluno_update'),
     url(r'^aluno/new/$', aluno_new, name='aluno_new'),
     url(r'^aluno/delete/(?P<pk>\d+)$', aluno_delete, name='aluno_delete'),
-    url(r'^aluno/frequencias/(?P<pk>\d+)$',
-        aluno_frequencias, name='aluno_frequencias'),
-    url(r'^aluno/frequencia/(?P<pk>\d+)$',
-            aluno_frequencia, name='aluno_frequencia'),
-
-    url(r'^busca/aluno/frequencia/(?P<pk>\d+)$',
-        busca_aluno_frequencia, name='busca_aluno_frequencia'),
-    url(r'^frequencia/list$', alunos_list, name='Frequencia_list'),
+    url(r'^aluno/frequencias/(?P<pk>\d+)$', aluno_frequencias, name='aluno_frequencias'),
+    url(r'^ponto/frequencia_aluno/$', aluno_frequencia, name='aluno_frequencia'),
+    url(r'^alunos/$', alunos, name='alunos'),
+    url(r'^perfil_aluno/$', perfil_aluno, name='perfil_aluno'),
+    url(r'^busca/frequencia_aluno/(?P<pk>\d+)$', busca_frequencia_aluno, name='busca_frequencia_aluno'),
 
 ]

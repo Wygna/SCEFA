@@ -7,4 +7,4 @@ class AlunoForm(ModelForm):
     senha = forms.CharField(label='Senha', widget=forms.PasswordInput, required=False)
     class Meta:
         model = Aluno
-        fields = ('nome', 'email', 'turno_aula', 'matricula', 'foto', 'telefone', 'senha')
+        fields = ('nome', 'matricula', 'telefone', 'email', 'turno_aula', 'foto', 'senha')

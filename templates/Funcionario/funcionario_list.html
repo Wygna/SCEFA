@@ -38,7 +38,8 @@
                                 <td><a href="{% url 'funcionario_detail' funcionario.pk %}"> {{funcionario.nome | upper }}</a></td>
                                 <td>{{ funcionario.matricula }}</td>
                                 <td> <a href="{% url 'funcionario_update' funcionario.pk %}" class="glyphicon glyphicon-edit"></a></td>
-                                <td><a href="{% url 'funcionario_delete' funcionario.pk %}" style="color:red" class="glyphicon glyphicon-remove"></a></td>
+                                <td><a href="{% url 'funcionario_delete' funcionario.pk %}" style="color:red"
+                                       class="fa fa-trash-o"></a></td>
                             </tr>
                         {% endfor %}
                     </table>

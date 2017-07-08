@@ -34,7 +34,8 @@
                             <tr>
                                 <td><a href="{% url 'porta_detail' porta.pk %}"> {{ porta }}</a></td>
                                 <td><a href="{% url 'porta_update' porta.pk %}" class="glyphicon glyphicon-edit"></a></td>
-                                <td><a href="{% url 'porta_delete' porta.pk %}" style="color:red" class="glyphicon glyphicon-remove"></a></td>
+                                <td><a href="{% url 'porta_delete' porta.pk %}" style="color:red"
+                                       class="fa fa-trash-o"></a></td>
                             </tr>
                         {% endfor %}
                     </table>

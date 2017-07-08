@@ -9,6 +9,7 @@ urlpatterns = [
     url(r'^porta/new/$', porta_new, name='porta_new'),
     url(r'^porta/update/(?P<pk>\d+)$',porta_update, name='porta_update'),
     url(r'^porta/delete/(?P<pk>\d+)$',porta_delete, name='porta_delete'),
+    url(r'^porta/usuarios/(?P<pk>\d+)$', porta_delete, name='porta_delete'),
 
     url(r'^grupo/list$', grupo_list, name='grupo_list'),
     url(r'^grupo/detail/(?P<pk>\d+)$',grupo_detail, name='grupo_detail'),
@@ -25,9 +26,9 @@ urlpatterns = [
     url(r'^porta/nao_grupo/(?P<pk>\d+)$', porta_nao_grupo, name='porta_nao_grupo'),
 
     url(r'^frequencia/porta/$', portas_list, name='portas_list'),
-    url(r'^busca/porta/frequencia/(?P<pk>\d+)$', busca_porta_frequencia, name='busca_porta_frequencia'),
-    url(r'^busca/porta/frequencia/usuario/(?P<pk>\d+)$', busca_porta_pessoa_frequencia,
-        name='busca_porta_pessoa_frequencia'),
+    url(r'^busca/porta/frequencia/(?P<pk>\d+)$', busca_porta_frequencia, name='busca_porta_frequencias'),
+    url(r'^busca/frequencia_porta/$', busca_frequencia_porta, name='busca_frequencia_porta'),
+    url(r'^frequencia_porta_acesso/$', frequencia_porta_acesso, name='frequencia_porta_acesso'),
     url(r'^porta/frequencia/list/(?P<pk>\d+)$', porta_frequencias, name='portas_frequencias'),
-    url(r'^porta/frequencia/usuario/(?P<pk>\d+)$', porta_pessoa_frequencia, name='porta_pessoa_frequencia'),
+
 ]

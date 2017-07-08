@@ -34,7 +34,8 @@
                             <tr>
                                 <td><a href="{% url 'grupo_detail' grupo.pk %}"> {{grupo | upper }}</a></td>
                                 <td><a href="{% url 'grupo_update' grupo.pk %}" class="glyphicon glyphicon-edit"></a></td>
-                                <td><a href="{% url 'grupo_delete' grupo.pk %}" style="color:red" class="glyphicon glyphicon-remove"></a></td>
+                                <td><a href="{% url 'grupo_delete' grupo.pk %}" style="color:red"
+                                       class="fa fa-trash-o"></a></td>
                             </tr>
                         {% endfor %}
                     </table>

@@ -2,30 +2,6 @@
 {% load static %}
 {% load widget_tweaks %}
 <%{% block conteudo %}
-    <script src="{% static "appPonto/js/jquery.maskedinput.js" %}"></script>
-    <script type="text/javascript" src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-   <script>
-       $(document).ready( function() {
-            $("#data_inicial").datepicker({
-                dateFormat: 'dd/mm/yy',
-            dayNames: ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'],
-            dayNamesMin: ['D','S','T','Q','Q','S','S','D'],
-            dayNamesShort: ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb','Dom'],
-            monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
-            monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'],
-            nextText: 'Próximo',
-            prevText: 'Anterior', changeYear: true }).mask("99/99/9999");
-           $("#data_final").datepicker({
-                dateFormat: 'dd/mm/yy',
-            dayNames: ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'],
-            dayNamesMin: ['D','S','T','Q','Q','S','S','D'],
-            dayNamesShort: ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb','Dom'],
-            monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
-            monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'],
-            nextText: 'Próximo',
-            prevText: 'Anterior', changeYear: true }).mask("99/99/9999");
-     });
-</script>
     {% if data %}
     <div class="alert alert-danger alert-dismissable">
         <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
@@ -43,12 +19,7 @@
                     </div>
                     <br/>
                     <form class="form-horizontal" role="search" method="GET"
-                            {% if request.user.groups.all.0.name == 'Administradores' %}
                           action="{% url 'funcionario_frequencias' funcionario.pk %}">
-                        {% endif %}
-                        {% if request.user.groups.all.0.name == 'Funcionarios' %}
-                          action="{% url 'funcionario_frequencia' funcionario.pk %}">
-                        {% endif %}
                         <div class="form-group">
                             <label Class="col-sm-4 control-label">Inicio:</label>
                             <div class="col-md-5">

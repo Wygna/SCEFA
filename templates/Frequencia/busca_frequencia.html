@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load widget_tweaks %}
-<%{% block conteudo %}
+{% block conteudo %}
     {% if data %}
         <div class="alert alert-danger alert-dismissable">
             <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
@@ -14,12 +14,17 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title" style="text-align: center;">
-                            Buscar Acessos
+                            Buscar Frequência
                         </h3>
                     </div>
                     <br/>
                     <form class="form-horizontal" role="search" method="GET"
-                          action="{% url 'frequencia_porta_acesso' %}">
+                            {% if request.user.groups.all.0.name == 'Alunos' %}
+                          action="{% url 'aluno_frequencia' %}">
+                            {% endif %}
+                    {% if request.user.groups.all.0.name == 'Funcionarios' %}
+                        action="{% url 'funcionario_frequencia' %}">
+                    {% endif %}
                     <div class="form-group">
                         <label Class="col-sm-4 control-label">Inicio:</label>
                         <div class="col-md-5">

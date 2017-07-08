@@ -47,11 +47,13 @@ urlpatterns = [
     url(r'^administrador/add/(?P<pk>\d+)$',adicionar_administrador, name='administrador_add'),
     url(r'^administrador/delete/(?P<pk>\d+)$', remover_administrador, name='remover_administrador'),
 
-    url(r'^Frequencia/list$', funcionarios_list, name='frequencia_list'),
-    url(r'^funcionario/frequencia/(?P<pk>\d+)$', funcionario_frequencia, name='funcionario_frequencia'),
+    url(r'^busca/frequencia/$', busca_frequencia, name='busca_frequencia'),
+    url(r'^ponto/frequencia_funcionario/$', funcionario_frequencia, name='funcionario_frequencia'),
+
+    url(r'^funcionarios/$', funcionarios, name='funcionarios'),
+    url(r'^busca/frequencia_funcionario/(?P<pk>\d+)$', busca_frequencia_funcionario,
+        name='busca_frequencia_funcionario'),
     url(r'^funcionario/frequencias/(?P<pk>\d+)$', funcionario_frequencias, name='funcionario_frequencias'),
-    url(r'^busca/funcionario/frequencia/(?P<pk>\d+)$', busca_funcionario_frequencia,
-        name='busca_funcionario_frequencia'),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

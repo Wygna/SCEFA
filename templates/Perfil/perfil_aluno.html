@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block conteudo %}
+    <br>
+    <div class="col-sm-5 col-sm-offset-3">
+        <!-- general form elements -->
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title" style="text-align: center;">Dados do Funcionário</h3>
+            </div>
+            <table class="table table-bordered">
+                <tr>
+                    <td><b>Nome:</b> {{ aluno.nome }}</td>
+                </tr>
+                <tr>
+                    <td><b>Matrícula:</b> {{ aluno.matricula }}</td>
+                </tr>
+                <tr>
+                    <td><b>Turno:</b> {{ aluno.turno_aula }}</td>
+                </tr>
+                <tr>
+                    <td><b>E-mail:</b> {{ aluno.Email }}</td>
+                </tr>
+                <tr>
+                    <td><b>Situação:</b> {{ aluno.situacao }}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+{% endblock %}

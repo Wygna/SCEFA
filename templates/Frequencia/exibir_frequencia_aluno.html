@@ -34,16 +34,18 @@
             </div>
         </div>
     </div>
-    <section class="container" xmlns="http://www.w3.org/1999/html">
+    <section class="container-fluid">
         <div class="row">
             <!-- left column -->
-            <div class="col-sm-9 col-sm-offset-1">
+            <div>
                 <!-- general form elements -->
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title" style="text-align: center;">Frequências</h3>
                     </div>
-                    <table class="table table-bordered">
+                    <div class="table-responsive">
+
+                        <table class="table table-bordered">
                         <tr>
                             <th>Nome: {{ aluno.nome }}</th>
                         </tr>
@@ -89,21 +91,24 @@
                             </tr>
                         {% endfor %}
                     </table>
+                    </div>
                 </div>
-                <table class="table table-bordered">
-                    <tr>
-                        <th>Carga total</th>
-                        <th>Número de Presença</th>
-                        <th>Número de Faltas</th>
-                        <th>Periódo do relatório</th>
-                    </tr>
-                    <tr>
-                        <td>{{ horas_total }}</td>
-                        <td>{{ dias_nao_aulas }}</td>
-                        <td>{{ dias_aulas }}</td>
-                        <td>{{ data_inicial }} até {{ data_final }}</td>
-                    </tr>
-                </table>
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>Carga total</th>
+                            <th>Número de Presença</th>
+                            <th>Número de Faltas</th>
+                            <th>Periódo do relatório</th>
+                        </tr>
+                        <tr>
+                            <td>{{ horas_total }}</td>
+                            <td>{{ dias_nao_aulas }}</td>
+                            <td>{{ dias_aulas }}</td>
+                            <td>{{ data_inicial }} até {{ data_final }}</td>
+                        </tr>
+                    </table>
+                </div>
             </div>
         </div>
     </section>

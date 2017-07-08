@@ -33,9 +33,9 @@ def porta_detail(request,pk):
         porta_grupo = GrupoPorta.objects.get(porta=porta, grupo_id=grupo)
         porta_grupo.delete()
     if criterio:
-        grupos = Grupo.objects.filter(porta_grupo__porta=porta,descricao__icontains=criterio).order_by('descricao')
+        grupos = Grupo.objects.filter(grupoporta__porta=porta, descricao__icontains=criterio).order_by('descricao')
     else:
-        grupos = Grupo.objects.filter(porta_grupo__porta=porta)
+        grupos = Grupo.objects.filter(grupoporta__porta=porta)
     criterio = ""
     paginator = Paginator(grupos, 10)
     page = request.GET.get('page')
@@ -362,14 +362,13 @@ def busca_porta_frequencia(request, pk):
     return render(request, 'Registro_Porta/busca_frequencia_porta.html', {'porta': porta})
 
 @permission_required('appPortas.view_registro_porta', login_url='erro_permissao')
-def busca_porta_pessoa_frequencia(request, pk):
+def busca_frequencia_porta(request):
     try:
-        pessoa = Pessoa.objects.get(id=pk)
-        return render(request, 'Registro_Porta/busca_frequencia_porta.html', {'pessoa': pessoa})
+        id_pessoa = request.user.id
+        pessoa = Pessoa.objects.get(id=id_pessoa)
+        return render(request, 'Registro_Porta/busca_frequencia_porta.html')
     except Pessoa.DoesNotExist:
-        mensagem = {
-            'mensagem': 'O Usuário não existe'}
-        return render(request, 'utils/pagina_erro.html', mensagem)
+        return render(request, 'utils/permissao.html')
 
 @permission_required('appPortas.view_registro_porta', login_url='erro_permissao')
 def porta_frequencias(request, pk):
@@ -393,24 +392,24 @@ def porta_frequencias(request, pk):
         return render(request, 'utils/permissao.html')
 
 @permission_required('appPortas.view_registro_porta', login_url='erro_permissao')
-def porta_pessoa_frequencia(request, pk):
-    current_user = request.user
+def frequencia_porta_acesso(request):
+    id_pessoa = request.user.id
     try:
-        pessoa = Pessoa.objects.get(id=pk)
+        pessoa = Pessoa.objects.get(id=id_pessoa)
     except Exception:
         mensagem = {
             'mensagem': 'Usuário não existe'}
         return render(request, 'utils/pagina_erro.html', mensagem)
-    if pessoa.username == current_user.username:
-        data_inicial = request.GET.get('data_inicial')
-        data_final = request.GET.get('data_final')
-        if RegistroPorta.validarData(data_inicial) and RegistroPorta.validarData(data_final):
-            data_inicial_formatada = datetime.datetime.strptime(data_inicial, "%d/%m/%Y").strftime("%Y-%m-%d")
-            data_final_formatada = datetime.datetime.strptime(data_final, "%d/%m/%Y").strftime("%Y-%m-%d")
-            frequencias = pessoa.registroporta_set.filter(data__gte=data_inicial_formatada,
-                                                          data__lte=data_final_formatada).order_by('data')
-            dados = {'frequencias': frequencias, 'pessoa': pessoa, 'data_inicial': data_inicial,
-                     'data_final': data_final}
-            return render(request, 'Registro_Porta/exibir_frequencia_porta_pessoa.html', dados)
+    data_inicial = request.GET.get('data_inicial')
+    data_final = request.GET.get('data_final')
+    if RegistroPorta.validarData(data_inicial) and RegistroPorta.validarData(data_final):
+        data_inicial_formatada = datetime.datetime.strptime(data_inicial, "%d/%m/%Y").strftime("%Y-%m-%d")
+        data_final_formatada = datetime.datetime.strptime(data_final, "%d/%m/%Y").strftime("%Y-%m-%d")
+        frequencias = pessoa.registroporta_set.filter(data__gte=data_inicial_formatada,
+                                                      data__lte=data_final_formatada).order_by('data')
+        dados = {'frequencias': frequencias, 'pessoa': pessoa, 'data_inicial': data_inicial,
+                 'data_final': data_final}
+        return render(request, 'Registro_Porta/exibir_frequencia_porta_pessoa.html', dados)
     else:
-        return render(request, 'utils/permissao.html')
+        dados = {'data': 'Data inválida'}
+        return render(request, 'Registro_Porta/busca_frequencia_porta.html', dados)

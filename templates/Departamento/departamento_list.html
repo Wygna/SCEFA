@@ -30,7 +30,8 @@
                             <tr>
                                 <td><a href="{% url 'departamento_detail' departamento.pk %}"> {{departamento.descricao | upper }}</a></td>
                                 <td><a href="{% url 'departamento_update' departamento.pk %}" class="glyphicon glyphicon-edit"></a></td>
-                                <td><a href="{% url 'departamento_delete' departamento.pk %}" style="color:red" class="glyphicon glyphicon-remove"></a></td>
+                                <td><a href="{% url 'departamento_delete' departamento.pk %}" style="color:red"
+                                       class="fa fa-trash-o"></a></td>
                             </tr>
                         {% endfor %}
                     </table>

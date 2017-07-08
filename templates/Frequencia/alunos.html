@@ -23,7 +23,7 @@
                 <!-- general form elements -->
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title" style="text-align: center;">Funcionários</h3>
+                        <h3 class="panel-title" style="text-align: center;">Alunos</h3>
                     </div>
                     <table class="table table-bordered">
                         <tr>
@@ -31,13 +31,13 @@
                             <th>Matrícula</th>
                             <th>Relatório</th>
                         </tr>
-                        {% for funcionario in funcionarios %}
+                        {% for aluno in alunos %}
                              <tr>
                                 <td>
-                                    {{ funcionario.nome | upper}}</td>
-                                <td>{{ funcionario.matricula}}</td>
-                                <td><a href="{% url 'busca_funcionario_frequencia' funcionario.pk %}" class="btn btn-success">Frequência</a></td>
-
+                                    {{ aluno.nome | upper}}</td>
+                                <td>{{ aluno.matricula}}</td>
+                                 <td><a href="{% url 'busca_frequencia_aluno' aluno.id %}" class="btn btn-success">Frequência</a>
+                                 </td>
                              </tr>
                         {% endfor %}
                     </table>
