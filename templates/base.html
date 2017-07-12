@@ -148,8 +148,9 @@
                                 </span>
                             </a>
                             <ul class="treeview-menu">
-                                <li><a href="{% url 'funcionario_list' %}"><i class="fa fa-circle-o"></i>Funcionários</a></li>
                                 <li><a href="{% url 'administrador_list' %}"><i class="fa fa-circle-o"></i>Administradores</a></li>
+                                <li><a href="{% url 'funcionario_list' %}"><i
+                                        class="fa fa-circle-o"></i>Funcionários</a></li>
                                 <li><a href="{% url 'funcionario_new' %}"><i class="fa fa-circle-o"></i>Cadastrar
                                     Funcionário</a></li>
                                 <li><a href="{% url 'administrador_new' %}"><i class="fa fa-circle-o"></i>Adicionar Administrador</a></li>
@@ -248,10 +249,13 @@
             <div class="branco content-wrapper">
                 <!-- Content Header (Page header) -->
                 <section class="content-header">
-                     {% block conteudo %}
-                        <h3>Bem vindo ao Sistema de Registro Eletrônico de Ponto</h3>
+                    <div class="row">
+                        <div align="center">
+                            {% block conteudo %}
 
-                     {% endblock %}
+                            {% endblock %}
+                        </div>
+                    </div>
                 </section>
             </div>
         </div>

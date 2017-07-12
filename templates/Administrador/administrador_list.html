@@ -26,21 +26,35 @@
                     <div class="panel-heading">
                         <h3 class="panel-title" style="text-align: center;">Administradores</h3>
                     </div>
-                    <table class="table table-bordered">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
                         <tr>
                             <th>Nome</th>
                             <th>Matrícula</th>
-                            <th>Remover</th>
+                            <th colspan="2">Ações</th>
                         </tr>
                         {% for administrador in administradores %}
                             <tr>
-                                <td><a href="{% url 'funcionario_detail' administrador.pk %}"> {{administrador.nome | upper }}</a></td>
+                                <td>{{ administrador.nome }}</td>
                                 <td>{{ administrador.matricula }}</td>
-                                <td><a href="{% url 'remover_administrador' administrador.pk %}"style="color:red" class="glyphicon glyphicon-remove"></a></td>
-
+                                <td style="width: 10px"><a href="{% url 'funcionario_detail' administrador.pk %}"
+                                                           class="btn btn-success btn-sm">
+                                    <span class="glyphicon glyphicon-eye-open"></span> Detalhes</a>
+                                </td>
+                                <td style="width: 10px"><a href="{% url 'administrador_update' administrador.pk %}"
+                                                           class="btn btn-info btn-sm">
+                                    <span class="glyphicon glyphicon-edit"></span> Editar
+                                </a>
+                                </td>
+                                <td style="width: 10px"><a href="{% url 'remover_administrador' administrador.pk %}"
+                                                           class="btn btn-danger btn-sm">
+                                    <span class="glyphicon glyphicon-remove"></span> Remover
+                                </a>
+                                </td>
                             </tr>
                         {% endfor %}
                     </table>
+                    </div>
                 </div>
                 {% include 'utils/paginacao.html' %}
             </div>

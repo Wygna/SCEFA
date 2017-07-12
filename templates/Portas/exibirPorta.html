@@ -29,19 +29,27 @@
                     <table class="table table-bordered">
                         <tr>
                             <th>Grupos de Acesso</th>
-                            <th>Remover</th>
+                            <th colspan="2">
+                                <center>Ações</center>
+                            </th>
                         </tr>
                         {% for grupo in grupos %}
                             <tr>
-                                <td><a href="{% url 'grupo_detail' grupo.pk %}"> {{ grupo }}</a></td>
-                            <td>
-                                <form action="{% url 'porta_detail' porta.pk %}">
-                                    <input type="hidden" name="grupo" value="{{ grupo.pk }}">
-                                    <button type="submit" class="btn btn-danger">
-                                        <span class="glyphicon glyphicon-remove"></span>
-                                    </button>
-                                </form>
-                            </td>
+                                <td>{{ grupo }}</td>
+
+                                <td style="width: 10px">
+                                    <a href="{% url 'grupo_detail' grupo.pk %}" class="btn btn-success btn-sm">
+                                        <span class="glyphicon glyphicon-eye-open"></span> Detalhes
+                                    </a>
+                                </td>
+                                <td style="width: 10px">
+                                    <form action="{% url 'porta_detail' porta.pk %}">
+                                        <input type="hidden" name="grupo" value="{{ grupo.pk }}">
+                                        <button type="submit" class="btn btn-danger btn-sm">
+                                            <span class="fa fa-trash-o"></span> Excluir
+                                        </button>
+                                    </form>
+                                </td>
                             </tr>
                         {% endfor %}
                     </table>

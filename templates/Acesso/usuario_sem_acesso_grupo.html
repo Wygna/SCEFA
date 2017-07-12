@@ -28,6 +28,7 @@
                         <tr>
                             <th>Nome</th>
                             <th>Matrícula</th>
+                            <th>Profissão</th>
                             <th>Adicionar</th>
                         </tr>
                         {% for usuario in usuarios_sem_acesso %}
@@ -35,10 +36,18 @@
                                 <td>{{ usuario }}</td>
                                 <td>{{ usuario.username }}</td>
                                 <td>
+                                    {% if usuario.funcionario %}
+                                        {{ usuario.funcionario.cargo }}
+                                    {% else %}
+                                        Aluno
+                                    {% endif %}
+                                </td>
+                                <td style="width: 10px">
                                     <form action="{% url 'usuario_sem_acesso_grupo' grupo.pk %}">
                                         <input type="hidden" name="usuario" value="{{ usuario.pk }}">
-                                        <button type="submit" class="btn btn-facebook">
-                                            <span class="glyphicon glyphicon-plus"></span>
+                                        <button type="submit" class="btn btn-facebook btn-sm"
+                                        ">
+                                        <span class="glyphicon glyphicon-plus"></span>
                                         </button>
                                     </form>
                                 </td>

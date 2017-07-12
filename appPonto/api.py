@@ -65,6 +65,9 @@ class RegistroPortaResource(ModelResource):
         resource_name = 'registro_portas'
         limit = 0
         max_limit = 0
+        filtering = {
+            "data": ['gte', 'lte'],
+        }
         list_allowed_methods = ['get', 'post']
         include_resource_uri = False
         authentication = BasicAuthentication()

@@ -13,7 +13,7 @@ def porta_list(request):
     else:
         portas = Porta.objects.all().order_by('descricao')
         criterio =""
-    paginator = Paginator(portas, 10)
+    paginator = Paginator(portas, 8)
     page = request.GET.get('page')
     try:
         portas = paginator.page(page)
@@ -239,7 +239,7 @@ def usuario_acesso_grupo(request, pk):
     else:
         usuarios_acesso = Pessoa.objects.filter(grupopessoa__grupo=grupo).order_by('nome')
         criterio = ""
-    paginator = Paginator(usuarios_acesso, 5)
+    paginator = Paginator(usuarios_acesso, 10)
     page = request.GET.get('page')
     try:
         usuarios_acesso = paginator.page(page)

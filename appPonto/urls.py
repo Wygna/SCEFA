@@ -46,6 +46,7 @@ urlpatterns = [
     url(r'^administrador/new/$', administrador_new, name='administrador_new'),
     url(r'^administrador/add/(?P<pk>\d+)$',adicionar_administrador, name='administrador_add'),
     url(r'^administrador/delete/(?P<pk>\d+)$', remover_administrador, name='remover_administrador'),
+    url(r'^administrador/update/(?P<pk>\d+)$', administrador_update, name='administrador_update'),
 
     url(r'^busca/frequencia/$', busca_frequencia, name='busca_frequencia'),
     url(r'^ponto/frequencia_funcionario/$', funcionario_frequencia, name='funcionario_frequencia'),

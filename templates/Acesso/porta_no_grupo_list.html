@@ -32,10 +32,10 @@
                         {% for porta in porta_no_grupo %}
                             <tr>
                                 <td>{{ porta }}</td>
-                                <td>
+                                <td style="width:10px;">
                                     <form action="{% url 'porta_no_grupo' grupo.pk %}">
                                         <input type="hidden" name="porta" value="{{ porta.pk }}">
-                                        <button type="submit" class="btn btn-danger">
+                                        <button type="submit" class="btn btn-danger btn-sm">
                                             <span class="glyphicon glyphicon-remove"></span>
                                         </button>
                                     </form>

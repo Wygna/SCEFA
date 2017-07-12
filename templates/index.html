@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block conteudo %}
+    <style>
+        td, th {
+            text-align: center;
+        }
+    </style>
+    <section class="container">
+        <div class="row">
+            <h3>Bem vindo ao Sistema de Controle Eletrônico de Frequência e Acesso</h3>
+            <!-- left column -->
+            {% if grupos %}
+                <div class="col-sm-5 col-sm-offset-3">
+                    <!-- general form elements -->
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title" style="text-align: center;">Grupos que faz parte</h3>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                {% for grupo in grupos %}
+                                    <tr>
+                                        <th>
+                                            {{ grupo.grupo }}
+                                        </th>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title" style="text-align: center;">Porta que tem acesso</h3>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                {% for grupo in grupos %}
+                                    {% for porta in grupo.grupo.grupoporta_set.all %}
+                                        <tr>
+                                            <th>
+                                                {{ porta.porta }}
+                                            </th>
+                                        </tr>
+                                    {% endfor %}
+                                {% endfor %}
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            {% endif %}
+        </div>
+        <!-- /.row -->
+    </section>
+{% endblock %}

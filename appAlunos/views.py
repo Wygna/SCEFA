@@ -43,7 +43,7 @@ def aluno_list(request):
     else:
         alunos = Aluno.objects.all().order_by('nome')
         criterio = ''
-    paginator = Paginator(alunos, 10)
+    paginator = Paginator(alunos, 8)
     page = request.GET.get('page')
     try:
         alunos = paginator.page(page)

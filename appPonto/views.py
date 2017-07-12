@@ -6,10 +6,14 @@ from django.core.paginator import PageNotAnInteger, EmptyPage, Paginator
 from django.http.request import QueryDict
 from django.shortcuts import render, redirect
 from appPonto.forms import *
+from appPortas.models import *
 
 @login_required(login_url='login')
 def home(request):
-    return render(request, 'base.html')
+    id_pessoa = request.user.id
+    pessoa = Pessoa.objects.get(id=id_pessoa)
+    grupos = GrupoPessoa.objects.filter(pessoa=pessoa)
+    return render(request, 'index.html', {'grupos': grupos})
 
 @login_required(login_url='login')
 def erro_permissao(request):
@@ -19,11 +23,12 @@ def erro_permissao(request):
 def funcionario_list(request):
     criterio = request.GET.get('criterio')
     if criterio:
-        funcionarios = Funcionario.objects.filter(nome__icontains=criterio).order_by('nome')
+        funcionarios = Funcionario.objects.filter(~Q(cargo__nome_funcao__contains='Administrador'),
+                                                  nome__icontains=criterio).order_by('nome')
     else:
-        funcionarios = Funcionario.objects.all().order_by('nome')
+        funcionarios = Funcionario.objects.filter(~Q(cargo__nome_funcao__contains='Administrador')).order_by('nome')
         criterio =""
-    paginator =Paginator(funcionarios,10)
+    paginator = Paginator(funcionarios, 8)
     page = request.GET.get('page')
     try:
         funcionarios = paginator.page(page)
@@ -90,15 +95,12 @@ def funcionario_update(request, pk):
             funcionario.username = funcionario.matricula
             funcionario.first_name = funcionario.nome
             if request.POST.get('senha'): funcionario.set_password(request.POST['senha'])
-            grupoFuncionario = Group.objects.get(name='Funcionarios')
-            grupoFuncionario.user_set.add(funcionario)
             funcionario.save()
             return redirect('funcionario_list')
     else:
         form = FuncionarioForm(instance=funcionario)
         dados = {'form': form, 'funcionario': funcionario}
         return render(request, 'Funcionario/funcionario_form.html', dados)
-
 
 @permission_required('appPonto.view_funcionario', login_url='erro_permissao')
 def funcionarios(request):
@@ -140,7 +142,6 @@ def administrador_list(request):
              'page_obj': administradores}
     return render(request, 'Administrador/administrador_list.html', dados)
 
-
 @permission_required('appPonto.view_funcionario', login_url='erro_permissao')
 def administrador_new(request):
     criterio = request.GET.get('criterio')
@@ -161,6 +162,30 @@ def administrador_new(request):
     dados = {'funcionarios': funcionarios, 'criterio': criterio, 'paginator': paginator, 'page_obj': funcionarios}
     return render(request, 'Administrador/administrador_form.html', dados)
 
+
+@permission_required('appPonto.change_funcionario', login_url='erro_permissao')
+def administrador_update(request, pk):
+    try:
+        funcionario = Funcionario.objects.get(id=pk)
+    except Exception:
+        mensagem = {
+            'mensagem': 'O funcionario não existe'}
+        return render(request, 'utils/pagina_erro.html', mensagem)
+    if request.FILES.get('foto'):
+        funcionario.foto = request.FILES['foto']
+    if request.method == "POST":
+        form = FuncionarioForm(request.POST, instance=funcionario)
+        if form.is_valid():
+            funcionario = form.save(commit=False)
+            funcionario.username = funcionario.matricula
+            funcionario.first_name = funcionario.nome
+            if request.POST.get('senha'): funcionario.set_password(request.POST['senha'])
+            funcionario.save()
+            return redirect('administrasor_list')
+    else:
+        form = FuncionarioForm(instance=funcionario)
+        dados = {'form': form, 'funcionario': funcionario}
+        return render(request, 'Administrador/administrador_edit.html', dados)
 
 @permission_required('appPonto.view_funcionario', login_url='erro_permissao')
 def adicionar_administrador(request, pk):
