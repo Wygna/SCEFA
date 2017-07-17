@@ -181,7 +181,7 @@ def administrador_update(request, pk):
             funcionario.first_name = funcionario.nome
             if request.POST.get('senha'): funcionario.set_password(request.POST['senha'])
             funcionario.save()
-            return redirect('administrasor_list')
+            return redirect('administrador_list')
     else:
         form = FuncionarioForm(instance=funcionario)
         dados = {'form': form, 'funcionario': funcionario}
