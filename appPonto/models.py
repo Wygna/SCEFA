@@ -70,13 +70,21 @@ class Frequencia(models.Model):
             hora = datetime.datetime.strptime(str(self.hora_saida), formatacao) - datetime.datetime.strptime(str(self.hora_entrada), formatacao)
             return hora
         else:
-            return "00:00:00"
+            return "0:00:00"
 
     def tempoMaximo(self):
         formatacao = '%H:%M:%S'
-        tempo = str(datetime.datetime.strptime(str(self.hora_saida), formatacao) - datetime.datetime.strptime(str(self.hora_entrada), formatacao))
-        tempo_maximo = int(tempo[0])
-        return tempo_maximo
+        if self.hora_entrada == None or self.hora_saida == None:
+            return 0
+        else:
+            tempo = str(datetime.datetime.strptime(str(self.hora_saida), formatacao) - datetime.datetime.strptime(
+                str(self.hora_entrada), formatacao))
+            if tempo[1] != ':':
+                tempo_maximo = datetime.time(int(tempo[0:2]), int(tempo[3:5], int(tempo[6:])))
+                if tempo_maximo > datetime.time(10, 0, 1):
+                    return 1
+            else:
+                return 0
 
     def diaSemana(self):
         semana= ['Segunda-Feira', 'Terceira-Feira', 'Quarta-Feira',

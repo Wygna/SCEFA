@@ -148,12 +148,10 @@
                                 </span>
                             </a>
                             <ul class="treeview-menu">
-                                <li><a href="{% url 'administrador_list' %}"><i class="fa fa-circle-o"></i>Administradores</a></li>
                                 <li><a href="{% url 'funcionario_list' %}"><i
                                         class="fa fa-circle-o"></i>Funcionários</a></li>
                                 <li><a href="{% url 'funcionario_new' %}"><i class="fa fa-circle-o"></i>Cadastrar
                                     Funcionário</a></li>
-                                <li><a href="{% url 'administrador_new' %}"><i class="fa fa-circle-o"></i>Adicionar Administrador</a></li>
                             </ul>
                         </li>
                             <li class="user-o">
@@ -222,8 +220,12 @@
                                 </span>
                             </a>
                             <ul class="treeview-menu">
+                                <li><a href="{% url 'administrador_list' %}"><i class="fa fa-circle-o"></i>Administradores</a>
+                                </li>
                                 <li><a href="{% url 'departamento_list' %}"><i class="fa fa-circle-o"></i>Departamentos</a></li>
                                 <li><a href="{% url 'cargo_list' %}"><i class="fa fa-circle-o"></i>Cargos</a></li>
+                                <li><a href="{% url 'administrador_new' %}"><i class="fa fa-circle-o"></i>Adicionar
+                                    Administrador</a></li>
                                 <li><a href="{% url 'departamento_new' %}"><i class="fa fa-circle-o"></i>Cadastrar Departamento</a></li>
                                 <li><a href="{% url 'cargo_new' %}"><i class="fa fa-circle-o"></i>Cadastrar Cargo</a></li>
                             </ul>

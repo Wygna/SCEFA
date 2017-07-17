@@ -110,7 +110,7 @@ def funcionarios(request):
     else:
         funcionarios = Funcionario.objects.all().order_by('nome')
         criterio = ""
-    paginator = Paginator(funcionarios, 10)
+    paginator = Paginator(funcionarios, 8)
     page = request.GET.get('page')
     try:
         funcionarios = paginator.page(page)
