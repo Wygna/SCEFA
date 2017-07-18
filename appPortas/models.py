@@ -65,7 +65,7 @@ class GrupoPorta(models.Model):
     grupo = models.ForeignKey(Grupo,on_delete=models.PROTECT,verbose_name="Grupo")
 
     def __str__(self):
-        return str(self.grupo) + '--' + str(self.porta)
+        return 'grupo ' + str(self.grupo) + ' / porta - ' + str(self.porta)
     class Meta: permissions = (('view_grupo_porta', 'Can see grupo_porta'),)
 
 
@@ -74,5 +74,5 @@ class GrupoPessoa(models.Model):
     pessoa = models.ForeignKey(Pessoa,on_delete=models.PROTECT,verbose_name="Pessoa")
 
     def __str__(self):
-        return str(self.grupo) + '--' + str(self.pessoa)
+        return 'grupo - ' + str(self.grupo) + ' / pessoa - ' + str(self.pessoa)
     class Meta: permissions = (('view_grupo_pessoa', 'Can see grupo_pessoa'),)

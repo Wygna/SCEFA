@@ -6,16 +6,16 @@ from datetime import datetime
 
 def conultar_pessoa_acesso_porta(id_digital, id_porta, img_digital):
     try:
-        pessoagrupo = GrupoPessoa.objects.filter(pessoa__id_digital=id_digital)
-        portagrupo = GrupoPorta.objects.filter(porta_id=id_porta)
+        grupopessoa = GrupoPessoa.objects.filter(pessoa__id_digital=id_digital)
+        grupoporta = GrupoPorta.objects.filter(porta_id=id_porta)
     except GrupoPessoa.DoesNotExist:
         return False
     except GrupoPorta.DoesNotExist:
         return False
     acesso = False
-    for pessoa in pessoagrupo:
-        for porta in portagrupo:
-            if pessoa.id == porta.id:
+    for grupo in grupopessoa:
+        for porta in grupoporta:
+            if grupo.grupo == porta.grupo:
                 acesso = True
     return acesso
 
