@@ -66,4 +66,4 @@ def adicionar_biometria(id_digital, img_digital, matricula):
     return True
 
 
-print(conultar_pessoa_acesso_porta(5, 10, "oo"))
+print(conultar_pessoa_acesso_porta(2, 2, "oo"))

@@ -10,10 +10,13 @@ from appPortas.models import *
 
 @login_required(login_url='login')
 def home(request):
+    dados = {}
     id_pessoa = request.user.id
-    pessoa = Pessoa.objects.get(id=id_pessoa)
-    grupos = GrupoPessoa.objects.filter(pessoa=pessoa)
-    return render(request, 'index.html', {'grupos': grupos})
+    if not request.user.is_superuser:
+        pessoa = Pessoa.objects.get(id=id_pessoa)
+        grupos = GrupoPessoa.objects.filter(pessoa=pessoa)
+        dados = {'grupos': grupos}
+    return render(request, 'base.html')
 
 @login_required(login_url='login')
 def erro_permissao(request):
