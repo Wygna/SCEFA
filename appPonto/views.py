@@ -16,7 +16,7 @@ def home(request):
         pessoa = Pessoa.objects.get(id=id_pessoa)
         grupos = GrupoPessoa.objects.filter(pessoa=pessoa)
         dados = {'grupos': grupos}
-    return render(request, 'base.html')
+    return render(request, 'index.html', dados)
 
 @login_required(login_url='login')
 def erro_permissao(request):
