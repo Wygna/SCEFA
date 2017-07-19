@@ -4,7 +4,8 @@ from appPonto.models import *
 from appPortas.models import *
 from datetime import datetime
 
-def conultar_pessoa_acesso_porta(id_digital, id_porta, img_digital):
+
+def consultar_pessoa_acesso_porta(id_digital, id_porta, img_digital):
     try:
         grupopessoa = GrupoPessoa.objects.filter(pessoa__id_digital=id_digital)
         grupoporta = GrupoPorta.objects.filter(porta_id=id_porta)
