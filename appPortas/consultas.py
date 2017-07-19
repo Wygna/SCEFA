@@ -22,7 +22,7 @@ def consultar_pessoa_acesso_porta(id_digital, id_porta, img_digital):
 
 def registra_acesso_porta(id_digital, id_porta, img_digital):
     hora = datetime.now()
-    if conultar_pessoa_acesso_porta(id_digital, id_porta, img_digital) == True:
+    if consultar_pessoa_acesso_porta(id_digital, id_porta, img_digital) == True:
         pessoa = Pessoa.objects.get(id_digital=id_digital)
         porta = Porta.objects.get(id=id_porta)
         registro_acesso = RegistroPorta.objects.create(data=datetime.now().date(),
