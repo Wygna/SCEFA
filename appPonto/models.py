@@ -41,7 +41,7 @@ class Cargo(models.Model):
         return self.nome_funcao
 
 class Funcionario(Pessoa):
-    matricula = models.CharField("Matricula", max_length=10,unique=True)
+    matricula = models.CharField("Matricula", max_length=20, unique=True)
     cargo = models.ForeignKey(Cargo,on_delete=models.PROTECT,verbose_name="Cargo")
 
     def setCargo(self,funcao):
@@ -60,9 +60,7 @@ class Frequencia(models.Model):
     observacao = models.CharField("Observação",max_length=200,null=True)
     pessoa = models.ForeignKey(Pessoa,on_delete=models.PROTECT)
     inconsistencia = models.CharField("Inconsistencia",max_length=200,null=True)
-    arquivo = models.FileField(
-        upload_to='arquivos', verbose_name='arquivo',
-        null=True, blank=True)
+    arquivo = models.FileField(upload_to='arquivos', verbose_name='arquivo', null=True, blank=True)
 
     def TotalEntradaSaida(self):
         if self.hora_entrada !=None:

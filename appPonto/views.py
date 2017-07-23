@@ -49,7 +49,8 @@ def funcionario_delete(request,pk):
         funcionairo.delete()
         return redirect('funcionario_list')
     except Exception:
-        mensagem ={'mensagem':'Não é possível excluir funcionario, excluir o funcionario selecionado exigiria excluir as frequências registradas'}
+        mensagem = {
+            'mensagem': 'Não é possível excluir funcionario, excluir o funcionario selecionado exigiria excluir as frequências registradas.'}
         return render(request,'utils/pagina_erro.html',mensagem)
 
 @permission_required('appPonto.view_funcionario',login_url='erro_permissao')
@@ -296,7 +297,8 @@ def departamento_delete(request,pk):
         departamento.delete()
         return redirect('departamento_list')
     except Exception:
-        mensagem = {'mensagem': 'Não é possível excluir departamento, o departamento selecionado está relacionado a um cargo'}
+        mensagem = {
+            'mensagem': 'Não é possível excluir departamento, o departamento selecionado está relacionado a um cargo.'}
         return render(request, 'utils/pagina_erro.html', mensagem)
 
 @permission_required('appPonto.view_cargo',login_url='erro_permissao')
@@ -361,10 +363,14 @@ def cargo_update(request,pk):
 
 @permission_required('appPonto.delete_departamento', login_url='erro_permissao')
 def cargo_delete(request,pk):
-    cargo =Cargo.objects.get(id=pk)
-    cargo.delete()
-    return redirect('cargo_list')
-
+    try:
+        cargo = Cargo.objects.get(id=pk)
+        cargo.delete()
+        return redirect('cargo_list')
+    except Exception:
+        mensagem = {
+            'mensagem': 'Não é possível excluir cargo, o cargo selecionado está relacionado a um funcionário.'}
+        return render(request, 'utils/pagina_erro.html', mensagem)
 @permission_required('appPonto.view_frequencia',login_url='erro_permissao')
 def funcionario_frequencia(request):
     if request.method == 'POST':
@@ -398,6 +404,13 @@ def funcionario_frequencia(request):
 
 @permission_required('appPonto.view_frequencia',login_url='erro_permissao')
 def funcionario_frequencias(request,pk):
+    if request.method == 'POST':
+        if "frequencia_id" in request.POST:
+            id_frequencia = int(request.POST['frequencia_id'])
+            frequencia = Frequencia.objects.get(pk=id_frequencia)
+            frequencia.observacao = request.POST['observacao']
+            if request.FILES.get('arquivo'): frequencia.arquivo = request.FILES['arquivo']
+            frequencia.save()
     data_inicial = request.GET.get('data_inicial')
     data_final = request.GET.get('data_final')
     try:

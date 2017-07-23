@@ -24,7 +24,7 @@ SECRET_KEY = 'nr^r)=e53&&=6b^80*g5&l$u9gjkfc1nye9shmpd-6(ep12gm='
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.0.4', '10.208.3.54']
 STATIC_URL = '/static/'
 
 
@@ -83,7 +83,15 @@ DATABASES = {
     # 'default': {
     #   'ENGINE': 'django.db.backends.sqlite3',
     #  'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'BancoPonto',
+        # 'NAME': os.path.join(BASE_DIR, 'mydb'),
+        'USER': 'postgres',
+        'PASSWORD': '123',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',  # 8000 is default
+    }
 }
 
 # Password validation
