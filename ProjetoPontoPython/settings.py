@@ -83,28 +83,8 @@ DATABASES = {
     # 'default': {
     #   'ENGINE': 'django.db.backends.sqlite3',
     #  'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-<<<<<<< HEAD
-<<<<<<< HEAD
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'bancoponto',
-        # 'NAME': os.path.join(BASE_DIR, 'mydb'),
-        'USER': 'postgres2',
-        'PASSWORD': '123',
-        'HOST': '127.0.0.1',
-        'PORT': '5432', # 8000 is default
-    }
 
-=======
-   
->>>>>>> 2e1d0c2f3f7d5853e2d80a806bb0486093ea509f
-=======
-   
->>>>>>> 2e1d0c2f3f7d5853e2d80a806bb0486093ea509f
 }
-
-# Password validation
-# https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
