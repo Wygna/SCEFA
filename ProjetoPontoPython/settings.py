@@ -84,6 +84,7 @@ DATABASES = {
     #   'ENGINE': 'django.db.backends.sqlite3',
     #  'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
 <<<<<<< HEAD
+<<<<<<< HEAD
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'bancoponto',
@@ -94,6 +95,9 @@ DATABASES = {
         'PORT': '5432', # 8000 is default
     }
 
+=======
+   
+>>>>>>> 2e1d0c2f3f7d5853e2d80a806bb0486093ea509f
 =======
    
 >>>>>>> 2e1d0c2f3f7d5853e2d80a806bb0486093ea509f
