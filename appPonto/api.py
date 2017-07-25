@@ -52,13 +52,9 @@ class PortaResource(ModelResource):
         authentication = BasicAuthentication()
         authorization = Authorization()
 
-        # def obj_create(self, bundle, **kwargs):
-        #   return super(PessoaResource, self).obj_create(bundle, user=bundle.request.user)
-
 class RegistroPortaResource(ModelResource):
     pessoa = fields.ForeignKey(PessoaResource, 'pessoa', full=True)
     porta = fields.ForeignKey(PortaResource, 'porta', full=True)
-
     class Meta:
         queryset = RegistroPorta.objects.all()
         resource_name = 'registro_portas'
