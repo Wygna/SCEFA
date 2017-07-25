@@ -42,7 +42,6 @@ class FrequenciasResource(ModelResource):
     def authorized_read_list(self, object_list, bundle):
         return object_list.filter(pessoa=bundle.request.user)
 
-
 class PortaResource(ModelResource):
     class Meta:
         queryset = Porta.objects.all()
