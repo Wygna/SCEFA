@@ -37,7 +37,7 @@
     <section class="container-fluid">
         <div class="row">
             <!-- left column -->
-            <div>
+            <div class="col-xs-1 col-sm-12">
                 <!-- general form elements -->
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -55,6 +55,7 @@
                             <th>Duração</th>
                             <th>Observações do sistema</th>
                             <th>Observações Pessoais</th>
+                            <th colspan="2" style="text-align: center">Observação feita</th>
                         </tr>
                         {% for frequencia in frequencias %}
                             <tr>
@@ -82,11 +83,23 @@
                                         </div>
                                     {% endif %}
                                 </td>
-                                <td>
+                                <td style="width: 10px;text-align: center">
                                     <a href="#exampleModal" role="button" class="btn btn-facebook add" data-toggle="modal"
                                        id="{{frequencia.id}}" data-name="">
                                         <i class="glyphicon glyphicon-pencil"></i>
                                     </a>
+                                </td>
+                                <td>
+                                    {% if frequencia.observacao %}
+                                        {{ frequencia.observacao }}
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if frequencia.arquivo %}
+                                        <a target="_blank" href="{{ frequencia.arquivo.url }}">
+                                            <i class="glyphicon glyphicon-file"></i>Arquivo
+                                        </a>
+                                    {% endif %}
                                 </td>
                             </tr>
                         {% endfor %}
@@ -103,8 +116,8 @@
                         </tr>
                         <tr>
                             <td>{{ horas_total }}</td>
-                            <td>{{ dias_nao_aulas }}</td>
                             <td>{{ dias_aulas }}</td>
+                            <td>{{ dias_nao_aulas }}</td>
                             <td>{{ data_inicial }} até {{ data_final }}</td>
                         </tr>
                     </table>

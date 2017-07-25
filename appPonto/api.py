@@ -27,7 +27,7 @@ class PessoaResource(ModelResource):
 class FrequenciasResource(ModelResource):
     pessoa = fields.ForeignKey(PessoaResource,'pessoa',full=True)
     class Meta:
-        queryset = Frequencia.objects.all().order_by('data')
+        queryset = Frequencia.objects.filter(~Q(hora_entrada=None)).order_by('data')
         resource_name = 'frequencias'
         limit = 0
         max_limit = 0
@@ -41,7 +41,6 @@ class FrequenciasResource(ModelResource):
 
     def authorized_read_list(self, object_list, bundle):
         return object_list.filter(pessoa=bundle.request.user)
-
 
 class PortaResource(ModelResource):
     class Meta:

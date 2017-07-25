@@ -14,7 +14,7 @@ class Aluno(Pessoa):
         max_length=30,
         choices=Turnos,
     )
-    matricula = models.CharField("Matricula", max_length=10,unique=True)
+    matricula = models.CharField("Matricula", max_length=20, unique=True)
 
     def __str__(self):
         return self.nome

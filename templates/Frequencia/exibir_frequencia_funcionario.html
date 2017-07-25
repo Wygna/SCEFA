@@ -9,6 +9,7 @@
             margin: auto;
             background-color: #e6c1c7;
         }
+
     </style>
      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
         <div class="modal-dialog" role="document">
@@ -38,7 +39,7 @@
 
     <section class="container-fluid">
         <div class="row">
-            <div>
+            <div class="col-xs-1 col-sm-12">
                 <!-- general form elements -->
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -50,12 +51,13 @@
                                 <th>Nome: {{ funcionario.nome }}</th>
                             </tr>
                             <tr>
-                                <th>Data</th>
+                                <th class="cl">Data</th>
                                 <th>Registros</th>
                                 <th>CH</th>
                                 <th>Duração</th>
                                 <th>Observações do sistema</th>
-                                <th>Observação</th>
+                                <th>Observações Pessoais</th>
+                                <th colspan="2" style="text-align: center;">Observação feita</th>
                             </tr>
                             {% for frequencia in frequencias %}
                                 <tr id="tr{{frequencia.id}}">
@@ -90,12 +92,24 @@
                                             </div>
                                         {% endif %}
                                     </td>
-                                    <td>
+                                    <td style="width:10px;text-align: center">
                                     <a href="#exampleModal" role="button" class="btn btn-facebook add" data-toggle="modal"
                                        id="{{frequencia.id}}" data-name="">
                                         <i class="glyphicon glyphicon-pencil"></i>
                                     </a>
                                     </td>
+                                    <td>
+                                        {% if frequencia.observacao %}
+                                            {{ frequencia.observacao }}
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if frequencia.arquivo %}
+                                            <a target="_blank" href="{{ frequencia.arquivo.url }}">
+                                                <i class="glyphicon glyphicon-file"></i>
+                                                Arquivo
+                                            </a>
+                                        {% endif %}</td>
                                 </tr>
                             {% endfor %}
                         </table>

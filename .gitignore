@@ -94,3 +94,5 @@ ENV/
 .idea
 .idea/
 
+settings.py
+
