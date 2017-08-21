@@ -59,7 +59,7 @@ class Frequencia(models.Model):
     local = models.CharField("local",max_length=200,null=True)
     observacao = models.CharField("Observação",max_length=200,null=True)
     pessoa = models.ForeignKey(Pessoa,on_delete=models.PROTECT)
-    inconsistencia = models.CharField("Inconsistencia",max_length=200,null=True)
+    inconsistencia = models.BooleanField(default=False)
     arquivo = models.FileField(upload_to='arquivos', verbose_name='arquivo', null=True, blank=True)
 
     def TotalEntradaSaida(self):
@@ -137,7 +137,7 @@ class Frequencia(models.Model):
     def quantidadePresenca(cls, frequencias):
         quantidade_dias = 0
         for frequencia in frequencias:
-            if frequencia.hora_entrada != None:
+            if frequencia.inconsistencia == False:
                 quantidade_dias += 1
         return quantidade_dias
 
@@ -145,7 +145,7 @@ class Frequencia(models.Model):
     def quantidadeFaltas(cls, frequencias):
         quantidade_dias = 0
         for frequencia in frequencias:
-            if frequencia.hora_entrada == None or frequencia.hora_saida == None:
+            if frequencia.inconsistencia == True:
                 quantidade_dias += 1
         return quantidade_dias
 

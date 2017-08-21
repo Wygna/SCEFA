@@ -405,12 +405,18 @@ def funcionario_frequencia(request):
 @permission_required('appPonto.view_frequencia',login_url='erro_permissao')
 def funcionario_frequencias(request,pk):
     if request.method == 'POST':
-        if "frequencia_id" in request.POST:
-            id_frequencia = int(request.POST['frequencia_id'])
+        if "id_frequencia" in request.POST:
+            id_frequencia = int(request.POST['id_frequencia'])
             frequencia = Frequencia.objects.get(pk=id_frequencia)
-            frequencia.observacao = request.POST['observacao']
-            if request.FILES.get('arquivo'): frequencia.arquivo = request.FILES['arquivo']
+            frequencia.inconsistencia = False
             frequencia.save()
+        if request.method == 'POST':
+            if "frequencia_id" in request.POST:
+                id_frequencia = int(request.POST['frequencia_id'])
+                frequencia = Frequencia.objects.get(pk=id_frequencia)
+                frequencia.observacao = request.POST['observacao']
+                if request.FILES.get('arquivo'): frequencia.arquivo = request.FILES['arquivo']
+                frequencia.save()
     data_inicial = request.GET.get('data_inicial')
     data_final = request.GET.get('data_final')
     try:
