@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-{% load static %}
 {% block conteudo %}
     <style>
         .botao {
@@ -9,7 +8,6 @@
             margin: auto;
             background-color: #e6c1c7;
         }
-
     </style>
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
         <div class="modal-dialog" role="document">
@@ -34,9 +32,31 @@
                 </form>
             </div>
         </div>
-     </div>
+    </div>
+
+    <div class="modal fade" id="example" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel2">Aceitar justificativa?</h4>
+                </div>
+                <form method="post">{% csrf_token %}
+                    <span id="modal_name"></span>
+                    <div class="modal-footer">
+                        <input type="hidden" id="modal_id_frequencia" name="id_frequencia">
+                        <button type="submit" class="btn btn-primary">Sim</button>
+                        <button class="btn" data-dismiss="modal" aria-hidden="true">Não</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <section class="container-fluid">
         <div class="row">
+            <!-- left column -->
             <div class="col-sm-12 col-sm-offset-0">
                 <!-- general form elements -->
                 <div class="panel panel-default">
@@ -44,59 +64,53 @@
                         <h3 class="panel-title" style="text-align: center;">Frequências</h3>
                     </div>
                     <div class="table-responsive">
-                        <table class="table table-bordered" id="tabla_frequencia">
+
+                        <table class="table table-bordered">
                             <tr>
-                                <th>Nome: {{ funcionario.nome }}</th>
+                                <th>Nome: {{ aluno.nome }}</th>
                             </tr>
                             <tr>
-                                <th class="cl">Data</th>
+                                <th>Data</th>
                                 <th>Registros</th>
-                                <th>CH</th>
                                 <th>Duração</th>
                                 <th>Observações do sistema</th>
                                 <th>Observações Pessoais</th>
-                                <th colspan="2" style="text-align: center;">Observação feita</th>
+                                <th colspan="3" style="text-align: center">Observação feita</th>
                             </tr>
                             {% for frequencia in frequencias %}
-                                <tr id="tr{{frequencia.id}}">
-                                    <td style="width: 22%">
-                                        {{ frequencia.data|date:"d/m/Y"}}({{ frequencia.diaSemana }})
-                                    </td>
+                                <tr>
+                                    <td>{{ frequencia.data|date:"d/m/Y"}}({{ frequencia.diaSemana }})</td>
                                     <td>
                                         {% if frequencia.hora_entrada %}
                                             <div><b>E: </b>
-                                            <span style="color:green">{{ frequencia.hora_entrada.isoformat }}</span> (
+                                                <span style="color:green">{{ frequencia.hora_entrada.isoformat }}</span>(
                                                 {{ frequencia.local }})
                                             </div>
                                         {% endif %}
                                         {% if frequencia.hora_saida %}
                                             <div><b>S: </b>
-                                            <span style="color:red">{{ frequencia.hora_saida.isoformat }}</span> (
-                                            {{ frequencia.local }})
+                                                <span style="color:red">{{ frequencia.hora_saida.isoformat }}</span>(
+                                                {{ frequencia.local }})
                                             </div>
                                         {% endif %}
                                     </td>
-                                    <td>8h</td>
                                     <td>
                                         {{ frequencia.TotalEntradaSaida }}</td>
-                                    <td style="text-align: center;">
-                                        {% if frequencia.tempoMaximo == 1 %}
-                                            <div class="botao">
-                                                Tempo de trabalho superior a 10h!
-                                            </div>
-                                        {% elif frequencia.hora_entrada == None %}
+                                    <td style="text-align: center">
+                                        {% if frequencia.hora_entrada == None %}
                                             <div class="botao">
                                                 Sem registro
                                             </div>
                                         {% endif %}
                                     </td>
-                                    <td style="width:10px;text-align: center">
-                                    <a href="#exampleModal" role="button" class="btn btn-facebook add" data-toggle="modal"
-                                       id="{{ frequencia.id }}" data-name="">
-                                        <i class="glyphicon glyphicon-pencil"></i>
-                                    </a>
+                                    <td style="width: 10px;text-align: center">
+                                        <a href="#exampleModal" role="button" class="btn btn-facebook add"
+                                           data-toggle="modal"
+                                           id="{{ frequencia.id }}" data-name="">
+                                            <i class="glyphicon glyphicon-pencil"></i>
+                                        </a>
                                     </td>
-                                    <td style="width: 120px;">
+                                    <td>
                                         {% if frequencia.observacao %}
                                             {{ frequencia.observacao }}
                                         {% endif %}
@@ -104,11 +118,20 @@
                                     <td>
                                         {% if frequencia.arquivo %}
                                             <a target="_blank" href="{{ frequencia.arquivo.url }}">
-                                                <i class="glyphicon glyphicon-file"></i>
-                                                Arquivo
+                                                <i class="glyphicon glyphicon-file"></i>Arquivo
                                             </a>
                                         {% endif %}
                                     </td>
+                                    {% if frequencia.observacao %}
+                                        <td>
+                                            <a href="#example" role="button" class="btn btn-success add"
+                                               data-toggle="modal" id="{{ frequencia.id }}">
+                                                Julgar
+                                            </a>
+                                        </td>
+                                    {% else %}
+                                        <td></td>
+                                    {% endif %}
                                 </tr>
                             {% endfor %}
                         </table>
@@ -118,21 +141,19 @@
                     <table class="table table-bordered">
                         <tr>
                             <th>Carga total do período</th>
-                            <th>Número de dias úteis sem registros</th>
-                            <th>Número de dias úteis registrados</th>
+                            <th>Número de Presença</th>
+                            <th>Número de Faltas</th>
                             <th>Periódo do relatório</th>
                         </tr>
                         <tr>
                             <td>{{ horas_total }}</td>
-                            <td>{{ quantidade_faltas }}</td>
-                            <td>{{ quantidade_presenca }}</td>
+                            <td>{{ dias_aulas }}</td>
+                            <td>{{ dias_nao_aulas }}</td>
                             <td>{{ data_inicial }} até {{ data_final }}</td>
                         </tr>
                     </table>
                 </div>
             </div>
         </div>
-    <script type="text/javascript">
-
-    </script>
+    </section>
 {% endblock %}

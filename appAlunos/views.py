@@ -122,6 +122,11 @@ def aluno_frequencia(request):
 @permission_required('appPonto.view_frequencia',login_url='erro_permissao')
 def aluno_frequencias(request,pk):
     if request.method == 'POST':
+        if "id_frequencia" in request.POST:
+            id_frequencia = int(request.POST['id_frequencia'])
+            frequencia = Frequencia.objects.get(pk=id_frequencia)
+            frequencia.inconsistencia = False
+            frequencia.save()
         if "frequencia_id" in request.POST:
             id_frequencia = int(request.POST['frequencia_id'])
             frequencia = Frequencia.objects.get(pk=id_frequencia)
@@ -149,7 +154,7 @@ def aluno_frequencias(request,pk):
         dados = {'frequencias': frequencias, 'aluno': aluno, 'data_inicial': data_inicial,
                  'data_final': data_final, 'dias_aulas': dias_aulas, 'dias_nao_aulas': dias_nao_aulas,
                  'horas_total': horas_total}
-        return render(request, 'Frequencia/exibir_frequencia_aluno.html', dados)
+        return render(request, 'Frequencia/exibir_frequencia_aluno_admin.html', dados)
     else:
         return render(request, 'utils/permissao.html')
 

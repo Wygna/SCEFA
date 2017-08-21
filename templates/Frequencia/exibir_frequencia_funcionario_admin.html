@@ -11,6 +11,7 @@
         }
 
     </style>
+
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -34,7 +35,28 @@
                 </form>
             </div>
         </div>
-     </div>
+    </div>
+
+    <div class="modal fade" id="example" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel2">Aceitar Justificativa?</h4>
+                </div>
+                <form method="post">{% csrf_token %}
+                    <span id="modal_name"></span>
+                    <div class="modal-footer">
+                        <input type="hidden" id="modal_id_frequencia" name="id_frequencia">
+                        <button type="submit" class="btn btn-primary">Sim</button>
+                        <button class="btn" data-dismiss="modal" aria-hidden="true">Não</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <section class="container-fluid">
         <div class="row">
             <div class="col-sm-12 col-sm-offset-0">
@@ -55,24 +77,25 @@
                                 <th>Duração</th>
                                 <th>Observações do sistema</th>
                                 <th>Observações Pessoais</th>
-                                <th colspan="2" style="text-align: center;">Observação feita</th>
+                                <th colspan="3" style="text-align: center;">Observação feita</th>
                             </tr>
                             {% for frequencia in frequencias %}
-                                <tr id="tr{{frequencia.id}}">
+                                <tr id="tr{{ frequencia.id }}">
                                     <td style="width: 22%">
                                         {{ frequencia.data|date:"d/m/Y"}}({{ frequencia.diaSemana }})
                                     </td>
                                     <td>
                                         {% if frequencia.hora_entrada %}
                                             <div><b>E: </b>
-                                            <span style="color:green">{{ frequencia.hora_entrada.isoformat }}</span> (
+                                                <span style="color:green">{{ frequencia.hora_entrada.isoformat }}</span>
+                                                (
                                                 {{ frequencia.local }})
                                             </div>
                                         {% endif %}
                                         {% if frequencia.hora_saida %}
                                             <div><b>S: </b>
-                                            <span style="color:red">{{ frequencia.hora_saida.isoformat }}</span> (
-                                            {{ frequencia.local }})
+                                                <span style="color:red">{{ frequencia.hora_saida.isoformat }}</span> (
+                                                {{ frequencia.local }})
                                             </div>
                                         {% endif %}
                                     </td>
@@ -91,12 +114,13 @@
                                         {% endif %}
                                     </td>
                                     <td style="width:10px;text-align: center">
-                                    <a href="#exampleModal" role="button" class="btn btn-facebook add" data-toggle="modal"
-                                       id="{{ frequencia.id }}" data-name="">
-                                        <i class="glyphicon glyphicon-pencil"></i>
-                                    </a>
+                                        <a href="#exampleModal" role="button" class="btn btn-facebook add"
+                                           data-toggle="modal"
+                                           id="{{ frequencia.id }}">
+                                            <i class="glyphicon glyphicon-pencil"></i>
+                                        </a>
                                     </td>
-                                    <td style="width: 120px;">
+                                    <td style="width: 120px">
                                         {% if frequencia.observacao %}
                                             {{ frequencia.observacao }}
                                         {% endif %}
@@ -107,8 +131,18 @@
                                                 <i class="glyphicon glyphicon-file"></i>
                                                 Arquivo
                                             </a>
-                                        {% endif %}
-                                    </td>
+                                        {% endif %}</td>
+                                    {% if frequencia.observacao %}
+                                        <td>
+                                            <a href="#example" role="button" class="btn btn-success add"
+                                               data-toggle="modal"
+                                               id="{{ frequencia.id }}">
+                                                Julgar
+                                            </a>
+                                        </td>
+                                    {% else %}
+                                        <td></td>
+                                    {% endif %}
                                 </tr>
                             {% endfor %}
                         </table>
@@ -132,7 +166,7 @@
                 </div>
             </div>
         </div>
-    <script type="text/javascript">
+        <script type="text/javascript">
 
-    </script>
+        </script>
 {% endblock %}

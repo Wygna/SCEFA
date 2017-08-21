@@ -436,7 +436,7 @@ def funcionario_frequencias(request,pk):
         dados = {'frequencias': frequencias, 'funcionario': funcionario, 'data_inicial': data_inicial,
                  'data_final': data_final, 'quantidade_presenca': quantidade_presencas,
                  'quantidade_faltas': quantidade_faltas, 'horas_total': horas_total}
-        return render(request, 'Frequencia/exibir_frequencia_funcionario.html', dados)
+        return render(request, 'Frequencia/exibir_frequencia_funcionario_admin.html', dados)
     else:
         dados = {'data': 'Data inválida', 'funcionario': funcionario}
         return render(request, 'Frequencia/busca_frequencia.html', dados)
