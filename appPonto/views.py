@@ -389,7 +389,6 @@ def horario_new(request):
         dados = {'form': form}
         return render(request, 'Horario/horario_form.html', dados)
 
-
 @permission_required('appPonto.view_horario', login_url='erro_permissao')
 def horario_list(request):
     criterio = request.GET.get('criterio')
