@@ -308,7 +308,6 @@ def cargo_list(request):
         cargos = Cargo.objects.filter(nome_funcao__icontains=criterio).order_by('nome_funcao')
     else:
         cargos = Cargo.objects.all().order_by('nome_funcao')
-        cargos = Cargo.objects.filter()
         criterio =""
     paginator =Paginator(cargos,10)
     page = request.GET.get('page')
@@ -371,6 +370,45 @@ def cargo_delete(request,pk):
         mensagem = {
             'mensagem': 'Não é possível excluir cargo, o cargo selecionado está relacionado a um funcionário.'}
         return render(request, 'utils/pagina_erro.html', mensagem)
+
+
+@permission_required('appPonto.add_horario', login_url='erro_permissao')
+def horario_new(request):
+    if (request.method == 'POST') and request.POST.get('dias'):
+        form = HorarioForm(request.POST)
+        if form.is_valid():
+            cargahoraria = request.POST['cargahoraria']
+            id_pessoa = request.POST['pessoa']
+            pessoa = Pessoa.objects.get(id=id_pessoa)
+            dias = request.POST.getlist('dias')
+            horario = Horario.objects.create(cargahoraria=cargahoraria, pessoa=pessoa, dias=dias)
+            horario.save()
+            return redirect('horario_list')
+    else:
+        form = HorarioForm()
+        dados = {'form': form}
+        return render(request, 'Horario/horario_form.html', dados)
+
+
+@permission_required('appPonto.view_horario', login_url='erro_permissao')
+def horario_list(request):
+    criterio = request.GET.get('criterio')
+    if criterio:
+        horarios = Horario.objects.filter(pessoa__nome=criterio).order_by('dias')
+    else:
+        horarios = Horario.objects.all().order_by('dias')
+        criterio = ""
+    paginator = Paginator(horarios, 10)
+    page = request.GET.get('page')
+    try:
+        horarios = paginator.page(page)
+    except PageNotAnInteger:
+        horarios = paginator.page(1)
+    except EmptyPage:
+        horarios = paginator.page(paginator.num_pages)
+    dados = {'horarios': horarios, 'criterio': criterio, 'paginator': paginator, 'page_obj': horarios}
+    return render(request, 'Horario/horario_list.html', dados)
+
 @permission_required('appPonto.view_frequencia',login_url='erro_permissao')
 def funcionario_frequencia(request):
     if request.method == 'POST':
@@ -450,7 +488,6 @@ def busca_frequencia(request):
     except Pessoa.DoesNotExist:
         return render(request, 'utils/permissao.html')
 
-
 @permission_required('appPonto.view_frequencia', login_url='erro_permissao')
 def busca_frequencia_funcionario(request, pk):
     try:
@@ -460,7 +497,6 @@ def busca_frequencia_funcionario(request, pk):
         mensagem = {
             'mensagem': 'O pessoa não existe'}
         return render(request, 'utils/pagina_erro.html', mensagem)
-
 
 @login_required(login_url='login')
 def perfil_funcionario(request):

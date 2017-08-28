@@ -8,3 +8,4 @@ pillow
 simplejson
 defusedxml
 lxml
+django-multiselectfield

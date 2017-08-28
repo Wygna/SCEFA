@@ -16,20 +16,20 @@ def aluno_new(request):
             aluno.username = aluno.matricula
             aluno.first_name = aluno.nome
             if request.POST.get('senha'): aluno.set_password(request.POST['senha'])
-            grupoAluno = Group.objects.get(name='Alunos')
+            grupoAluno = Group.objects.get(name='Aluno')
             grupoAluno.user_set.add(aluno)
             aluno.save()
             return redirect('aluno_list')
     else:
         form = AlunoForm
         dados = {'form': form}
-        return render(request, 'Alunos/aluno_form.html', dados)
+        return render(request, 'Aluno/aluno_form.html', dados)
 
 @permission_required('appAlunos.view_aluno', login_url='erro_permissao')
 def aluno_detail(request, pk):
     try:
         aluno = Aluno.objects.get(id=pk)
-        return render(request, 'Alunos/exibirAluno.html', {'aluno': aluno})
+        return render(request, 'Aluno/exibirAluno.html', {'aluno': aluno})
     except Aluno:
         mensagem = {
             'mensagem': 'O Aluno não existe'}
@@ -53,7 +53,7 @@ def aluno_list(request):
         alunos = paginator.page(paginator.num_pages)
     dados = {'alunos': alunos, 'criterio': criterio,
              'paginator': paginator, 'page_obj': alunos}
-    return render(request, 'Alunos/alunos_list.html', dados)
+    return render(request, 'Aluno/alunos_list.html', dados)
 
 @permission_required('appAlunos.delete_aluno', login_url='erro_permissao')
 def aluno_delete(request, pk):
@@ -86,7 +86,7 @@ def aluno_update(request,pk):
     else:
         form = AlunoForm(instance=aluno)
         dados = {'form': form, 'aluno': aluno}
-        return render(request, 'Alunos/aluno_form.html', dados)
+        return render(request, 'Aluno/aluno_form.html', dados)
 
 @permission_required('appPonto.view_frequencia',login_url='erro_permissao')
 def aluno_frequencia(request):

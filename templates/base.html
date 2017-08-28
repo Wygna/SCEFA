@@ -85,7 +85,7 @@
                                     <!-- Menu Footer-->
                                     <li class="user-footer">
                                         <div class="pull-left">
-                                            {% if request.user.groups.all.0.name == 'Alunos' %}
+                                            {% if request.user.groups.all.0.name == 'Aluno' %}
                                                 <a href="{% url 'perfil_aluno' %}" class="btn btn-default btn-flat">Perfil</a>
                                             {% else %}
                                                 <a href="{% url 'perfil_funcionario' %}"
@@ -222,22 +222,25 @@
                             <ul class="treeview-menu">
                                 <li><a href="{% url 'administrador_list' %}"><i class="fa fa-circle-o"></i>Administradores</a>
                                 </li>
+                                <li><a href="{% url 'horario_list' %}"><i class="fa fa-circle-o"></i>Horários</a></li>
                                 <li><a href="{% url 'departamento_list' %}"><i class="fa fa-circle-o"></i>Departamentos</a></li>
                                 <li><a href="{% url 'cargo_list' %}"><i class="fa fa-circle-o"></i>Cargos</a></li>
                                 <li><a href="{% url 'administrador_new' %}"><i class="fa fa-circle-o"></i>Adicionar
                                     Administrador</a></li>
+                                <li><a href="{% url 'horario_new' %}"><i class="fa fa-circle-o"></i>Cadastrar
+                                    Horário</a></li>
                                 <li><a href="{% url 'departamento_new' %}"><i class="fa fa-circle-o"></i>Cadastrar Departamento</a></li>
                                 <li><a href="{% url 'cargo_new' %}"><i class="fa fa-circle-o"></i>Cadastrar Cargo</a></li>
                             </ul>
                         </li>
                         {% endif %}
-                        {% if request.user.groups.all.0.name == 'Alunos' or request.user.groups.all.0.name == 'Funcionarios' %}
+                        {% if request.user.groups.all.0.name == 'Aluno' or request.user.groups.all.0.name == 'Funcionarios' %}
                             <li class="treeview">
                                 <a href="{% url 'busca_frequencia' %}">
                                     <i class="far fa fa-file-text-o"></i> <span>Frequência de ponto</span></a>
                             </li>
                         {% endif %}
-                        {% if request.user.groups.all.0.name == 'Funcionarios' or request.user.groups.all.0.name == 'Alunos' %}
+                        {% if request.user.groups.all.0.name == 'Funcionarios' or request.user.groups.all.0.name == 'Aluno' %}
                         <li class="treeview">
                             <a href="{% url 'busca_frequencia_porta' %}">
                                 <i class="far fa fa-file-text-o"></i> <span>Acessos de portas</span></a>

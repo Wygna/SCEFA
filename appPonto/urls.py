@@ -42,6 +42,12 @@ urlpatterns = [
     url(r'^cargo/update/(?P<pk>\d+)$', cargo_update, name='cargo_update'),
     url(r'^cargo/delete/(?P<pk>\d+)$',cargo_delete, name='cargo_delete'),
 
+    url(r'^horario/list$', horario_list, name='horario_list'),
+    url(r'^horario/detail/(?P<pk>\d+)$', cargo_detail, name='horario_detail'),
+    url(r'^horario/new/$', horario_new, name='horario_new'),
+    url(r'^horario/update/(?P<pk>\d+)$', cargo_update, name='horario_update'),
+    url(r'^horario/delete/(?P<pk>\d+)$', cargo_delete, name='horario_delete'),
+
     url(r'^administrador/list$', administrador_list, name='administrador_list'),
     url(r'^administrador/new/$', administrador_new, name='administrador_new'),
     url(r'^administrador/add/(?P<pk>\d+)$',adicionar_administrador, name='administrador_add'),

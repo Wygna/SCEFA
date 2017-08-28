@@ -4,36 +4,49 @@ from appAlunos.models import Aluno
 from appPonto.models import *
 
 aluno = Aluno(username='183', first_name='Paulo Cesar', nome='Paulo Cesar', Email='paulo@gmail.com',
-              telefone='(84)99102-3323', situacao='Ativo',
-              matricula='183', turno_aula='Matutino')
+              telefone='(84)99102-3323', situacao='Ativo', matricula='183',
+              turno_aula='Matutino', cpf='100.400.220-01', dataNascimento='1981-02-22',
+              endereco='Rua Bernando Viera, Natal - RN', sexo='Masculino')
 aluno2 = Aluno(username='129', first_name='Luiz Felipe', nome='Luiz Felipe', Email='luiz@gmail.com', situacao='Ativo',
-               matricula='129', turno_aula='Matutino')
+               matricula='129', turno_aula='Matutino',
+               cpf='200.400.220-01', dataNascimento='1982-02-22', endereco='Rua Bernando Viera, Natal - RN',
+               sexo='Masculino', telefone='(84)99102-3023')
 aluno3 = Aluno(username='138', first_name='Wallysson Lima', nome='Wallysson Lima', Email='wallysson@gmail.com',
                telefone='(84)99122-3323', situacao='Ativo',
-               matricula='138', turno_aula='Matutino')
+               matricula='138', turno_aula='Matutino', cpf='300.400.220-01', dataNascimento='1983-02-22',
+               endereco='Rua Bernando Viera, Natal - RN', sexo='Masculino', )
 aluno4 = Aluno(username='118', first_name='Judas', nome='Judas', Email='judas@gmail.com', telefone='(84)91102-3323',
                situacao='Ativo',
-               matricula='118', turno_aula='Matutino')
+               matricula='118', turno_aula='Matutino', cpf='400.400.22-01', dataNascimento='1988-02-22',
+               endereco='Rua Bernando Viera, Natal - RN', sexo='Masculino')
 aluno5 = Aluno(username='1197', first_name='Daniel', nome='Daniel', Email='daniel@gmail.com', telefone='(84)94102-3323',
-               situacao='Ativo',
-               matricula='1197', turno_aula='Matutino')
+               situacao='Ativo', matricula='1197',
+               turno_aula='Matutino', cpf='500.400.220-01', dataNascimento='1989-02-22',
+               endereco='Rua Bernando Viera, Natal - RN', sexo='Masculino')
 aluno6 = Aluno(username='2183', first_name='Juliana Soares', nome='Juliana Soares', Email='juliana@gmail.com',
                telefone='(84)99202-3323', situacao='Ativo',
-               matricula='2183', turno_aula='Vespetino')
+               matricula='2183', turno_aula='Vespetino', cpf='600.400.220-01', dataNascimento='1982-02-22',
+               endereco='Rua Bernando Viera, Natal - RN', sexo='Feminino')
 aluno7 = Aluno(username='2129', first_name='Lucas Lima', nome='Lucas Lima', Email='lucas@gmail.com', situacao='Ativo',
-               matricula='2129', turno_aula='Vespetino')
+               matricula='2129', turno_aula='Vespetino',
+               cpf='700.400.220-01', dataNascimento='1992-02-22', endereco='Rua Bernando Viera, Natal - RN',
+               sexo='Masculino', telefone='(84)99002-3323')
 aluno8 = Aluno(username='2138', first_name='Matheus Oliveria', nome='Matheus Oliveria', Email='matheus@gmail.com',
                telefone='(84)98102-3323', situacao='Ativo',
-               matricula='2138', turno_aula='Vespetino')
+               matricula='2138', turno_aula='Vespetino', cpf='800.400.220-01', dataNascimento='1992-02-22',
+               endereco='Rua Bernando Viera, Natal - RN', sexo='Masculino')
 aluno9 = Aluno(username='2118', first_name='Thiago Silva', nome='Thiago Silva', Email='thiago@gmail.com',
                telefone='(84)91102-3323', situacao='Ativo',
-               matricula='2118', turno_aula='Vespetino')
+               matricula='2118', turno_aula='Vespetino', cpf='900.400.220-01', dataNascimento='1995-02-22',
+               endereco='Rua Bernando Viera, Natal - RN', sexo='Masculino')
 aluno10 = Aluno(username='21197', first_name='Josival Xavier', nome='Josival Xavier', Email='josival@gmail.com',
                 telefone='(84)94102-3323', situacao='Ativo',
-                matricula='21197', turno_aula='Vespetino')
+                matricula='21197', turno_aula='Vespetino', cpf='110.400.202-01', dataNascimento='1992-02-22',
+                endereco='Rua Bernando Viera, Natal - RN', sexo='Masculino')
 aluno11 = Aluno(username='21090', first_name='Emilly Xavier', nome='Emilly Xavier', Email='emylli@gmail.com',
                 telefone='(84)94102-3323', situacao='Ativo',
-                matricula='21090', turno_aula='Vespetino')
+                matricula='21090', turno_aula='Vespetino', cpf='120.400.220-01', dataNascimento='1992-02-22',
+                endereco='Rua Bernando Viera, Natal - RN', sexo='Feminino')
 aluno.save()
 aluno2.save()
 aluno3.save()
@@ -46,7 +59,7 @@ aluno9.save()
 aluno10.save()
 aluno11.save()
 
-grupoAluno = Group.objects.get(name='Alunos')
+grupoAluno = Group.objects.get(name='Aluno')
 grupoAluno.user_set.add(aluno)
 grupoAluno.user_set.add(aluno2)
 grupoAluno.user_set.add(aluno3)

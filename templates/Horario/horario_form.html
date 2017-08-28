@@ -2,49 +2,49 @@
 {% load static %}
 {% load widget_tweaks %}
 <%{% block conteudo %}
-      <script type="text/javascript" src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-    <script src="{% static "appPonto/js/jquery.maskedinput.js" %}"></script>
-   <script>
-    $(document).ready(function(){
-        $("#id_telefone").mask("(99) 99999-9999");
-        $("#id_dataNascimento").mask("99/99/9999");
-        $("#id_").mask("99/99/9999");
 
-});
-
-</script>
     <section class="container">
         <div class="row">
-                        <!-- left column -->
+            <!-- left column -->
             <div class="col-sm-9 col-sm-offset-1">
                 <!-- general form elements -->
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title" style="text-align: center;">
-                            {% if funcionario %}
-                                Editar Funcionário {% else %}
-                                Adicionar Funcionário
+                            {% if horario %}
+                                Editar Horário {% else %}
+                                Adicionar Horário
                             {% endif %}
                         </h3>
                     </div>
                     <div class="panel-body">
                         <form method="Post" ROLE="form" class="form-horizontal" enctype="multipart/form-data">
-                           {% csrf_token %}
+                            {% csrf_token %}
                             <div class="form-group">
-                            {% for field in form %}
-                                {{ field.errors }}
-                                <label class="col-sm-4 control-label"for="{{ field.name}}">
-                                                                        {{ field.label_tag }}
+                                <label class="col-sm-4 control-label" for="{{ form.cargahoraria.name }}">
+                                    {{ form.cargahoraria.label_tag }}
                                 </label>
                                 <div class="col-md-6">
-                                    {{field | add_class:'form-control'}}<br/>
+                                    {{ form.cargahoraria | add_class:'form-control'}}<br/>
                                 </div>
-                                {% endfor %}
+                                <label class="col-sm-4 control-label" for="{{ form.pessoa.name }}">
+                                    {{ form.pessoa.label_tag }}
+                                </label>
+                                <div class="col-md-6">
+                                    {{ form.pessoa | add_class:'form-control'}}<br/>
+                                </div>
+                                <label class="col-sm-4 control-label">{{ form.dias.label_tag }}
+                                </label>
+                                <div class="col-md-4">
+                                    {% for dias in form.dias %}
+                                        <div style="text-align: left">{{ dias }}</div>
+                                    {% endfor %}
+                                </div>
                             </div>
+
                             <div class="form-group">
                                 <div class="col-sm-6 col-sm-offset-3">
                                     <input type="submit" class="btn btn-success" value="Salvar">
-
                                 </div>
                             </div>
                         </form>

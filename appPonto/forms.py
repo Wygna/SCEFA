@@ -6,7 +6,9 @@ class FuncionarioForm(ModelForm):
     senha = forms.CharField(label='Senha', widget=forms.PasswordInput, required=False)
     class Meta:
         model = Funcionario
-        fields = ('nome', 'matricula', 'telefone', 'cargo', 'Email', 'foto', 'situacao', 'senha')
+        fields = (
+        'nome', 'matricula', 'cpf', 'dataNascimento', 'telefone', 'cargo', 'Email', 'sexo', 'salario', 'endereco',
+        'foto', 'situacao', 'senha')
 
 class DepartamentoForm(ModelForm):
     class Meta:
@@ -17,3 +19,9 @@ class CargoForm(ModelForm):
     class Meta:
         model = Cargo
         fields  = ('nome_funcao','departamento')
+
+
+class HorarioForm(ModelForm):
+    class Meta:
+        model = Horario
+        fields = ('cargahoraria', 'dias', 'pessoa')

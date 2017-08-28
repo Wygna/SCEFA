@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block conteudo %}
+    <style>
+        td, th {
+            text-align: center;
+        }
+    </style>
+
+    <section class="container-fluid">
+        <div class="row">
+            <fieldset>
+                <div class="col-sm-6 col-sm-offset-3">
+                    <form class="navbar-form navbar-left" role="search" method="get" action="">
+                        <div class="form-group">
+                            <label>Descrição:</label>
+                            <input type="text" id="criterio" name="criterio" value="{{ criterio }}" class="form-control"
+                                   placeholder="Descrição">
+                        </div>
+                        <button type="submit" class="btn btn-default">Buscar</button>
+                    </form>
+                </div>
+            </fieldset>
+
+            <!-- left column -->
+            <div class="col-sm-11 col-sm-offset-0">
+                <!-- general form elements -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title" style="text-align: center;">Horários</h3>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <tr>
+                                <th>Pessoa</th>
+                                <th>Carga horária</th>
+                                <th>Dias</th>
+                                <th colspan="3">Ações</th>
+                            </tr>
+                            {% for horario in horarios %}
+                                <tr>
+                                    <td>{{ horario.pessoa }}</td>
+                                    <td>{{ horario.cargahoraria }}</td>
+                                    <td>{{ horario.dias }}</td>
+                                    <td style="width: 10px">
+                                        <a href="{% url 'horario_detail' horario.pk %}"
+                                           class="btn btn-success btn-sm">
+                                            <span class="glyphicon glyphicon-eye-open"></span> Detalhes
+                                        </a>
+                                    </td>
+                                    <td style="width: 10px"><a href="{% url 'horario_update' horario.pk %}"
+                                                               class="btn btn-info btn-sm">
+                                        <span class="glyphicon glyphicon-edit"></span> Editar
+                                    </a>
+                                    </td>
+                                    <td style="width: 10px"><a href="{% url 'horario_delete' horario.pk %}"
+                                                               class="btn btn-danger btn-sm">
+                                        <span class="fa fa-trash-o"></span> Excluir
+                                    </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+                {% include 'utils/paginacao.html' %}
+            </div>
+        </div>
+        <!-- /.row -->
+    </section>
+{% endblock %}

@@ -4,7 +4,7 @@ from appPonto.models import *
 
 funcionarios=Group(name="Funcionarios")
 funcionarios.save()
-alunos=Group(name="Alunos")
+alunos = Group(name="Aluno")
 alunos.save()
 administradores=Group(name="Administradores")
 administradores.save()
@@ -23,36 +23,60 @@ cargo2.save()
 cargo3.save()
 
 funcionario = Funcionario(username='225', cargo=cargo, first_name='Jose Antonio', nome='Jose Antonio', situacao='Ativo',
-                          Email='jose@gmail.com', telefone='(84)99122-3323', matricula='225')
+                          Email='jose@gmail.com',
+                          telefone='(84)99122-3323', matricula='225', cpf='000.000.220-01', dataNascimento='2000-02-22',
+                          dataAdmissao='2017-08-02',
+                          endereco='Rua jorge, Natal - RN', sexo='Masculino', salario=1100)
 funcionario2 = Funcionario(username='2212', cargo=cargo2, first_name='Valerio Junior', nome='Valerio Junior',
-                           situacao='Ativo',
-                           Email='valerio@gmail.com', telefone='(84)99122-0000', matricula='2212')
+                           situacao='Ativo', Email='valerio@gmail.com',
+                           telefone='(84)99122-0000', matricula='2212', cpf='000.100.220-01',
+                           dataNascimento='2001-02-22', dataAdmissao='2017-08-02',
+                           endereco='Rua jorge, Natal - RN', sexo='Masculino', salario=1400)
 funcionario3 = Funcionario(username='213', cargo=cargo, first_name='Marcos Calvacante', nome='Marcos Calvacante',
-                           situacao='Ativo',
-                           Email='marcos@gmail.com', telefone='(84)99100-3323', matricula='213')
+                           situacao='Ativo', Email='marcos@gmail.com',
+                           telefone='(84)99100-3323', matricula='213', cpf='000.200.220-01',
+                           dataNascimento='1999-02-22', dataAdmissao='2017-08-02',
+                           endereco='Rua jorge, Natal - RN', sexo='Masculino', salario=1100)
 funcionario4 = Funcionario(username='251', cargo=cargo, first_name='Fernanda Silva', nome='Fernanda Silva',
-                           situacao='Ativo',
-                           Email='fernanda@gmail.com', telefone='(84)98122-3323', matricula='251')
+                           situacao='Ativo', Email='fernanda@gmail.com',
+                           telefone='(84)98122-3323', matricula='251', cpf='000.300.220-01',
+                           dataNascimento='1990-02-22', dataAdmissao='2017-08-02',
+                           endereco='Rua jorge, Natal - RN', sexo='Feminino', salario=1100)
 funcionario5 = Funcionario(username='259', cargo=cargo3, first_name='karol Soares', nome='Karol Soares',
-                           situacao='Ativo',
-                           Email='karol@gmail.com', telefone='(84)99122-3303', matricula='259')
+                           situacao='Ativo', Email='karol@gmail.com',
+                           telefone='(84)99122-3303', matricula='259', cpf='000.400.220-01',
+                           dataNascimento='1996-02-22', dataAdmissao='2017-08-02',
+                           endereco='Rua Bernando Viera, Natal - RN', sexo='Feminino', salario=2100)
 funcionario6 = Funcionario(username='3225', cargo=cargo, first_name='Bruno Silva', nome='Bruno Silva', situacao='Ativo',
-                           Email='Bruno@gmail.com', telefone='(84)93122-3323', matricula='3225')
+                           Email='Bruno@gmail.com',
+                           telefone='(84)93122-3323', matricula='3225', cpf='000.500.220-01',
+                           dataNascimento='1997-02-22', dataAdmissao='2017-08-02',
+                           endereco='Rua Bernando Viera, Natal - RN', sexo='Masculino', salario=1100)
 funcionario7 = Funcionario(username='32212', cargo=cargo2, first_name='Marcelo Siqueira', nome='Marcelo Siqueira',
-                           situacao='Ativo',
-                           Email='marcelo@gmail.com', telefone='(84)99422-0000', matricula='32212')
+                           situacao='Ativo', Email='marcelo@gmail.com',
+                           telefone='(84)99422-0000', matricula='32212', cpf='000.600.220-01',
+                           dataNascimento='1993-02-22', dataAdmissao='2017-08-03',
+                           endereco='Rua Bernando Viera, Natal - RN', sexo='Masculino', salario=1400)
 funcionario8 = Funcionario(username='3213', cargo=cargo, first_name='Bento Oliveira', nome='Bento Oliveria',
-                           situacao='Ativo',
-                           Email='bento@gmail.com', telefone='(84)99130-3323', matricula='3213')
+                           situacao='Ativo', Email='bento@gmail.com',
+                           telefone='(84)99130-3323', matricula='3213', cpf='000.700.220-01',
+                           dataNascimento='1991-02-22', dataAdmissao='2017-08-03',
+                           endereco='Rua Bernando Viera, Natal - RN', sexo='Masculino', salario=1100)
 funcionario9 = Funcionario(username='3251', cargo=cargo, first_name='Ericka Lopes', nome='Ericka Lopes',
-                           situacao='Ativo',
-                           Email='ericka@gmail.com', telefone='(84)98152-3323', matricula='3251')
+                           situacao='Ativo', Email='ericka@gmail.com',
+                           telefone='(84)98152-3323', matricula='3251', cpf='000.800.220-01',
+                           dataNascimento='1998-02-22', dataAdmissao='2017-08-03',
+                           endereco='Rua Bernando Viera, Natal - RN', sexo='Feminino', salario=1100)
 funcionario10 = Funcionario(username='3259', cargo=cargo, first_name='Joselha Oliveira', nome='Joselha Oliveira',
-                            situacao='Ativo',
-                            Email='joselha@gmail.com', telefone='(84)99342-3303', matricula='3259')
+                            situacao='Ativo', Email='joselha@gmail.com',
+                            telefone='(84)99342-3303', matricula='3259', cpf='000.900.220-01',
+                            dataNascimento='1980-02-22', dataAdmissao='2017-08-02',
+                            endereco='Rua Rio de Janeiro, Natal - RN', sexo='Feminino', salario=1100)
 funcionario11 = Funcionario(username='30259', cargo=cargo, first_name='Neide Oliveira', nome='Neide Oliveira',
-                            situacao='Ativo',
-                            Email='neide@gmail.com', telefone='(84)98042-3303', matricula='30259')
+                            situacao='Ativo', Email='neide@gmail.com',
+                            telefone='(84)98042-3303', matricula='30259', cpf='000.420.220-01',
+                            dataNascimento='1981-02-22', dataAdmissao='2017-08-04',
+                            endereco='Rua Bernando Viera, Natal - RN', sexo='Feminino', salario=1100)
 
 funcionario.save()
 funcionario2.save()

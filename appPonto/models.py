@@ -3,22 +3,27 @@ from django.db.models import Q
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
-
+from multiselectfield import MultiSelectField
 class Pessoa(User):
     nome = models.CharField("Nome", max_length=255)
+    cpf = models.CharField('CPF', max_length=14, unique=True)
+    sexos = (('Masculino', 'Masculino'),
+             ('Feminino', 'Feminino'),)
+    sexo = models.CharField(max_length=30, choices=sexos)
     Email = models.EmailField("E-mail", max_length=200)
     telefone = models.CharField("Telefone", max_length=20)
+    dataNascimento = models.DateField('Data de Nascimento', max_length=10)
+    endereco = models.CharField('Endereço', max_length=200, null=True)
     id_digital = models.IntegerField(null=True, blank=True, unique=True)
     img_dital = models.CharField(null=True, max_length=100, blank=True)
     Situacoes = (
         ('Ativo', 'Ativo'),
         ('Desativado', 'Desativado'),
     )
-    situacao = models.CharField(
-        max_length=30,
-        choices=Situacoes,
-    )
-
+    situacao = models.CharField('Situação',
+                                max_length=30,
+                                choices=Situacoes,
+                                )
     foto = models.ImageField(
         upload_to='fotos', verbose_name='foto',
         null=True, blank=True)
@@ -43,6 +48,8 @@ class Cargo(models.Model):
 class Funcionario(Pessoa):
     matricula = models.CharField("Matricula", max_length=20, unique=True)
     cargo = models.ForeignKey(Cargo,on_delete=models.PROTECT,verbose_name="Cargo")
+    dataAdmissao = models.DateField('Data de Admissão', default=timezone.now)
+    salario = models.DecimalField("Salário", max_digits=10, decimal_places=2, null=True)
 
     def setCargo(self,funcao):
         cargo = Cargo.objects.get(nome_funcao=funcao)
@@ -177,3 +184,19 @@ class DiasSemExpediente(models.Model):
         return self.data.isoformat()
 
     class Meta: permissions = (('view_dias_sem_expediente', 'Can see dias sem expediente'),)
+
+
+class Horario(models.Model):
+    cargahoraria = models.IntegerField('Carga horária')
+    DIAS_SEMANA = (
+        ('Segunda-Feira', 'Segunda-Feira'),
+        ('Terça-Feira', 'Terça-Feira'),
+        ('Quarta-Feira', 'Quarta-Feira'),
+        ('Quinta-Feira', 'Quinta-Feira'),
+        ('Sexta-Feira', 'Sexta-Feira'),
+        ('Sábado', 'Sábado'),
+    )
+    dias = MultiSelectField(choices=DIAS_SEMANA, null=True)
+    pessoa = models.ForeignKey(Pessoa, on_delete=models.PROTECT)
+
+    class Meta: permissions = (('view_horario', 'Can see horario'),)
