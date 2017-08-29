@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block conteudo %}
+    <br>
+     <div class="col-sm-5 col-sm-offset-3">
+                <!-- general form elements -->
+         <div class="panel panel-default">
+             <div class="panel-heading">
+                 <h3 class="panel-title" style="text-align: center;">Dados de Horário</h3>
+             </div>
+             <table class="table table-bordered">
+                 <tr>
+                     <td><b>Carga horária:</b> {{ horario.cargahoraria }}</td>
+                 </tr>
+                 <tr>
+                     <td><b>Dias da semana:</b> {{ horario.dias }}</td>
+                 </tr>
+                 <tr>
+                     <td><b>Nome:</b> {{ horario.pessoa }}</td>
+                 </tr>
+             </table>
+         </div>
+     </div>
+{% endblock %}

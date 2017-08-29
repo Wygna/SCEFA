@@ -202,7 +202,6 @@ def adicionar_administrador(request, pk):
     funcionario.save()
     return redirect('administrador_new')
 
-
 @permission_required('appPonto.view_funcionario', login_url='erro_permissao')
 def remover_administrador(request, pk):
     funcionario = Funcionario.objects.get(id=pk)
@@ -393,7 +392,7 @@ def horario_new(request):
 def horario_list(request):
     criterio = request.GET.get('criterio')
     if criterio:
-        horarios = Horario.objects.filter(pessoa__nome=criterio).order_by('dias')
+        horarios = Horario.objects.filter(pessoa__nome__icontains=criterio).order_by('dias')
     else:
         horarios = Horario.objects.all().order_by('dias')
         criterio = ""
@@ -407,6 +406,44 @@ def horario_list(request):
         horarios = paginator.page(paginator.num_pages)
     dados = {'horarios': horarios, 'criterio': criterio, 'paginator': paginator, 'page_obj': horarios}
     return render(request, 'Horario/horario_list.html', dados)
+
+@permission_required('appPonto.change_horario',login_url='erro_permissao')
+def horario_update(request,pk):
+    try:
+        horario = Horario.objects.get(id=pk)
+    except Exception:
+        mensagem = {'mensagem': 'Horário não existe'}
+        return render(request, 'utils/pagina_erro.html', mensagem)
+    if(request.method=='POST'):
+        form=HorarioForm(request.POST,instance=horario)
+        if (form.is_valid()):
+            form.save()
+            return redirect('horario_list')
+    else:
+        form = HorarioForm(instance=horario)
+        dados = {'form': form,'horario':horario}
+        return render(request, 'Horario/horario_form.html', dados)
+
+@permission_required('appPonto.delete_horario',login_url='erro_permissao')
+def horario_delete(request,pk):
+    try:
+        horario = Horario.objects.get(id=pk)
+        horario.delete()
+        return redirect('horario_list')
+    except Exception:
+        mensagem = {
+            'mensagem': 'Não é possível excluir Hórario.'}
+        return render(request,'utils/pagina_erro.html',mensagem)
+
+@permission_required('appPonto.view_funcionario',login_url='erro_permissao')
+def horario_detail(request,pk):
+    try:
+        horario = Horario.objects.get(id=pk)
+        return render(request, 'Horario/exibirhorario.html', {'horario': horario})
+    except Horario.DoesNotExist:
+        mensagem = {
+            'mensagem': 'O Horário não existe'}
+        return render(request, 'utils/pagina_erro.html', mensagem)
 
 @permission_required('appPonto.view_frequencia',login_url='erro_permissao')
 def funcionario_frequencia(request):

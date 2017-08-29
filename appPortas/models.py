@@ -1,7 +1,5 @@
 from django.utils import timezone
-
 from appPonto.models import *
-
 
 class Porta(models.Model):
     descricao = models.CharField('Descrição', max_length=255)
@@ -10,7 +8,6 @@ class Porta(models.Model):
     def __str__(self):
         return self.descricao
     class Meta: permissions = (('view_porta', 'Can see porta'),)
-
 
 class RegistroPorta(models.Model):
     data = models.DateField(default=timezone.now)
@@ -59,7 +56,6 @@ class Grupo(models.Model):
 
     class Meta: permissions = (('view_grupo', 'Can see grupo'),)
 
-
 class GrupoPorta(models.Model):
     porta = models.ForeignKey(Porta,on_delete=models.PROTECT,verbose_name="Porta")
     grupo = models.ForeignKey(Grupo,on_delete=models.PROTECT,verbose_name="Grupo")
@@ -67,7 +63,6 @@ class GrupoPorta(models.Model):
     def __str__(self):
         return 'grupo ' + str(self.grupo) + ' / porta - ' + str(self.porta)
     class Meta: permissions = (('view_grupo_porta', 'Can see grupo_porta'),)
-
 
 class GrupoPessoa(models.Model):
     grupo = models.ForeignKey(Grupo,on_delete=models.PROTECT,verbose_name="Grupo")
