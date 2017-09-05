@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+<%{% block conteudo %}
+    <section class="container">
+        <div class="row">
+                        <!-- left column -->
+            <div class="col-sm-9 col-sm-offset-1">
+                <!-- general form elements -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title" style="text-align: center;">
+                            {% if diasSemExpediente %}
+                                Editar Dia Sem Expediente {% else %}
+                                Cadastrar Dia Sem Expediente
+                            {% endif %}
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                       <form method="Post" ROLE="form" class="form-horizontal">
+                           {% csrf_token %}
+                            <div class="form-group">
+                            {% for field in form %}
+                                <label class="col-sm-4 control-label"for="{{ field.name}}">
+                                                                        {{ field.label_tag }}
+                                </label>
+                                <div class="col-md-6">
+                                    {{ field | add_class:'form-control' }}<br/>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-6 col-sm-offset-3">
+                                    <input type="submit" class="btn btn-success" value="Salvar">
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.row -->
+    </section>
+{% endblock %}

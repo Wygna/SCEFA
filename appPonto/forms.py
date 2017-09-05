@@ -20,8 +20,12 @@ class CargoForm(ModelForm):
         model = Cargo
         fields  = ('nome_funcao','departamento')
 
-
 class HorarioForm(ModelForm):
     class Meta:
         model = Horario
         fields = ('cargahoraria', 'dias', 'pessoa')
+
+class DiasSemExpedienteForm(ModelForm):
+    class Meta:
+        model = DiasSemExpediente
+        fields  = ('descricao','data')

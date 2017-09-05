@@ -62,7 +62,7 @@ pessoa5 = Pessoa.objects.get(nome__icontains="Neide Oliveira")
 pessoa6 = Pessoa.objects.get(nome__icontains="Marcelo Siqueira")
 pessoa7 = Pessoa.objects.get(nome__icontains="Luiz Felipe")
 pessoa8 = Pessoa.objects.get(nome__icontains="Paulo Cesar")
-pessoa9 = Pessoa.objects.get(nome__icontains="Wallysson Lima")
+pessoa9 = Pessoa.objects.get(nome__icontains="Ednilson da Silva Palhares")
 pessoa10 = Pessoa.objects.get(nome__icontains="Juliana Soares")
 pessoa11 = Pessoa.objects.get(nome__icontains="Lucas Lima")
 

@@ -370,6 +370,64 @@ def cargo_delete(request,pk):
             'mensagem': 'Não é possível excluir cargo, o cargo selecionado está relacionado a um funcionário.'}
         return render(request, 'utils/pagina_erro.html', mensagem)
 
+@permission_required('appPonto.view_diasSemExpediente',login_url='erro_permissao')
+def diasSemExpediente_list(request):
+    criterio = request.GET.get('criterio')
+    if criterio:
+        diasSemExpediente = DiasSemExpediente.objects.filter(descricao__icontains=criterio).order_by('data')
+    else:
+        diasSemExpediente = DiasSemExpediente.objects.all().order_by('data')
+        criterio =""
+    paginator =Paginator(diasSemExpediente,10)
+    page = request.GET.get('page')
+    try:
+        diasSemExpediente = paginator.page(page)
+    except PageNotAnInteger:
+        diasSemExpediente=paginator.page(1)
+    except EmptyPage:
+        diasSemExpediente = paginator.page(paginator.num_pages)
+    dados={'diasSemExpedientes':diasSemExpediente,'criterio':criterio,'paginator':paginator,'page_obj':diasSemExpediente}
+    return render(request, 'DiasSemExpediente/diasSemExpediente_list.html', dados)
+
+@permission_required('appPonto.view_diasSemExpediente',login_url='erro_permissao')
+def diasSemExpediente_new(request):
+    if (request.method == 'POST'):
+        form = DiasSemExpedienteForm(request.POST)
+        if (form.is_valid()):
+            form.save()
+            return redirect('diasSemExpediente_list')
+    else:
+        form=DiasSemExpedienteForm()
+        dados={'form':form}
+        return render(request, 'DiasSemExpediente/diasSemExpediente_form.html', dados)
+
+@permission_required('appPonto.view_diasSemExpediente',login_url='erro_permissao')
+def diasSemExpediente_update(request,pk):
+    try:
+        diasSemExpediente = DiasSemExpediente.objects.get(id=pk)
+    except Exception:
+        mensagem = {'mensagem': 'Dia sem expediente não existe'}
+        return render(request, 'utils/pagina_erro.html', mensagem)
+    if(request.method=='POST'):
+        form=DiasSemExpedienteForm(request.POST,instance=diasSemExpediente)
+        if (form.is_valid()):
+            form.save()
+            return redirect('diasSemExpediente_list')
+    else:
+        form = DiasSemExpedienteForm(instance=diasSemExpediente)
+        dados = {'form': form,'diasSemExpediente':diasSemExpediente}
+        return render(request, 'DiasSemExpediente/diasSemExpediente_form.html', dados)
+
+@permission_required('appPonto.view_diasSemExpediente', login_url='erro_permissao')
+def diasSemExpediente_delete(request,pk):
+    try:
+        diasSemExpediente = DiasSemExpediente.objects.get(id=pk)
+        diasSemExpediente.delete()
+        return redirect('diasSemExpediente_list')
+    except Exception:
+        mensagem = {
+            'mensagem': 'Não é possível excluir dia sem expediente.'}
+        return render(request, 'utils/pagina_erro.html', mensagem)
 
 @permission_required('appPonto.add_horario', login_url='erro_permissao')
 def horario_new(request):

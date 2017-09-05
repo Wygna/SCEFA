@@ -42,6 +42,11 @@ urlpatterns = [
     url(r'^cargo/update/(?P<pk>\d+)$', cargo_update, name='cargo_update'),
     url(r'^cargo/delete/(?P<pk>\d+)$',cargo_delete, name='cargo_delete'),
 
+    url(r'^DiasSemExdiente/list$', diasSemExpediente_list, name='diasSemExpediente_list'),
+    url(r'^DiasSemExdiente/new/$', diasSemExpediente_new, name='diasSemExpediente_new'),
+    url(r'^DiasSemExdiente/update/(?P<pk>\d+)$', diasSemExpediente_update, name='diasSemExpediente_update'),
+    url(r'^DiasSemExdiente/delete/(?P<pk>\d+)$',diasSemExpediente_delete, name='diasSemExpediente_delete'),
+
     url(r'^horario/list$', horario_list, name='horario_list'),
     url(r'^horario/detail/(?P<pk>\d+)$', horario_detail, name='horario_detail'),
     url(r'^horario/new/$', horario_new, name='horario_new'),

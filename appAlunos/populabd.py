@@ -11,9 +11,9 @@ aluno2 = Aluno(username='129', first_name='Luiz Felipe', nome='Luiz Felipe', Ema
                matricula='129', turno_aula='Matutino',
                cpf='200.400.220-01', dataNascimento='1982-02-22', endereco='Rua Bernando Viera, Natal - RN',
                sexo='Masculino', telefone='(84)99102-3023')
-aluno3 = Aluno(username='138', first_name='Wallysson Lima', nome='Wallysson Lima', Email='wallysson@gmail.com',
+aluno3 = Aluno(username='138', first_name='Ednilson da Silva Palhares', nome='Ednilson da Silva Palhares', Email='ednilson@gmail.com',
                telefone='(84)99122-3323', situacao='Ativo',
-               matricula='138', turno_aula='Matutino', cpf='300.400.220-01', dataNascimento='1983-02-22',
+               matricula='138', turno_aula='Vespetino', cpf='300.400.220-01', dataNascimento='1983-02-22',
                endereco='Rua Bernando Viera, Natal - RN', sexo='Masculino', )
 aluno4 = Aluno(username='118', first_name='Judas', nome='Judas', Email='judas@gmail.com', telefone='(84)91102-3323',
                situacao='Ativo',

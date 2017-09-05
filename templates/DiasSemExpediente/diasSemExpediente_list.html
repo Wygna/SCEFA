@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block conteudo %}
+
+    <section class="container">
+        <div class="row">
+        <fieldset>
+             <div class="col-sm-6 col-sm-offset-3">
+                 <form class="navbar-form navbar-left" role="search" method="get" action="">
+                    <div class="form-group">
+                      <label>Descrição:</label>
+                        <input type="text" id="criterio" name="criterio" value="{{ criterio }}" class="form-control" placeholder="Descrição">
+                    </div>
+                    <button type="submit" class="btn btn-default">Buscar</button>
+                 </form>
+             </div>
+        </fieldset>
+            <!-- left column -->
+            <div class="col-sm-6 col-sm-offset-2">
+                <!-- general form elements -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title" style="text-align: center;">Dias sem expediente</h3>
+                    </div>
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>Descrição</th>
+                            <th>Data</th>
+                            <th colspan="2">
+                                <center>Operações</center>
+                            </th>
+                        </tr>
+                        {% for diasSemExpediente in diasSemExpedientes %}
+                            <tr>
+                                <td>{{ diasSemExpediente.descricao }}</td>
+                                <td>{{  diasSemExpediente.data |date:"d/m/Y" }}</td>
+                                <td style="width: 10px"><a href="{% url 'diasSemExpediente_update' diasSemExpediente.pk %}"
+                                                           class="btn btn-info btn-sm">
+                                    <span class="glyphicon glyphicon-edit"></span> Editar
+                                </a>
+                                </td>
+                                <td style="width: 10px"><a href="{% url 'diasSemExpediente_delete' diasSemExpediente.pk %}"
+                                                           class="btn btn-danger btn-sm">
+                                    <span class="fa fa-trash-o"></span> Excluir
+                                </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+                {% include 'utils/paginacao.html' %}
+            </div>
+        </div>
+        <!-- /.row -->
+    </section>
+{% endblock %}

@@ -169,9 +169,9 @@ class Frequencia(models.Model):
     class Meta: permissions = (('view_frequencia', 'Can see frequencia'),
                                    ('view_frequencia_admin', 'Can see frequencia a mais'),)
 
-
 class DiasSemExpediente(models.Model):
-    data = models.DateField(default=timezone.now)
+    data = models.DateField('Data', max_length=10)
+    descricao = models.CharField("Descrição",max_length=200,null=True)
 
     @classmethod
     def datasSemExpediente(cls):
@@ -183,8 +183,7 @@ class DiasSemExpediente(models.Model):
     def __str__(self):
         return self.data.isoformat()
 
-    class Meta: permissions = (('view_dias_sem_expediente', 'Can see dias sem expediente'),)
-
+    class Meta: permissions = (('view_diasSemExpediente', 'Can see dias sem expediente'),)
 
 class Horario(models.Model):
     cargahoraria = models.IntegerField('Carga horária')
