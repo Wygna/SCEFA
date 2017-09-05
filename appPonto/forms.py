@@ -7,7 +7,7 @@ class FuncionarioForm(ModelForm):
     class Meta:
         model = Funcionario
         fields = (
-        'nome', 'matricula', 'cpf', 'dataNascimento', 'telefone', 'cargo', 'Email', 'sexo', 'salario', 'endereco',
+        'nome', 'matricula', 'cpf', 'dataNascimento', 'telefone', 'cargo', 'Email', 'sexo', 'salario',
         'foto', 'situacao', 'senha')
 
 class DepartamentoForm(ModelForm):

@@ -8,5 +8,5 @@ class AlunoForm(ModelForm):
     class Meta:
         model = Aluno
         fields = (
-        'nome', 'matricula', 'cpf', 'dataNascimento', 'sexo', 'endereco', 'telefone', 'Email', 'turno_aula', 'foto',
+        'nome', 'matricula', 'cpf', 'dataNascimento', 'sexo', 'telefone', 'Email', 'turno_aula', 'foto',
         'situacao', 'senha')

@@ -89,11 +89,11 @@
                                         <i class="glyphicon glyphicon-pencil"></i>
                                     </a>
                                 </td>
-                                <td>
-                                    {% if frequencia.observacao %}
-                                        {{ frequencia.observacao }}
-                                    {% endif %}
-                                </td>
+                                <td style="width: 120px">
+                                        {% if frequencia.observacao %}
+                                            {{ frequencia.observacao }}
+                                        {% endif %}
+                                    </td>
                                 <td>
                                     {% if frequencia.arquivo %}
                                         <a target="_blank" href="{{ frequencia.arquivo.url }}">

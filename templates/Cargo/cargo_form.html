@@ -24,7 +24,7 @@
                                                                         {{ field.label_tag }}
                                 </label>
                                 <div class="col-md-6">
-                                    {{ field }}<br/>
+                                    {{ field | add_class:'form-control' }}<br/>
                                 </div>
                                 {% endfor %}
                             </div>

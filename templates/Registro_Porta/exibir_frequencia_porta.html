@@ -25,7 +25,13 @@
                                 <td style="width: 27%">
                                     <span style="color:green">{{ frequencia.hora_acesso.isoformat }}</span>
                                 </td>
-                                <td>{{ frequencia.pessoa }}</td>
+                                <td>{{ frequencia.pessoa }}
+                                ({% if frequencia.pessoa.funcionario %}
+                                        {{ frequencia.pessoa.funcionario.cargo }}
+                                    {% else %}
+                                        Aluno
+                                    {% endif %})
+                                </td>
                                 <td>{{ frequencia.porta }}</td>
                             </tr>
                         {% endfor %}
