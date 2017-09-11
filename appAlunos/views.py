@@ -111,9 +111,10 @@ def aluno_frequencia(request):
         dias_aulas = Frequencia.quantidadePresenca(frequencias)
         dias_nao_aulas = Frequencia.quantidadeFaltas(frequencias)
         horas_total = Frequencia.tempoTotal(frequencias)
+        dias_abontados = Frequencia.dia_abonados(frequencias)
         dados = {'frequencias': frequencias, 'aluno': aluno, 'data_inicial': data_inicial,
                  'data_final': data_final, 'dias_aulas': dias_aulas, 'dias_nao_aulas': dias_nao_aulas,
-                 'horas_total': horas_total}
+                 'horas_total': horas_total,'dias_abontados':dias_abontados}
         return render(request, 'Frequencia/exibir_frequencia_aluno.html', dados)
     else:
         dados = {'data': 'Data inválida'}
@@ -148,12 +149,10 @@ def aluno_frequencias(request,pk):
         dias_aulas = Frequencia.quantidadePresenca(frequencias)
         dias_nao_aulas = Frequencia.quantidadeFaltas(frequencias)
         horas_total = Frequencia.tempoTotal(frequencias)
+        dias_abontados = Frequencia.dia_abonados(frequencias)
         dados = {'frequencias': frequencias, 'aluno': aluno, 'data_inicial': data_inicial,
                  'data_final': data_final, 'dias_aulas': dias_aulas, 'dias_nao_aulas': dias_nao_aulas,
-                 'horas_total': horas_total}
-        dados = {'frequencias': frequencias, 'aluno': aluno, 'data_inicial': data_inicial,
-                 'data_final': data_final, 'dias_aulas': dias_aulas, 'dias_nao_aulas': dias_nao_aulas,
-                 'horas_total': horas_total}
+                 'horas_total': horas_total,'dias_abontados':dias_abontados}
         return render(request, 'Frequencia/exibir_frequencia_aluno_admin.html', dados)
     else:
         return render(request, 'utils/permissao.html')

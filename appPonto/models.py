@@ -157,6 +157,14 @@ class Frequencia(models.Model):
         return quantidade_dias
 
     @classmethod
+    def dia_abonados(cls, frequencias):
+        quantidade_dias =  0
+        for frequencia in frequencias:
+            if frequencia.inconsistencia == False and frequencia.hora_entrada ==None:
+                quantidade_dias += 1
+        return quantidade_dias
+
+    @classmethod
     def frequencias(cls, data_inicial, data_final, pessoa):
         frequencias = pessoa.frequencia_set.filter(~Q(data__week_day=7), ~Q(data__week_day=1), data__gte=data_inicial,
                                                    data__lte=data_final).order_by('data')

@@ -270,7 +270,7 @@ def porta_nao_grupo(request, pk):
     else:
         porta_nao_grupo = Porta.objects.filter(~Q(grupoporta__grupo=grupo)).order_by('descricao')
         criterio = ""
-    paginator = Paginator(porta_nao_grupo, 5)
+    paginator = Paginator(porta_nao_grupo, 8)
     page = request.GET.get('page')
     try:
         porta_nao_grupo = paginator.page(page)

@@ -526,9 +526,10 @@ def funcionario_frequencia(request):
         quantidade_presencas = Frequencia.quantidadePresenca(frequencias)
         quantidade_faltas = Frequencia.quantidadeFaltas(frequencias)
         horas_total = Frequencia.tempoTotal(frequencias)
+        dias_abontados = Frequencia.dia_abonados(frequencias)
         dados = {'frequencias': frequencias, 'funcionario': funcionario, 'data_inicial': data_inicial,
                  'data_final': data_final, 'quantidade_presenca': quantidade_presencas,
-                 'quantidade_faltas': quantidade_faltas, 'horas_total': horas_total}
+                 'quantidade_faltas': quantidade_faltas, 'horas_total': horas_total,'dias_abontados':dias_abontados}
         return render(request, 'Frequencia/exibir_frequencia_funcionario.html', dados)
     else:
         dados = {'data': 'Data inválida'}
@@ -565,9 +566,10 @@ def funcionario_frequencias(request,pk):
         quantidade_presencas = Frequencia.quantidadePresenca(frequencias)
         quantidade_faltas = Frequencia.quantidadeFaltas(frequencias)
         horas_total = Frequencia.tempoTotal(frequencias)
+        dias_abontados = Frequencia.dia_abonados(frequencias)
         dados = {'frequencias': frequencias, 'funcionario': funcionario, 'data_inicial': data_inicial,
                  'data_final': data_final, 'quantidade_presenca': quantidade_presencas,
-                 'quantidade_faltas': quantidade_faltas, 'horas_total': horas_total}
+                 'quantidade_faltas': quantidade_faltas, 'horas_total': horas_total,'dias_abontados':dias_abontados}
         return render(request, 'Frequencia/exibir_frequencia_funcionario_admin.html', dados)
     else:
         dados = {'data': 'Data inválida', 'funcionario': funcionario}

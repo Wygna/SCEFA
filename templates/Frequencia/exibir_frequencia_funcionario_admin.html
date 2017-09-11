@@ -152,14 +152,16 @@
                     <table class="table table-bordered">
                         <tr>
                             <th>Carga total do período</th>
-                            <th>Número de dias úteis sem registros</th>
                             <th>Número de dias úteis registrados</th>
+                            <th>Número de dias úteis sem registro</th>
+                            <th>Número de dias úteis abonados</th>
                             <th>Periódo do relatório</th>
                         </tr>
                         <tr>
                             <td>{{ horas_total }}</td>
-                            <td>{{ quantidade_faltas }}</td>
                             <td>{{ quantidade_presenca }}</td>
+                            <td>{{ quantidade_faltas }}</td>
+                            <td>{{ dias_abontados }}</td>
                             <td>{{ data_inicial }} até {{ data_final }}</td>
                         </tr>
                     </table>
