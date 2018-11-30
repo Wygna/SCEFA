@@ -1,3 +1,8 @@
+import django
+
+django.setup()
+
+
 from appPortas.models import *
 
 grupoMecatronica = Grupo(descricao='Professores de Mecatrônica')

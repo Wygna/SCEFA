@@ -23,7 +23,7 @@ SECRET_KEY = 'nr^r)=e53&&=6b^80*g5&l$u9gjkfc1nye9shmpd-6(ep12gm='
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.0.4', '10.208.3.54']
+ALLOWED_HOSTS = ['*']
 STATIC_URL = '/static/'
 
 INSTALLED_APPS = [

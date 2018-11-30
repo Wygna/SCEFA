@@ -1,3 +1,7 @@
+import django
+django.setup()
+
+
 from django.contrib.auth.models import Group
 
 from appAlunos.models import Aluno
