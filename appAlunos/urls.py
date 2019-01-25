@@ -13,5 +13,4 @@ urlpatterns = [
     url(r'^alunos/$', alunos, name='alunos'),
     url(r'^perfil_aluno/$', perfil_aluno, name='perfil_aluno'),
     url(r'^busca/frequencia_aluno/(?P<pk>\d+)$', busca_frequencia_aluno, name='busca_frequencia_aluno'),
-
 ]

@@ -19,5 +19,6 @@ class Aluno(Pessoa):
     def __str__(self):
         return self.nome
 
-    class Meta: permissions = (('view_aluno', 'Can see aluno'),)
-
+    class Meta:
+        permissions = (('view_aluno',
+                        'Can see aluno'),)

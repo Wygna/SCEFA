@@ -1,21 +1,21 @@
 from django.conf.urls import url
-from django.contrib.auth.views import login,logout
+from django.contrib.auth.views import login, logout
 
 from appPortas.views import *
 
 urlpatterns = [
     url(r'^porta/list$', porta_list, name='porta_list'),
-    url(r'^porta/detail/(?P<pk>\d+)$',porta_detail, name='porta_detail'),
+    url(r'^porta/detail/(?P<pk>\d+)$', porta_detail, name='porta_detail'),
     url(r'^porta/new/$', porta_new, name='porta_new'),
-    url(r'^porta/update/(?P<pk>\d+)$',porta_update, name='porta_update'),
-    url(r'^porta/delete/(?P<pk>\d+)$',porta_delete, name='porta_delete'),
+    url(r'^porta/update/(?P<pk>\d+)$', porta_update, name='porta_update'),
+    url(r'^porta/delete/(?P<pk>\d+)$', porta_delete, name='porta_delete'),
     url(r'^porta/usuarios/(?P<pk>\d+)$', porta_delete, name='porta_delete'),
 
     url(r'^grupo/list$', grupo_list, name='grupo_list'),
-    url(r'^grupo/detail/(?P<pk>\d+)$',grupo_detail, name='grupo_detail'),
+    url(r'^grupo/detail/(?P<pk>\d+)$', grupo_detail, name='grupo_detail'),
     url(r'^grupo/new/$', grupo_new, name='grupo_new'),
-    url(r'^grupo/update/(?P<pk>\d+)$',grupo_update, name='grupo_update'),
-    url(r'^grupo/delete/(?P<pk>\d+)$',grupo_delete, name='grupo_delete'),
+    url(r'^grupo/update/(?P<pk>\d+)$', grupo_update, name='grupo_update'),
+    url(r'^grupo/delete/(?P<pk>\d+)$', grupo_delete, name='grupo_delete'),
 
     url(r'^edit/grupo/$', edit_grupo, name='edit_grupo'),
 

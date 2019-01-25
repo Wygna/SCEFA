@@ -4,9 +4,13 @@ from django import forms
 
 
 class AlunoForm(ModelForm):
-    senha = forms.CharField(label='Senha', widget=forms.PasswordInput, required=False)
+    senha = forms.CharField(label='Senha',
+                            widget=forms.PasswordInput,
+                            required=False)
+
     class Meta:
         model = Aluno
-        fields = (
-        'nome', 'matricula', 'cpf', 'dataNascimento', 'sexo', 'telefone', 'Email', 'turno_aula', 'foto',
-        'situacao', 'senha')
+        fields = ('nome', 'matricula', 'cpf',
+                  'dataNascimento', 'sexo', 'telefone',
+                  'Email', 'turno_aula', 'foto',
+                  'situacao', 'senha')

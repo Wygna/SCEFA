@@ -18,14 +18,15 @@ class PessoaResource(ModelResource):
         authorization = Authorization()
         include_resource_uri = False
 
-    #def obj_create(self, bundle, **kwargs):
-     #   return super(PessoaResource, self).obj_create(bundle, user=bundle.request.user)
+    # def obj_create(self, bundle, **kwargs):
+      # return super(PessoaResource, self).obj_create(bundle, user=bundle.request.user)
 
     def authorized_read_list(self, object_list, bundle):
         return object_list.filter(username=bundle.request.user)
 
+
 class FrequenciasResource(ModelResource):
-    pessoa = fields.ForeignKey(PessoaResource,'pessoa',full=True)
+    pessoa = fields.ForeignKey(PessoaResource, 'pessoa', full=True)
     class Meta:
         queryset = Frequencia.objects.filter(~Q(hora_entrada=None)).order_by('data')
         resource_name = 'frequencias'
@@ -42,6 +43,7 @@ class FrequenciasResource(ModelResource):
     def authorized_read_list(self, object_list, bundle):
         return object_list.filter(pessoa=bundle.request.user)
 
+
 class PortaResource(ModelResource):
     class Meta:
         queryset = Porta.objects.all()
@@ -52,9 +54,11 @@ class PortaResource(ModelResource):
         authentication = BasicAuthentication()
         authorization = Authorization()
 
+
 class RegistroPortaResource(ModelResource):
     pessoa = fields.ForeignKey(PessoaResource, 'pessoa', full=True)
     porta = fields.ForeignKey(PortaResource, 'porta', full=True)
+
     class Meta:
         queryset = RegistroPorta.objects.all()
         resource_name = 'registro_portas'

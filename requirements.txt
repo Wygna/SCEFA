@@ -1,5 +1,5 @@
-django==1.10.1
-django-widget-tweaks
+#django==1.10.1
+#django-widget-tweaks
 django_static_jquery
 paho-mqtt
 psycopg2

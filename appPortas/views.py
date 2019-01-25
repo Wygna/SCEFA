@@ -5,27 +5,29 @@ from django.shortcuts import render, redirect
 from appPortas.forms import *
 from appPortas.models import *
 
-@permission_required('appPortas.view_porta',login_url='erro_permissao')
+
+@permission_required('appPortas.view_porta', login_url='erro_permissao')
 def porta_list(request):
     criterio = request.GET.get('criterio')
     if criterio:
         portas = Porta.objects.filter(descricao__icontains=criterio).order_by('descricao')
     else:
         portas = Porta.objects.all().order_by('descricao')
-        criterio =""
+        criterio = ""
     paginator = Paginator(portas, 8)
     page = request.GET.get('page')
     try:
         portas = paginator.page(page)
     except PageNotAnInteger:
-        portas=paginator.page(1)
+        portas = paginator.page(1)
     except EmptyPage:
         portas = paginator.page(paginator.num_pages)
-    dados={'portas':portas,'criterio':criterio,'paginator':paginator,'page_obj':portas}
-    return render(request, 'Portas/portas_list.html',dados)
+    dados = {'portas': portas, 'criterio': criterio, 'paginator': paginator, 'page_obj': portas}
+    return render(request, 'Portas/portas_list.html', dados)
 
-@permission_required('appPortas.view_porta',login_url='erro_permissao')
-def porta_detail(request,pk):
+
+@permission_required('appPortas.view_porta', login_url='erro_permissao')
+def porta_detail(request, pk):
     criterio = request.GET.get('criterio')
     grupo = request.GET.get('grupo')
     porta = Porta.objects.get(id=pk)
@@ -45,10 +47,11 @@ def porta_detail(request,pk):
         grupos = paginator.page(1)
     except EmptyPage:
         grupos = paginator.page(paginator.num_pages)
-    dados = {'grupos': grupos,'porta':porta, 'criterio': criterio, 'paginator': paginator, 'page_obj': grupos}
+    dados = {'grupos': grupos, 'porta': porta, 'criterio': criterio, 'paginator': paginator, 'page_obj': grupos}
     return render(request, 'Portas/exibirPorta.html', dados)
 
-@permission_required('appPortas.add_porta',login_url='erro_permissao')
+
+@permission_required('appPortas.add_porta', login_url='erro_permissao')
 def porta_new(request):
     if (request.method == 'POST'):
         form = PortaForm(request.POST)
@@ -56,54 +59,58 @@ def porta_new(request):
             form.save()
             return redirect('porta_list')
     else:
-        form=PortaForm()
-        dados={'form':form}
-        return render(request,'Portas/porta_form.html',dados)
+        form = PortaForm()
+        dados = {'form': form}
+        return render(request, 'Portas/porta_form.html', dados)
 
-@permission_required('appPortas.change_porta',login_url='erro_permissao')
-def porta_update(request,pk):
+
+@permission_required('appPortas.change_porta', login_url='erro_permissao')
+def porta_update(request, pk):
     porta = Porta.objects.get(id=pk)
-    if(request.method=='POST'):
-        form=PortaForm(request.POST,instance=porta)
+    if(request.method == 'POST'):
+        form = PortaForm(request.POST, instance=porta)
         if (form.is_valid()):
             form.save()
             return redirect('porta_list')
     else:
         form = PortaForm(instance=porta)
-        dados = {'form': form,'porta':porta}
+        dados = {'form': form, 'porta': porta}
         return render(request, 'Portas/porta_form.html', dados)
 
-@permission_required('appPortas.delete_porta',login_url='erro_permissao')
-def porta_delete(request,pk):
+
+@permission_required('appPortas.delete_porta', login_url='erro_permissao')
+def porta_delete(request, pk):
     try:
-        porta =Porta.objects.get(id=pk)
+        porta = Porta.objects.get(id=pk)
         porta.delete()
         return redirect('porta_list')
     except Exception:
-        mensagem ={'mensagem':'Não é possível excluir porta, a porta selecionado está relacionado a um grupo'}
-        return render(request,'utils/pagina_erro.html',mensagem)
+        mensagem = {'mensagem': 'Não é possível excluir porta, a porta selecionado está relacionado a um grupo'}
+        return render(request, 'utils/pagina_erro.html', mensagem)
 
-@permission_required('appPortas.view_grupo',login_url='erro_permissao')
+
+@permission_required('appPortas.view_grupo', login_url='erro_permissao')
 def grupo_list(request):
     criterio = request.GET.get('criterio')
     if criterio:
         grupos = Grupo.objects.filter(descricao__icontains=criterio).order_by('descricao')
     else:
         grupos = Grupo.objects.all().order_by('descricao')
-        criterio =""
-    paginator =Paginator(grupos,10)
+        criterio = ""
+    paginator = Paginator(grupos, 10)
     page = request.GET.get('page')
     try:
         grupos = paginator.page(page)
     except PageNotAnInteger:
-        grupos=paginator.page(1)
+        grupos = paginator.page(1)
     except EmptyPage:
         grupos = paginator.page(paginator.num_pages)
-    dados={'grupos':grupos,'criterio':criterio,'paginator':paginator,'page_obj':grupos}
-    return render(request, 'Grupo/grupo_list.html',dados)
+    dados = {'grupos': grupos, 'criterio': criterio, 'paginator': paginator, 'page_obj': grupos}
+    return render(request, 'Grupo/grupo_list.html', dados)
 
-@permission_required('appPortas.view_grupo',login_url='erro_permissao')
-def grupo_detail(request,pk):
+
+@permission_required('appPortas.view_grupo', login_url='erro_permissao')
+def grupo_detail(request, pk):
     criterio = request.GET.get('criterio')
     usuario = request.GET.get('usuario')
     try:
@@ -136,9 +143,10 @@ def grupo_detail(request,pk):
         usuarios_acesso = paginator.page(paginator.num_pages)
     dados = {'usuarios_acesso': usuarios_acesso, 'grupo': grupo, 'criterio': criterio, 'paginator': paginator,
              'page_obj': usuarios_acesso}
-    return render(request,'Grupo/exibirGrupo.html',dados)
+    return render(request, 'Grupo/exibirGrupo.html', dados)
 
-@permission_required('appPortas.add_grupo',login_url='erro_permissao')
+
+@permission_required('appPortas.add_grupo', login_url='erro_permissao')
 def grupo_new(request):
     if (request.method == 'POST'):
         form = GrupoForm(request.POST)
@@ -146,30 +154,32 @@ def grupo_new(request):
             form.save()
             return redirect('grupo_list')
     else:
-        form=GrupoForm()
-        dados={'form':form}
-        return render(request,'Grupo/grupo_form.html',dados)
+        form = GrupoForm()
+        dados = {'form': form}
+        return render(request, 'Grupo/grupo_form.html', dados)
 
-@permission_required('appPortas.change_grupo',login_url='erro_permissao')
-def grupo_update(request,pk):
+
+@permission_required('appPortas.change_grupo', login_url='erro_permissao')
+def grupo_update(request, pk):
     try:
         grupo = Grupo.objects.get(id=pk)
     except Grupo.DoesNotExist:
         mensagem = {
             'mensagem': 'Grupo não existe'}
         return render(request, 'utils/pagina_erro.html', mensagem)
-    if(request.method=='POST'):
-        form=PortaForm(request.POST,instance=grupo)
+    if(request.method == 'POST'):
+        form = PortaForm(request.POST, instance=grupo)
         if (form.is_valid()):
             form.save()
             return redirect('grupo_list')
     else:
         form = PortaForm(instance=grupo)
-        dados = {'form': form,'grupo':grupo}
+        dados = {'form': form, 'grupo': grupo}
         return render(request, 'Grupo/grupo_form.html', dados)
 
-@permission_required('appPortas.delete_grupo',login_url='erro_permissao')
-def grupo_delete(request,pk):
+
+@permission_required('appPortas.delete_grupo', login_url='erro_permissao')
+def grupo_delete(request, pk):
     try:
         grupo = Grupo.objects.get(id=pk)
         grupo.delete()
@@ -179,8 +189,9 @@ def grupo_delete(request,pk):
             'mensagem': 'Não é possível excluir grupo, o grupo tem portas relacionadas'}
         return render(request, 'utils/pagina_erro.html', mensagem)
 
-@permission_required('appPonto.view_pessoa',login_url='erro_permissao')
-def usuario_sem_acesso_grupo(request,pk):
+
+@permission_required('appPonto.view_pessoa', login_url='erro_permissao')
+def usuario_sem_acesso_grupo(request, pk):
     criterio = request.GET.get('criterio')
     usuario = request.GET.get('usuario')
     try:
@@ -211,11 +222,12 @@ def usuario_sem_acesso_grupo(request,pk):
         usuarios_sem_acesso = paginator.page(1)
     except EmptyPage:
         usuarios_sem_acesso = paginator.page(paginator.num_pages)
-    dados = {'usuarios_sem_acesso': usuarios_sem_acesso,'grupo': grupo, 'criterio': criterio, 'paginator': paginator,
+    dados = {'usuarios_sem_acesso': usuarios_sem_acesso, 'grupo': grupo, 'criterio': criterio, 'paginator': paginator,
              'page_obj': usuarios_sem_acesso}
     return render(request, 'Acesso/usuario_sem_acesso_grupo.html', dados)
 
-@permission_required('appPonto.view_pessoa',login_url='erro_permissao')
+
+@permission_required('appPonto.view_pessoa', login_url='erro_permissao')
 def usuario_acesso_grupo(request, pk):
     criterio = request.GET.get('criterio')
     usuario = request.GET.get('usuario')
@@ -247,11 +259,12 @@ def usuario_acesso_grupo(request, pk):
         usuarios_acesso = paginator.page(1)
     except EmptyPage:
         usuarios_acesso = paginator.page(paginator.num_pages)
-    dados = {'usuarios_acesso': usuarios_acesso,'grupo': grupo, 'criterio': criterio, 'paginator': paginator,
+    dados = {'usuarios_acesso': usuarios_acesso, 'grupo': grupo, 'criterio': criterio, 'paginator': paginator,
              'page_obj': usuarios_acesso}
     return render(request, 'Acesso/usuario_acesso_grupo.html', dados)
 
-@permission_required('appPortas.view_porta',login_url='erro_permissao')
+
+@permission_required('appPortas.view_porta', login_url='erro_permissao')
 def porta_nao_grupo(request, pk):
     criterio = request.GET.get('criterio')
     porta = request.GET.get('porta')
@@ -278,11 +291,12 @@ def porta_nao_grupo(request, pk):
         porta_nao_grupo = paginator.page(1)
     except EmptyPage:
         porta_nao_grupo = paginator.page(paginator.num_pages)
-    dados = {'porta_nao_grupo': porta_nao_grupo,'grupo': grupo, 'criterio': criterio, 'paginator': paginator,
+    dados = {'porta_nao_grupo': porta_nao_grupo, 'grupo': grupo, 'criterio': criterio, 'paginator': paginator,
              'page_obj': porta_nao_grupo}
     return render(request, 'Acesso/porta_nao_grupo.html', dados)
 
-@permission_required('appPortas.view_porta',login_url='erro_permissao')
+
+@permission_required('appPortas.view_porta', login_url='erro_permissao')
 def porta_no_grupo(request, pk):
     criterio = request.GET.get('criterio')
     porta = request.GET.get('porta')
@@ -313,24 +327,26 @@ def porta_no_grupo(request, pk):
              'page_obj': porta_no_grupo}
     return render(request, 'Acesso/porta_no_grupo_list.html', dados)
 
-@permission_required('appPortas.view_grupo',login_url='erro_permissao')
+
+@permission_required('appPortas.view_grupo', login_url='erro_permissao')
 def edit_grupo(request):
     criterio = request.GET.get('criterio')
     if criterio:
         grupos = Grupo.objects.filter(descricao__icontains=criterio).order_by('descricao')
     else:
         grupos = Grupo.objects.all().order_by('descricao')
-        criterio =""
-    paginator =Paginator(grupos,8)
+        criterio = ""
+    paginator = Paginator(grupos, 8)
     page = request.GET.get('page')
     try:
         grupos = paginator.page(page)
     except PageNotAnInteger:
-        grupos=paginator.page(1)
+        grupos = paginator.page(1)
     except EmptyPage:
         grupos = paginator.page(paginator.num_pages)
-    dados={'grupos':grupos,'criterio':criterio,'paginator':paginator,'page_obj':grupos}
+    dados = {'grupos': grupos, 'criterio': criterio, 'paginator': paginator, 'page_obj':grupos}
     return render(request, 'Acesso/edit_grupo.html', dados)
+
 
 @permission_required('appPonto.view_pessoa', login_url='erro_permissao')
 def portas(request):
@@ -351,6 +367,7 @@ def portas(request):
     dados = {'portas': portas, 'criterio': criterio, 'paginator': paginator, 'page_obj': portas}
     return render(request, 'Registro_Porta/portas.html', dados)
 
+
 @permission_required('appPortas.view_registro_porta', login_url='erro_permissao')
 def busca_porta_frequencia(request):
     try:
@@ -368,6 +385,7 @@ def busca_porta(request, pk):
         return render(request, 'Registro_Porta/busca_frequencia_porta.html', {'porta': porta})
     except Porta.DoesNotExist:
         return render(request, 'utils/permissao.html')
+
 
 @permission_required('appPortas.view_registro_porta', login_url='erro_permissao')
 def porta_frequencias(request, pk):
@@ -389,6 +407,7 @@ def porta_frequencias(request, pk):
         return render(request, 'Registro_Porta/exibir_frequencia_porta.html', dados)
     else:
         return render(request, 'utils/permissao.html')
+
 
 @permission_required('appPortas.view_registro_porta', login_url='erro_permissao')
 def frequencia_porta_acesso(request):

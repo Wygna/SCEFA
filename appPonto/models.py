@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
 from multiselectfield import MultiSelectField
+
+
 class Pessoa(User):
     nome = models.CharField("Nome", max_length=255)
     cpf = models.CharField('CPF', max_length=14, unique=True)
@@ -30,60 +32,73 @@ class Pessoa(User):
 
     def __str__(self):
         return self.nome
-    class Meta: permissions = (('view_pessoa', 'Can see pessoa'),)
+
+    class Meta:
+        permissions = (('view_pessoa', 'Can see pessoa'),)
+
 
 class Departamento(models.Model):
-    descricao = models.CharField("Descrição",max_length=200)
-    class Meta: permissions = (('view_departamento', 'Can see departamento'),)
+    descricao = models.CharField("Descrição", max_length=200)
+
+    class Meta:
+        permissions = (('view_departamento', 'Can see departamento'),)
+
     def __str__(self):
         return self.descricao
 
+
 class Cargo(models.Model):
-    nome_funcao = models.CharField('Nome da função',max_length=200)
-    departamento = models.ForeignKey(Departamento,on_delete=models.PROTECT,verbose_name="Departamento")
-    class Meta: permissions = (('view_cargo', 'Can see cargo'),)
+    nome_funcao = models.CharField('Nome da função', max_length=200)
+    departamento = models.ForeignKey(Departamento, on_delete=models.PROTECT, verbose_name="Departamento")
+
+    class Meta:
+        permissions = (('view_cargo', 'Can see cargo'),)
+
     def __str__(self):
         return self.nome_funcao
 
+
 class Funcionario(Pessoa):
     matricula = models.CharField("Matricula", max_length=20, unique=True)
-    cargo = models.ForeignKey(Cargo,on_delete=models.PROTECT,verbose_name="Cargo")
+    cargo = models.ForeignKey("Cargo", on_delete=models.PROTECT, verbose_name="Cargo")
     dataAdmissao = models.DateField('Data de Admissão', default=timezone.now)
     salario = models.DecimalField("Salário", max_digits=10, decimal_places=2, null=True)
 
-    def setCargo(self,funcao):
+    def setCargo(self, funcao):
         cargo = Cargo.objects.get(nome_funcao=funcao)
         self.cargo = cargo
 
     def __str__(self):
         return self.nome
-    class Meta: permissions = (('view_funcionario', 'Can see funcionario'),)
+
+    class Meta:
+        permissions = (('view_funcionario', 'Can see funcionario'),)
+
 
 class Frequencia(models.Model):
     data = models.DateField(default=timezone.now)
-    hora_entrada = models.TimeField(default=timezone.now,null=True)
-    hora_saida = models.TimeField(default=timezone.now,null=True)
-    local = models.CharField("local",max_length=200,null=True)
-    observacao = models.CharField("Observação",max_length=200,null=True)
-    pessoa = models.ForeignKey(Pessoa,on_delete=models.PROTECT)
+    hora_entrada = models.TimeField(default=timezone.now, null=True)
+    hora_saida = models.TimeField(default=timezone.now, null=True)
+    local = models.CharField("local", max_length=200, null=True)
+    observacao = models.CharField("Observação", max_length=200, null=True)
+    pessoa = models.ForeignKey(Pessoa, on_delete=models.PROTECT)
     inconsistencia = models.BooleanField(default=False)
     arquivo = models.FileField(upload_to='arquivos', verbose_name='arquivo', null=True, blank=True)
 
     def TotalEntradaSaida(self):
-        if self.hora_entrada !=None:
+        if (self.hora_entrada) != (None):
             formatacao = '%H:%M:%S'
-            hora = datetime.datetime.strptime(str(self.hora_saida), formatacao) - datetime.datetime.strptime(str(self.hora_entrada), formatacao)
+            hora = datetime.datetime.strptime(str(self.hora_saida), formatacao)-datetime.datetime.strptime(str(self.hora_entrada), formatacao)
             return hora
         else:
             return "0:00:00"
 
     def tempoMaximo(self):
         formatacao = '%H:%M:%S'
-        if self.hora_entrada == None or self.hora_saida == None:
+        if self.hora_entrada == (None) or self.hora_saida == (None):
             return 0
         else:
-            tempo = str(datetime.datetime.strptime(str(self.hora_saida), formatacao) - datetime.datetime.strptime(
-                str(self.hora_entrada), formatacao))
+            tempo = str(datetime.datetime.strptime(str(self.hora_saida), formatacao) - datetime.datetime.strptime(str(self.hora_entrada), formatacao))
             if tempo[1] != ':':
                 tempo_maximo = datetime.time(int(tempo[0:2]), int(tempo[3:5], int(tempo[6:])))
                 if tempo_maximo > datetime.time(10, 0, 1):
@@ -92,24 +107,23 @@ class Frequencia(models.Model):
                 return 0
 
     def diaSemana(self):
-        semana= ['Segunda-Feira', 'Terceira-Feira', 'Quarta-Feira',
-        'Quinta-Feira', 'Sexta-Feira', 'Sábado', 'Domingo']
+        semana = ['Segunda-Feira', 'Terceira-Feira', 'Quarta-Feira',
+                  'Quinta-Feira', 'Sexta-Feira', 'Sábado', 'Domingo']
         return semana[self.data.weekday()]
 
     def __str__(self):
-        return str(self.data.isoformat())+" "+str(self.pessoa)
+        return str(self.data.isoformat()) + " " + str(self.pessoa)
 
     @classmethod
     def tempoTotal(cls, frequencias):
         segundos = 0
         formatacao = '%H:%M:%S'
         for frequencia in frequencias:
-            if frequencia.hora_saida == None:
+            if frequencia.hora_saida == (None):
                 continue
-            segundos += (
-                datetime.datetime.strptime(str(frequencia.hora_saida), formatacao) - datetime.datetime.strptime(
-                    str(frequencia.hora_entrada),
-                    formatacao)).seconds
+            segundos += (datetime.datetime.strptime(str(frequencia.hora_saida),
+                         formatacao) - datetime.datetime.strptime
+                         (str(frequencia.hora_entrada), formatacao)).seconds
         horas = segundos / 3600
         min = (segundos % 3600) / 60
         sec = segundos % 60
@@ -158,7 +172,7 @@ class Frequencia(models.Model):
 
     @classmethod
     def dia_abonados(cls, frequencias):
-        quantidade_dias =  0
+        quantidade_dias = 0
         for frequencia in frequencias:
             if frequencia.inconsistencia == False and frequencia.hora_entrada ==None:
                 quantidade_dias += 1

@@ -1,19 +1,23 @@
 from django.utils import timezone
 from appPonto.models import *
 
+
 class Porta(models.Model):
     descricao = models.CharField('Descrição', max_length=255)
     local = models.CharField('Local', max_length=255)
 
     def __str__(self):
         return self.descricao
-    class Meta: permissions = (('view_porta', 'Can see porta'),)
+
+    class Meta:
+        permissions = (('view_porta', 'Can see porta'),)
+
 
 class RegistroPorta(models.Model):
     data = models.DateField(default=timezone.now)
     hora_acesso = models.TimeField(default=timezone.now)
-    porta = models.ForeignKey(Porta,on_delete=models.PROTECT,verbose_name="Porta")
-    pessoa = models.ForeignKey(Pessoa,on_delete=models.PROTECT,verbose_name='Pessoa')
+    porta = models.ForeignKey(Porta, on_delete=models.PROTECT, verbose_name="Porta")
+    pessoa = models.ForeignKey(Pessoa, on_delete=models.PROTECT, verbose_name='Pessoa')
 
     def diaSemana(self):
         semana = ['Segunda-Feira', 'Terceira-Feira', 'Quarta-Feira',
@@ -47,27 +51,37 @@ class RegistroPorta(models.Model):
     class Meta:
         permissions = (('view_registro_porta', 'Can see registro_porta'),)
 
+
 class Grupo(models.Model):
     descricao = models.CharField('Descrição', max_length=255)
-    class Meta: permissions = (('view_grupo', 'Can see grupo'),)
+
+    class Meta:
+        permissions = (('view_grupo', 'Can see grupo'),)
 
     def __str__(self):
         return self.descricao
 
-    class Meta: permissions = (('view_grupo', 'Can see grupo'),)
+    class Meta:
+        permissions = (('view_grupo', 'Can see grupo'),)
+
 
 class GrupoPorta(models.Model):
-    porta = models.ForeignKey(Porta,on_delete=models.PROTECT,verbose_name="Porta")
-    grupo = models.ForeignKey(Grupo,on_delete=models.PROTECT,verbose_name="Grupo")
+    porta = models.ForeignKey(Porta, on_delete=models.PROTECT, verbose_name="Porta")
+    grupo = models.ForeignKey(Grupo, on_delete=models.PROTECT, verbose_name="Grupo")
 
     def __str__(self):
         return 'grupo ' + str(self.grupo) + ' / porta - ' + str(self.porta)
-    class Meta: permissions = (('view_grupo_porta', 'Can see grupo_porta'),)
+
+    class Meta:
+        permissions = (('view_grupo_porta', 'Can see grupo_porta'),)
+
 
 class GrupoPessoa(models.Model):
-    grupo = models.ForeignKey(Grupo,on_delete=models.PROTECT,verbose_name="Grupo")
-    pessoa = models.ForeignKey(Pessoa,on_delete=models.PROTECT,verbose_name="Pessoa")
+    grupo = models.ForeignKey(Grupo, on_delete=models.PROTECT, verbose_name="Grupo")
+    pessoa = models.ForeignKey(Pessoa, on_delete=models.PROTECT, verbose_name="Pessoa")
 
     def __str__(self):
         return 'grupo - ' + str(self.grupo) + ' / pessoa - ' + str(self.pessoa)
-    class Meta: permissions = (('view_grupo_pessoa', 'Can see grupo_pessoa'),)
+
+    class Meta:
+        permissions = (('view_grupo_pessoa', 'Can see grupo_pessoa'),)

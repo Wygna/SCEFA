@@ -20,9 +20,10 @@ def consultar_pessoa_acesso_porta(id_digital, id_porta, img_digital):
                 acesso = True
     return acesso
 
+
 def registra_acesso_porta(id_digital, id_porta, img_digital):
     hora = datetime.now()
-    if consultar_pessoa_acesso_porta(id_digital, id_porta, img_digital) == True:
+    if consultar_pessoa_acesso_porta(id_digital, id_porta, img_digital) == (True):
         pessoa = Pessoa.objects.get(id_digital=id_digital)
         porta = Porta.objects.get(id=id_porta)
         registro_acesso = RegistroPorta.objects.create(data=datetime.now().date(),
@@ -32,6 +33,7 @@ def registra_acesso_porta(id_digital, id_porta, img_digital):
         return True
     else:
         return False
+
 
 def registra_frequencia_entrada(id_digital, img_digital, local):
     not_frequencia = True
@@ -54,6 +56,7 @@ def registra_frequencia_entrada(id_digital, img_digital, local):
     else:
         return False
 
+
 def registra_frequencia_saida(id_digital, img_digital, local):
     hora = datetime.now()
     try:
@@ -64,6 +67,7 @@ def registra_frequencia_saida(id_digital, img_digital, local):
     frequencia.local = local
     frequencia.save()
     return True
+
 
 def adicionar_biometria(id_digital, img_digital, matricula):
     try:
